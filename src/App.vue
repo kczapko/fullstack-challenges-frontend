@@ -1,30 +1,31 @@
 <template>
+  <metainfo>
+    <template v-slot:title="{ content }">
+      {{ content ? `${content} - Fullstack challenge` : `Fullstack challenge` }}
+    </template>
+  </metainfo>
   <div id="nav">
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </div>
-  <router-view/>
+  <router-view />
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import { useMeta } from 'vue-meta';
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+export default {
+  name: 'App',
+  created() {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      // document.body.classList.add('dark');
     }
-  }
-}
-</style>
+  },
+  setup() {
+    useMeta({
+      title: '',
+      htmlAttrs: { lang: 'en' },
+    });
+  },
+};
+</script>

@@ -1,0 +1,17 @@
+:root {
+  --color-white: #fff;
+  --color-black: #000;
+  --color-gray: #828282;
+  --color-dark-gray: #333;
+  --color-primary: #2f80ed;
+  --color-danger: #eb5757;
+
+  --body-background-color: var(--color-white);
+  --dark-body-background-color: var(--color-dark-gray);
+
+  --text-color: #333;
+  --dark-text-color: #e0e0e0;
+  --link-color: #2d9cdb;
+
+  --font-noto: 'Noto Sans Display', sans-serif;
+}
