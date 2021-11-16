@@ -18,13 +18,35 @@
   <base-button tag="a" circle icon="face" />
   <base-button tag="a" icon="face" color="primary">Login</base-button>
   <base-button tag="a" color="danger">Login</base-button>
+
+  <vee-form @submit="submit" :validation-schema="schema" v-slot="{ errors }">
+    {{ errors }}
+    <vee-field name="email" type="email"></vee-field>
+    <vee-field name="password" type="password"></vee-field>
+    <base-button type="submit">Submit</base-button>
+  </vee-form>
 </template>
 
 <script>
 import { useMeta } from 'vue-meta';
+import BaseButton from '../components/base/BaseButton.vue';
 
 export default {
+  components: { BaseButton },
   name: 'Home',
+  data() {
+    return {
+      schema: {
+        email: 'required|email',
+        password: 'required',
+      },
+    };
+  },
+  methods: {
+    submit(values) {
+      console.log(values);
+    },
+  },
   setup() {
     useMeta({
       title: 'Home',
