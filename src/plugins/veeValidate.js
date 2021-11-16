@@ -27,8 +27,8 @@ export default {
       generateMessage: ({ field, value, rule }) => {
         const messages = {
           required: `The field ${field} is required.`,
-          min: `The field ${field} is too short. Minimum ${rule.params[0]} charactrs.`,
-          max: `The field ${field} is too long.  Maximum ${rule.params[0]} charactrs.`,
+          min: `The field ${field} is too short. Minimum ${rule.params[0]} characters.`,
+          max: `The field ${field} is too long.  Maximum ${rule.params[0]} characters.`,
           alpha_spaces: `The field ${field} can contain only alpabetical characters and spaces.`,
           email: `${value} is not valid email.`,
           passwords_mismatch: "The passwords don't match",

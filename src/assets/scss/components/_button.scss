@@ -27,6 +27,16 @@
     }
   }
 
+  &:disabled {
+    &,
+    &:hover,
+    &:focus {
+      background-color: var(--color-white);
+      opacity: 0.6;
+      cursor: default;
+    }
+  }
+
   &__icon {
     font-size: 1.6rem;
 
@@ -51,6 +61,15 @@
       background-color: darken($color-primary, 8);
       border-color: darken($color-primary, 8);
     }
+
+    &:disabled {
+      &,
+      &:hover,
+      &:focus {
+        background-color: var(--color-primary);
+        border-color: var(--color-primary);
+      }
+    }
   }
 
   &.base-btn--danger {
@@ -63,6 +82,15 @@
       background-color: darken($color-danger, 8);
       border-color: darken($color-danger, 8);
     }
+
+    &:disabled {
+      &,
+      &:hover,
+      &:focus {
+        background-color: var(--color-danger);
+        border-color: var(--color-danger);
+      }
+    }
   }
 }
 
@@ -72,5 +100,13 @@
   &:hover,
   &:focus {
     background-color: darken($color-dark-gray, 8);
+  }
+
+  &:disabled {
+    &,
+    &:hover,
+    &:focus {
+      background-color: var(--color-dark-gray);
+    }
   }
 }

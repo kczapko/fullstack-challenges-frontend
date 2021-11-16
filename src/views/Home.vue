@@ -24,7 +24,8 @@
   <base-button disabled icon="face" color="primary">Login</base-button>
   <base-button disabled color="danger">Login</base-button>
 
-  <vee-form @submit="submit" :validation-schema="schema">
+  <vee-form @submit="submit" :validation-schema="schema" style="width: 50rem; margin: 0 auto">
+    <base-input name="pass"></base-input>
     <base-input name="email" type="email"></base-input>
     <base-input name="email1" type="email" label="email1"></base-input>
     <base-input name="email2" type="email" label="email2" placeholder="email"></base-input>
@@ -43,6 +44,9 @@
       icon="email"
     ></base-input>
     <base-input name="email5" type="email" label="email5" placeholder="email" disabled></base-input>
+    <base-input value="test" name="email6" type="email"></base-input>
+    <base-input tag="textarea" name="email7" placeholder="placeholder"></base-input>
+    <base-input tag="textarea" value="test" name="email8"></base-input>
     <vee-field name="password" type="password"></vee-field>
     <base-button type="submit">Submit</base-button>
     <base-button disabled type="submit">Submit</base-button>

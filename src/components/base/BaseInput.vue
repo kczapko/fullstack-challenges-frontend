@@ -1,15 +1,15 @@
 <template lang="pug">
 vee-field(:name="name" v-slot="{ field, errors }")
-  .base-input(:class="[`base-input--${type}`]")
+  .base-input
     label.base-input__label(v-if="label" :for="$attrs.id || field.name") {{ label }}
     .base-input__container
       span.material-icons.base-input__icon(v-if="icon") {{ icon }}
-      input.base-input__input(
-        v-bind="field"
-        :type="type"
+      component(
+        :is="tag"
+        v-bind="{...$attrs, ...field}"
+        :type="tag === 'input' ? type : null"
         :id="label && ($attrs.id || field.name)"
-        :placeholder="$attrs.placeholder"
-        :disabled="$attrs.disabled"
+        :class="[`base-input__input`, `base-input__input--${tag}`, `base-input__input--${type}`, { error: errors.length }]"
       )
     .base-input__errors(v-if="errors.length")
       p.base-input__error(v-for="error in errors" :key="error") {{ error }}
@@ -25,11 +25,17 @@ export default {
     },
     type: {
       type: String,
-      required: true,
       default: 'text',
     },
     label: String,
     icon: String,
+    tag: {
+      type: String,
+      validator(val) {
+        return ['input', 'textarea'].includes(val);
+      },
+      default: 'input',
+    },
   },
 };
 </script>
