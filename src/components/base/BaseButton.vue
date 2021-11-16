@@ -1,8 +1,8 @@
 <template>
-  <button class="btn" :class="cssClass">
+  <component :is="tag" class="btn" :class="cssClass">
     <span v-if="icon" class="material-icons btn__icon">{{ icon }}</span>
     <span v-if="hasSlot" class="btn__text"><slot></slot></span>
-  </button>
+  </component>
 </template>
 
 <script>
@@ -20,6 +20,13 @@ export default {
     circle: {
       type: Boolean,
       default: false,
+    },
+    tag: {
+      type: String,
+      validator(val) {
+        return ['a', 'button'].includes(val);
+      },
+      default: 'button',
     },
   },
   computed: {

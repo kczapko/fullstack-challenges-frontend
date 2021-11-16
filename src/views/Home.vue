@@ -13,6 +13,11 @@
   <base-button circle icon="face" />
   <base-button circle icon="face" color="primary" />
   <base-button circle icon="face" color="danger" />
+
+  <hr />
+  <base-button tag="a" circle icon="face" />
+  <base-button tag="a" icon="face" color="primary">Login</base-button>
+  <base-button tag="a" color="danger">Login</base-button>
 </template>
 
 <script>
