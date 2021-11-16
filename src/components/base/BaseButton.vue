@@ -1,7 +1,7 @@
 <template>
-  <component :is="tag" class="btn" :class="cssClass">
-    <span v-if="icon" class="material-icons btn__icon">{{ icon }}</span>
-    <span v-if="hasSlot" class="btn__text"><slot></slot></span>
+  <component :is="tag" class="base-btn" :class="cssClass">
+    <span v-if="icon" class="material-icons base-btn__icon">{{ icon }}</span>
+    <span v-if="hasSlot" class="base-btn__text"><slot></slot></span>
   </component>
 </template>
 
@@ -32,8 +32,8 @@ export default {
   computed: {
     cssClass() {
       return {
-        [`btn--${this.color}`]: true,
-        'btn--circle': this.circle,
+        [`base-btn--${this.color}`]: true,
+        'base-btn--circle': this.circle,
       };
     },
     hasSlot() {
