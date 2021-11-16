@@ -16,16 +16,22 @@ import { useMeta } from 'vue-meta';
 
 export default {
   name: 'App',
-  created() {
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      // document.body.classList.add('dark');
-    }
-  },
   setup() {
-    useMeta({
+    const { meta } = useMeta({
       title: '',
       htmlAttrs: { lang: 'en' },
+      bodyAttrs: {},
     });
+
+    const setColorSchemeClass = (e) => {
+      if (e.matches) meta.bodyAttrs.class = ['dark'];
+      else meta.bodyAttrs.class = [];
+    };
+
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', setColorSchemeClass);
+    setColorSchemeClass(window.matchMedia('(prefers-color-scheme: dark)'));
   },
 };
 </script>

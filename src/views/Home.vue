@@ -1,24 +1,25 @@
 <template>
   <div class="home">Home page content</div>
-  <app-button>Login</app-button>
-  <app-button color="primary">Login</app-button>
-  <app-button color="danger">Login</app-button>
+  <base-button>Login</base-button>
+  <base-button color="primary">Login</base-button>
+  <base-button color="danger">Login</base-button>
 
   <hr />
-  <app-button icon="face">Login</app-button>
-  <app-button icon="face" color="primary">Login</app-button>
-  <app-button icon="face" color="danger">Login</app-button>
+  <base-button icon="face">Login</base-button>
+  <base-button icon="face" color="primary">Login</base-button>
+  <base-button icon="face" color="danger">Login</base-button>
+
+  <hr />
+  <base-button circle icon="face" />
+  <base-button circle icon="face" color="primary" />
+  <base-button circle icon="face" color="danger" />
 </template>
 
 <script>
 import { useMeta } from 'vue-meta';
-import AppButton from '@/components/base/Button.vue';
 
 export default {
   name: 'Home',
-  components: {
-    AppButton,
-  },
   setup() {
     useMeta({
       title: 'Home',
