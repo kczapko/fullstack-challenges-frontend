@@ -1,25 +1,18 @@
-<template>
-  <vee-field :name="name" v-slot="{ field, errors }">
-    <div class="base-input" :class="[`base-input--${type}`]">
-      <label v-if="label" :for="$attrs.id || field.name" class="base-input__label">{{
-        label
-      }}</label>
-      <div class="base-input__container">
-        <span v-if="icon" class="material-icons base-input__icon">{{ icon }}</span>
-        <input
-          v-bind="field"
-          :type="type"
-          :id="label && ($attrs.id || field.name)"
-          :placeholder="$attrs.placeholder"
-          :disabled="$attrs.disabled"
-          class="base-input__input"
-        />
-      </div>
-      <div v-if="errors.length" class="base-input__errors">
-        <p v-for="error in errors" :key="error" class="base-input__error">{{ error }}</p>
-      </div>
-    </div>
-  </vee-field>
+<template lang="pug">
+vee-field(:name="name" v-slot="{ field, errors }")
+  .base-input(:class="[`base-input--${type}`]")
+    label.base-input__label(v-if="label" :for="$attrs.id || field.name") {{ label }}
+    .base-input__container
+      span.material-icons.base-input__icon(v-if="icon") {{ icon }}
+      input.base-input__input(
+        v-bind="field"
+        :type="type"
+        :id="label && ($attrs.id || field.name)"
+        :placeholder="$attrs.placeholder"
+        :disabled="$attrs.disabled"
+      )
+    .base-input__errors(v-if="errors.length")
+      p.base-input__error(v-for="error in errors" :key="error") {{ error }}
 </template>
 
 <script>

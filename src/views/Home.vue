@@ -51,11 +51,8 @@
 
 <script>
 import { useMeta } from 'vue-meta';
-import BaseButton from '../components/base/BaseButton.vue';
-import BaseInput from '../components/base/BaseInput.vue';
 
 export default {
-  components: { BaseButton, BaseInput },
   name: 'Home',
   methods: {
     submit(values) {

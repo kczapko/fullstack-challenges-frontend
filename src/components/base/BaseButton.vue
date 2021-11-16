@@ -1,8 +1,8 @@
-<template>
-  <component :is="tag" class="base-btn" :class="cssClass">
-    <span v-if="icon" class="material-icons base-btn__icon">{{ icon }}</span>
-    <span v-if="hasSlot" class="base-btn__text"><slot></slot></span>
-  </component>
+<template lang="pug">
+component.base-btn(:is="tag" :class="cssClass")
+  span.material-icons.base-btn__icon(v-if="icon") {{ icon }}
+  span.base-btn__text(v-if="hasSlot")
+    slot
 </template>
 
 <script>
