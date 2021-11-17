@@ -1,7 +1,6 @@
 <template lang="pug">
 .form.form--login
-  p.form__text.font-600 Join thousands of learners from around the world
-  p.form__text Master web development by making real-life projects. There are multiple paths for you to choose
+  h1.form__header.font-600 Login
   vee-form.form__form
     .form__row
       base-input(name="email" type="email" icon="email" placeholder="E-mail")

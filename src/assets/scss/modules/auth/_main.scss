@@ -1,2 +1,128 @@
+$breakpoint-large: 32em; //512px
+
 .auth {
+  width: 100%;
+  max-width: 37.5rem;
+  padding: 1.8rem;
+
+  &__header {
+    margin-bottom: 2.7rem;
+  }
+
+  &__footer {
+    margin-top: 6rem;
+    font-size: 1.4rem;
+    color: var(--color-light-gray);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .logo-devchallenges {
+    height: 18px;
+    display: block;
+  }
+
+  .form {
+    &__header {
+      font-size: 1.8rem;
+      line-height: 1.35;
+      margin: 0 0 1.4rem;
+    }
+
+    &__text {
+      margin: 0;
+      line-height: 1.35;
+
+      &.text-gray {
+        font-size: 1.4rem;
+      }
+    }
+
+    &__form {
+      margin: 3.4rem 0 3.1rem;
+    }
+
+    &__row {
+      margin-top: 1.4rem;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      &--submit {
+        margin-top: 2.2rem;
+
+        .base-btn {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .form--login {
+    .form__form {
+      margin-top: 2.7rem;
+    }
+  }
+
+  .logo-list {
+    list-style: none;
+    margin: 2.2rem 0 2.7rem;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+
+    &__link {
+      display: block;
+
+      &:hover,
+      &:focus {
+        .logo {
+          &__circle {
+            stroke: var(--link-color);
+          }
+
+          &__path {
+            fill: var(--link-color);
+          }
+        }
+      }
+    }
+
+    .logo {
+      width: 4.2rem;
+      display: block;
+
+      &__circle {
+        fill: none;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $breakpoint-large) {
+  .module-auth {
+    #app {
+      display: grid;
+      place-items: center;
+    }
+  }
+
+  .auth {
+    width: 100%;
+    max-width: 47.4rem;
+    padding: 2rem 0;
+
+    &__container {
+      border: 1px solid var(--color-light-gray);
+      border-radius: 2.4rem;
+      padding: 4.8rem 5.8rem 4.3rem;
+    }
+
+    &__footer {
+      margin-top: 1.2rem;
+      color: var(--color-gray);
+    }
+  }
 }
