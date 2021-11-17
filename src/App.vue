@@ -8,20 +8,35 @@
 </template>
 
 <script>
+import { watch, computed } from 'vue';
+import { useStore } from 'vuex';
 import { useMeta } from 'vue-meta';
 
 export default {
   name: 'App',
   setup() {
+    const store = useStore();
     const { meta } = useMeta({
       title: '',
       htmlAttrs: { lang: 'en' },
-      bodyAttrs: {},
+      bodyAttrs: {
+        class: '',
+      },
+    });
+
+    const pageTitle = computed(() => store.state.pageTitle);
+    const bodyClass = computed(() => store.state.bodyClasses.join(' '));
+
+    watch(pageTitle, (val) => {
+      meta.title = val;
+    });
+    watch(bodyClass, (val) => {
+      meta.bodyAttrs.class = val;
     });
 
     const setColorSchemeClass = (e) => {
-      if (e.matches) meta.bodyAttrs.class = ['dark'];
-      else meta.bodyAttrs.class = [];
+      if (e.matches) store.dispatch('addBodyClass', 'dark');
+      else store.dispatch('removeBodyClass', 'dark');
     };
 
     window
