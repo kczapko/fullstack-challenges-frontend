@@ -2,7 +2,7 @@
 .form.form--signup
   h1.form__header.font-600 Join thousands of learners from around the world
   p.form__text Master web development by making real-life projects. There are multiple paths for you to choose
-  vee-form.form__form
+  vee-form.form__form(:validation-schema="schema" @submit="submit")
     .form__row
       base-input(name="email" type="email" icon="email" placeholder="E-mail")
     .form__row
@@ -26,6 +26,22 @@ export default {
   name: 'SignupForm',
   components: {
     LogoList,
+  },
+  setup() {
+    const schema = {
+      email: 'required|email|max:100',
+      password: 'required:alpha_num|min:8|max:32',
+      passwordConfirm: 'passwords_mismatch:@password',
+    };
+
+    return {
+      schema,
+    };
+  },
+  methods: {
+    submit(values) {
+      console.log(values);
+    },
   },
 };
 </script>

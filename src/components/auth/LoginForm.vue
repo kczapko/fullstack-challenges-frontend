@@ -1,7 +1,7 @@
 <template lang="pug">
 .form.form--login
   h1.form__header.font-600 Login
-  vee-form.form__form
+  vee-form.form__form(:validation-schema="schema" @submit="submit")
     .form__row
       base-input(name="email" type="email" icon="email" placeholder="E-mail")
     .form__row
@@ -23,6 +23,21 @@ export default {
   name: 'LoginForm',
   components: {
     LogoList,
+  },
+  setup() {
+    const schema = {
+      email: 'required|email|max:100',
+      password: 'required|max:32',
+    };
+
+    return {
+      schema,
+    };
+  },
+  methods: {
+    submit(values) {
+      console.log(values);
+    },
   },
 };
 </script>

@@ -6,6 +6,7 @@ import {
   min,
   max,
   alpha_spaces as alphaSpaces,
+  alpha_num as alphaNum,
   email,
   confirmed,
 } from '@vee-validate/rules';
@@ -19,6 +20,7 @@ export default {
     defineRule('min', min);
     defineRule('max', max);
     defineRule('alpha_spaces', alphaSpaces);
+    defineRule('alpha_num', alphaNum);
     defineRule('email', email);
     defineRule('passwords_mismatch', confirmed);
 
@@ -30,6 +32,7 @@ export default {
           min: `The field ${field} is too short. Minimum ${rule.params[0]} characters.`,
           max: `The field ${field} is too long.  Maximum ${rule.params[0]} characters.`,
           alpha_spaces: `The field ${field} can contain only alpabetical characters and spaces.`,
+          alpha_num: `The field ${field} can contain only alpabetical characters and numbers.`,
           email: `${value} is not valid email.`,
           passwords_mismatch: "The passwords don't match",
         };

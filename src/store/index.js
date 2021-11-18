@@ -18,7 +18,8 @@ export default createStore({
       state.bodyClasses.push(payload);
     },
     removeBodyClass(state, payload) {
-      state.bodyClasses.splice(state.bodyClasses.indexOf(payload), 1);
+      const index = state.bodyClasses.indexOf(payload);
+      if (index >= 0) state.bodyClasses.splice(index, 1);
     },
   },
   actions: {
