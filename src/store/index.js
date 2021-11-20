@@ -5,7 +5,6 @@ import auth from './modules/auth';
 export default createStore({
   state() {
     return {
-      loggedIn: false,
       pageTitle: '',
       bodyClasses: [],
     };

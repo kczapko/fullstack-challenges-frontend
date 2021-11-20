@@ -2,6 +2,7 @@
 .form.form--signup
   h1.form__header.font-600 Join thousands of learners from around the world
   p.form__text Master web development by making real-life projects. There are multiple paths for you to choose
+  p.form__error(v-if="error") {{ error }}
   vee-form.form__form(:validation-schema="schema" @submit="submit")
     .form__row
       base-input(name="email" type="email" icon="email" placeholder="E-mail")
@@ -10,7 +11,7 @@
     .form__row
       base-input(name="passwordConfirm" type="password" icon="lock" placeholder="Confirm Password")
     .form__row.form__row--submit
-      base-button.font-600(type="submit" color="primary") Start coding now
+      base-button.font-600(type="submit" color="primary" :disabled="submitting") Start coding now
   p.form__text.text-gray.text-center or continue with these social profile
   logo-list
   p.form__text.text-gray.text-center Adready a member?
@@ -20,6 +21,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 import LogoList from '@/components/auth/LogoList.vue';
 
 export default {
@@ -30,7 +33,7 @@ export default {
   setup() {
     const schema = {
       email: 'required|email|max:100',
-      password: 'required:alpha_num|min:8|max:32',
+      password: 'required|alpha_num|min:8|max:32',
       passwordConfirm: 'passwords_mismatch:@password',
     };
 
@@ -38,9 +41,30 @@ export default {
       schema,
     };
   },
+  data() {
+    return {
+      error: '',
+      submitting: false,
+    };
+  },
   methods: {
-    submit(values) {
-      console.log(values);
+    ...mapActions('auth', ['signup']),
+    async submit(values) {
+      this.error = '';
+      this.submitting = true;
+
+      try {
+        await this.signup(values);
+        this.$router.push({ name: 'home' });
+      } catch (e) {
+        // prettier-ignore
+        this.error = e.response?.data?.errors[0]?.message
+          || e.response?.message
+          || e.message
+          || 'Network problems';
+      }
+
+      this.submitting = false;
     },
   },
 };

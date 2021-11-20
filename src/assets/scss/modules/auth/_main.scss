@@ -38,6 +38,15 @@ $breakpoint-large: 32em; //512px
       }
     }
 
+    &__error {
+      color: var(--color-white);
+      background: var(--color-danger);
+      font-size: 1.4rem;
+      line-height: 1.35;
+      padding: 1rem;
+      margin: 3rem 0 0;
+    }
+
     &__form {
       margin: 3.4rem 0 3.1rem;
     }
