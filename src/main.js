@@ -9,6 +9,7 @@ import veeValidate from './plugins/veeValidate';
 import globalComponents from './plugins/globalComponents';
 
 import '@/assets/scss/main.scss';
+import 'nprogress/nprogress.css';
 
 const app = createApp(App);
 
