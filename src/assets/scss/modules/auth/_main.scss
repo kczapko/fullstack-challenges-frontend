@@ -41,6 +41,7 @@ $breakpoint-large: 32em; //512px
     &__error {
       color: var(--color-white);
       background: var(--color-danger);
+      border-radius: 0.4rem;
       font-size: 1.4rem;
       line-height: 1.35;
       padding: 1rem;
@@ -84,6 +85,10 @@ $breakpoint-large: 32em; //512px
 
     &__link {
       display: block;
+      width: 4.2rem;
+      aspect-ratio: 1;
+      overflow: hidden;
+      position: relative;
 
       &:hover,
       &:focus {
@@ -99,8 +104,14 @@ $breakpoint-large: 32em; //512px
       }
     }
 
+    &__button {
+      opacity: 0;
+      position: absolute;
+      inset: 0;
+    }
+
     .logo {
-      width: 4.2rem;
+      width: 100%;
       display: block;
 
       &__circle {

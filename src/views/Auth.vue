@@ -49,9 +49,21 @@ export default {
   },
   mounted() {
     this.addBodyClass('module-auth');
+
+    this.googleScript = document.createElement('script');
+    this.googleScript.src = 'https://accounts.google.com/gsi/client';
+    this.googleScript.async = true;
+    document.head.append(this.googleScript);
   },
   unmounted() {
     this.removeBodyClass('module-auth');
+
+    this.googleScript.remove();
+  },
+  data() {
+    return {
+      googleScript: null,
+    };
   },
   methods: {
     ...mapActions(['setPageTitle', 'addBodyClass', 'removeBodyClass']),

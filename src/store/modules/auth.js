@@ -31,6 +31,11 @@ export default {
 
       commit('loginUser', res.data.data.login);
     },
+    async signinWithGoogle({ commit }, payload) {
+      const res = await api.auth.signinWithGoogle(payload);
+
+      commit('loginUser', res.data.data.signinWithGoogle);
+    },
   },
   getters: {},
 };

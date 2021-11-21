@@ -8,6 +8,7 @@ const signup = async ({ email, password, passwordConfirm }) => {
           token
           user {
             _id
+            role
             email
             name
             photo
@@ -33,6 +34,7 @@ const login = async ({ email, password }) => {
           token
           user {
             _id
+            role
             email
             name
             photo
@@ -49,4 +51,28 @@ const login = async ({ email, password }) => {
   return axios.post('', graphqlQuery);
 };
 
-export { signup, login };
+const signinWithGoogle = async (token) => {
+  const graphqlQuery = {
+    query: `
+      mutation signinWithGoogle($token: String!) {
+        signinWithGoogle(idToken: $token) { 
+          token
+          user {
+            _id
+            role
+            email
+            name
+            photo
+          }
+        }
+      }
+    `,
+    variables: {
+      token,
+    },
+  };
+
+  return axios.post('', graphqlQuery);
+};
+
+export { signup, login, signinWithGoogle };
