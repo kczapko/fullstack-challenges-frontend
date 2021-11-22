@@ -36,6 +36,11 @@ export default {
 
       commit('loginUser', res.data.data.signinWithGoogle);
     },
+    async signinWithFacebook({ commit }, payload) {
+      const res = await api.auth.signinWithFacebook(payload);
+
+      commit('loginUser', res.data.data.signinWithFacebook);
+    },
   },
   getters: {},
 };

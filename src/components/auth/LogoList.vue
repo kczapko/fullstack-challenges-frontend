@@ -5,7 +5,7 @@ ul.logo-list
       .logo-list__button.logo-list__button--google
       svg-logo-google.logo-list__logo.logo-list__logo--google
   li.logo-list__item
-    a.logo-list__link.logo-list__link--facebook(href="#" @click.prevent)
+    a.logo-list__link.logo-list__link--facebook(href="#" @click.prevent="handleFacebookLogin" title="Signin with Facebook")
       svg-logo-facebook.logo-list__logo.logo-list__logo--facebook
   li.logo-list__item
     a.logo-list__link.logo-list__link--twitter(href="#" @click.prevent)
@@ -31,17 +31,26 @@ export default {
     SvgLogoTwitter,
     SvgLogoGithub,
   },
+  emits: ['auth-error'],
+  data() {
+    return {};
+  },
   mounted() {
     this.initializeGoogleButton();
+    this.initializeFacebook();
   },
   methods: {
-    ...mapActions('auth', ['signinWithGoogle']),
+    ...mapActions('auth', ['signinWithGoogle', 'signinWithFacebook']),
     initializeGoogleButton() {
       if (!window.google) return setTimeout(this.initializeGoogleButton, 100);
 
       const handleCredentialResponse = async (response) => {
-        await this.signinWithGoogle(response.credential);
-        this.$router.push({ name: 'home' });
+        try {
+          await this.signinWithGoogle(response.credential);
+          this.$router.push({ name: 'home' });
+        } catch (e) {
+          this.$emit('auth-error', e);
+        }
       };
 
       window.google.accounts.id.initialize({
@@ -54,6 +63,36 @@ export default {
       });
 
       return true;
+    },
+    initializeFacebook() {
+      if (!window.FB) return setTimeout(this.initializeFacebook, 100);
+
+      window.FB.init({
+        appId: process.env.VUE_APP_FACEBOOK_APP_ID,
+        version: 'v12.0',
+      });
+
+      return true;
+    },
+    handleFacebookLogin() {
+      window.FB.login(
+        async (response) => {
+          if (response.status === 'connected' && response.authResponse?.accessToken) {
+            try {
+              await this.signinWithFacebook({
+                token: response.authResponse.accessToken,
+                userId: response.authResponse.userID,
+              });
+              this.$router.push({ name: 'home' });
+            } catch (e) {
+              this.$emit('auth-error', e);
+            }
+          } else {
+            this.$emit('auth-error', new Error('Facebook response error.'));
+          }
+        },
+        { scope: 'public_profile,email', return_scopes: true },
+      );
     },
   },
 };

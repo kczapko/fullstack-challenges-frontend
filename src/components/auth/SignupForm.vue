@@ -13,7 +13,7 @@
     .form__row.form__row--submit
       base-button.font-600(type="submit" color="primary" :disabled="submitting") Start coding now
   p.form__text.text-gray.text-center or continue with these social profile
-  logo-list
+  logo-list(@auth-error="handleSocialAuthError")
   p.form__text.text-gray.text-center Adready a member?
     |
     |
@@ -65,6 +65,13 @@ export default {
       }
 
       this.submitting = false;
+    },
+    handleSocialAuthError(err) {
+      // prettier-ignore
+      this.error = err.response?.data?.errors[0]?.message
+      || err.response?.message
+      || err.message
+      || 'Network problems';
     },
   },
 };

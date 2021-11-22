@@ -75,4 +75,35 @@ const signinWithGoogle = async (token) => {
   return axios.post('', graphqlQuery);
 };
 
-export { signup, login, signinWithGoogle };
+const signinWithFacebook = async ({ token, userId }) => {
+  const graphqlQuery = {
+    query: `
+      mutation signinWithFacebook($token: String!, $userId: String!) {
+        signinWithFacebook(accessToken: $token, userId: $userId) { 
+          token
+          user {
+            _id
+            role
+            email
+            name
+            photo
+          }
+        }
+      }
+    `,
+    variables: {
+      token,
+      userId,
+    },
+  };
+
+  return axios.post('', graphqlQuery);
+};
+
+// prettier-ignore
+export {
+  signup,
+  login,
+  signinWithGoogle,
+  signinWithFacebook,
+};

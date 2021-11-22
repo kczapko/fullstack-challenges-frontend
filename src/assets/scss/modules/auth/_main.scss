@@ -89,6 +89,7 @@ $breakpoint-large: 32em; //512px
       aspect-ratio: 1;
       overflow: hidden;
       position: relative;
+      transform: translateZ(1px);
 
       &:hover,
       &:focus {

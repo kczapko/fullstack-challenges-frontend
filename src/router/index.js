@@ -17,19 +17,26 @@ const routes = [
     component: Home,
     meta: {
       requireAuth: true,
+      title: 'Home',
     },
   },
   {
     path: '/login',
     name: 'login',
     component: Auth,
-    props: { action: 'login', title: 'Login' },
+    props: { action: 'login' },
+    meta: {
+      title: 'Login',
+    },
   },
   {
     path: '/signup',
     name: 'signup',
     component: Auth,
-    props: { action: 'signup', title: 'Signup' },
+    props: { action: 'signup' },
+    meta: {
+      title: 'Signup',
+    },
   },
   {
     path: '/forgot-password',
@@ -60,6 +67,10 @@ router.beforeEach((to, from, next) => {
   if (!to.meta.requireAuth) return next();
   if (!store.state.auth.loggedIn) return next({ name: 'login' });
   return next();
+});
+
+router.afterEach((to) => {
+  if (to.meta.title) store.dispatch('setPageTitle', to.meta.title);
 });
 
 export default router;

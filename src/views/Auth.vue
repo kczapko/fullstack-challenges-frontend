@@ -28,10 +28,12 @@ export default {
         return ['login', 'signup'].includes(val);
       },
     },
-    title: {
-      type: String,
-      required: true,
-    },
+  },
+  data() {
+    return {
+      googleScript: null,
+      facebookScript: null,
+    };
   },
   computed: {
     formComponent() {
@@ -39,34 +41,50 @@ export default {
       return SignupForm;
     },
   },
-  watch: {
-    title: {
-      handler(val) {
-        this.setPageTitle(val);
-      },
-      immediate: true,
-    },
-  },
   mounted() {
     this.addBodyClass('module-auth');
 
-    this.googleScript = document.createElement('script');
-    this.googleScript.src = 'https://accounts.google.com/gsi/client';
-    this.googleScript.async = true;
-    document.head.append(this.googleScript);
+    this.addGoogleScript();
+    this.addFacebookScript();
   },
   unmounted() {
     this.removeBodyClass('module-auth');
 
-    this.googleScript.remove();
-  },
-  data() {
-    return {
-      googleScript: null,
-    };
+    this.removeGoogleScript();
+    this.removeFacebookScript();
   },
   methods: {
-    ...mapActions(['setPageTitle', 'addBodyClass', 'removeBodyClass']),
+    ...mapActions(['addBodyClass', 'removeBodyClass']),
+    addGoogleScript() {
+      this.googleScript = document.createElement('script');
+      this.googleScript.src = 'https://accounts.google.com/gsi/client';
+      this.googleScript.async = true;
+      document.head.append(this.googleScript);
+    },
+    removeGoogleScript() {
+      this.googleScript.remove();
+      // eslint-disable-next-line no-unused-expressions
+      document.getElementById('googleidentityservice_button_styles')?.remove();
+      // eslint-disable-next-line no-unused-expressions
+      document.getElementById('googleidentityservice')?.remove();
+      delete window.google;
+    },
+    addFacebookScript() {
+      this.facebookScript = document.createElement('script');
+      this.facebookScript.src = 'https://connect.facebook.net/en_US/sdk.js';
+      this.facebookScript.async = true;
+      document.head.append(this.facebookScript);
+    },
+    removeFacebookScript() {
+      this.facebookScript.remove();
+      // eslint-disable-next-line no-unused-expressions
+      document.querySelector('script[src^="https://connect.facebook.net"]')?.remove();
+      // eslint-disable-next-line no-unused-expressions
+      document.querySelector('style[data-fbcssmodules]')?.remove();
+      // eslint-disable-next-line no-unused-expressions
+      document.getElementById('fb-root')?.remove();
+      delete window.FB;
+    },
   },
 };
 </script>
