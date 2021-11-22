@@ -8,7 +8,7 @@ ul.logo-list
     a.logo-list__link.logo-list__link--facebook(href="#" @click.prevent="handleFacebookLogin" title="Signin with Facebook")
       svg-logo-facebook.logo-list__logo.logo-list__logo--facebook
   li.logo-list__item
-    a.logo-list__link.logo-list__link--twitter(href="#" @click.prevent)
+    a.logo-list__link.logo-list__link--twitter(href="#" @click.prevent="handleTwitterLogin" title="Signin with Twitter")
       svg-logo-twitter.logo-list__logo.logo-list__logo--twitter
   li.logo-list__item
     a.logo-list__link.logo-list__link--github(href="#" @click.prevent)
@@ -40,17 +40,20 @@ export default {
     this.initializeFacebook();
   },
   methods: {
-    ...mapActions('auth', ['signinWithGoogle', 'signinWithFacebook']),
+    ...mapActions('auth', ['signinWithGoogle', 'signinWithFacebook', 'authWithTwitter']),
+    ...mapActions(['setLoading']),
     initializeGoogleButton() {
       if (!window.google) return setTimeout(this.initializeGoogleButton, 100);
 
       const handleCredentialResponse = async (response) => {
+        this.setLoading(true);
         try {
           await this.signinWithGoogle(response.credential);
           this.$router.push({ name: 'home' });
         } catch (e) {
           this.$emit('auth-error', e);
         }
+        this.setLoading(false);
       };
 
       window.google.accounts.id.initialize({
@@ -78,6 +81,7 @@ export default {
       window.FB.login(
         async (response) => {
           if (response.status === 'connected' && response.authResponse?.accessToken) {
+            this.setLoading(true);
             try {
               await this.signinWithFacebook({
                 token: response.authResponse.accessToken,
@@ -87,12 +91,22 @@ export default {
             } catch (e) {
               this.$emit('auth-error', e);
             }
+            this.setLoading(false);
           } else {
             this.$emit('auth-error', new Error('Facebook response error.'));
           }
         },
         { scope: 'public_profile,email', return_scopes: true },
       );
+    },
+    async handleTwitterLogin() {
+      this.setLoading(true);
+      try {
+        await this.authWithTwitter();
+      } catch (e) {
+        this.$emit('auth-error', e);
+      }
+      this.setLoading(false);
     },
   },
 };

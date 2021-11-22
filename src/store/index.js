@@ -7,6 +7,7 @@ export default createStore({
     return {
       pageTitle: '',
       bodyClasses: [],
+      loading: false,
     };
   },
   mutations: {
@@ -20,6 +21,9 @@ export default createStore({
       const index = state.bodyClasses.indexOf(payload);
       if (index >= 0) state.bodyClasses.splice(index, 1);
     },
+    setLoading(state, payload) {
+      state.loading = payload;
+    },
   },
   actions: {
     setPageTitle({ commit }, payload) {
@@ -30,6 +34,9 @@ export default createStore({
     },
     removeBodyClass({ commit }, payload) {
       commit('removeBodyClass', payload);
+    },
+    setLoading({ commit }, payload) {
+      commit('setLoading', payload);
     },
   },
   modules: {

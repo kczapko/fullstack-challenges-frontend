@@ -63,6 +63,18 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach(async (to, from, next) => {
+  if (to.path === '/' && to.query.oauth_token && to.query.oauth_verifier) {
+    await store.dispatch('auth/signinWithTwitter', {
+      token: to.query.oauth_token,
+      verifier: to.query.oauth_verifier,
+    });
+    next({ name: 'home' });
+  } else {
+    next();
+  }
+});
+
 router.beforeEach((to, from, next) => {
   if (!to.meta.requireAuth) return next();
   if (!store.state.auth.loggedIn) return next({ name: 'login' });

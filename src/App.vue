@@ -4,12 +4,12 @@
       {{ content ? `${content} - Fullstack challenge` : `Fullstack challenge` }}
     </template>
   </metainfo>
-  <router-view />
+  <router-view :style="{ 'pointer-events': loading ? 'none' : '' }" />
 </template>
 
 <script>
 import { watch, computed } from 'vue';
-import { useStore } from 'vuex';
+import { useStore, mapState } from 'vuex';
 import { useMeta } from 'vue-meta';
 
 export default {
@@ -43,6 +43,9 @@ export default {
       .matchMedia('(prefers-color-scheme: dark)')
       .addEventListener('change', setColorSchemeClass);
     setColorSchemeClass(window.matchMedia('(prefers-color-scheme: dark)'));
+  },
+  computed: {
+    ...mapState(['loading']),
   },
 };
 </script>

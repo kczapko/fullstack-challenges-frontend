@@ -45,9 +45,11 @@ export default {
   },
   methods: {
     ...mapActions('auth', ['login']),
+    ...mapActions(['setLoading']),
     async submit(values) {
       this.error = '';
       this.submitting = true;
+      this.setLoading(true);
 
       try {
         await this.login(values);
@@ -61,6 +63,7 @@ export default {
       }
 
       this.submitting = false;
+      this.setLoading(false);
     },
     handleSocialAuthError(err) {
       // prettier-ignore

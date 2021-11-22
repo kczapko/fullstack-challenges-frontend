@@ -41,6 +41,16 @@ export default {
 
       commit('loginUser', res.data.data.signinWithFacebook);
     },
+    async authWithTwitter() {
+      const res = await api.auth.authWithTwitter();
+
+      document.location.href = res.data.data.authWithTwitter;
+    },
+    async signinWithTwitter({ commit }, payload) {
+      const res = await api.auth.signinWithTwitter(payload);
+
+      commit('loginUser', res.data.data.signinWithTwitter);
+    },
   },
   getters: {},
 };
