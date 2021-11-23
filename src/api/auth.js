@@ -137,7 +137,45 @@ const signinWithTwitter = async ({ token, verifier }) => {
   return axios.post('', graphqlQuery);
 };
 
-// prettier-ignore
+const authWithGithub = async () => {
+  const graphqlQuery = {
+    query: `
+      query authWithGithub {
+        authWithGithub {
+          url
+          state
+        }
+      }
+    `,
+  };
+
+  return axios.post('', graphqlQuery);
+};
+
+const signinWithGithub = async (code) => {
+  const graphqlQuery = {
+    query: `
+      mutation signinWithGithub($code: String!) {
+        signinWithGithub(code: $code) { 
+          token
+          user {
+            _id
+            role
+            email
+            name
+            photo
+          }
+        }
+      }
+    `,
+    variables: {
+      code,
+    },
+  };
+
+  return axios.post('', graphqlQuery);
+};
+
 export {
   signup,
   login,
@@ -145,4 +183,6 @@ export {
   signinWithFacebook,
   authWithTwitter,
   signinWithTwitter,
+  authWithGithub,
+  signinWithGithub,
 };

@@ -27,6 +27,11 @@ export default {
   components: {
     LogoList,
   },
+  props: {
+    authError: {
+      type: Object,
+    },
+  },
   setup() {
     const schema = {
       email: 'required|email|max:100',
@@ -44,7 +49,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions('auth', ['login']),
+    ...mapActions('auth', ['login', 'setAuthError']),
     ...mapActions(['setLoading']),
     async submit(values) {
       this.error = '';
@@ -72,6 +77,14 @@ export default {
       || err.message
       || 'Network problems';
     },
+  },
+  created() {
+    const { authError } = this.$store.state.auth;
+
+    if (authError) {
+      this.handleSocialAuthError(authError);
+      this.setAuthError(null);
+    }
   },
 };
 </script>

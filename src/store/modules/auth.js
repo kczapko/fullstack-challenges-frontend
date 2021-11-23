@@ -8,6 +8,7 @@ export default {
       loggedIn: false,
       token: '',
       user: {},
+      authError: null,
     };
   },
   mutations: {
@@ -18,6 +19,9 @@ export default {
 
       localStorage.setItem('token', payload.token);
       axios.defaults.headers.common.authorization = `Bearer ${payload.token}`;
+    },
+    setAuthError(state, payload) {
+      state.authError = payload;
     },
   },
   actions: {
@@ -50,6 +54,23 @@ export default {
       const res = await api.auth.signinWithTwitter(payload);
 
       commit('loginUser', res.data.data.signinWithTwitter);
+    },
+    async authWithGithub() {
+      const res = await api.auth.authWithGithub();
+
+      localStorage.setItem('githubState', res.data.data.authWithGithub.state);
+      document.location.href = res.data.data.authWithGithub.url;
+    },
+    async signinWithGithub({ commit }, payload) {
+      if (payload.state !== localStorage.getItem('githubState')) return;
+
+      localStorage.removeItem('githubState');
+      const res = await api.auth.signinWithGithub(payload.code);
+
+      commit('loginUser', res.data.data.signinWithGithub);
+    },
+    setAuthError({ commit }, payload) {
+      commit('setAuthError', payload);
     },
   },
   getters: {},

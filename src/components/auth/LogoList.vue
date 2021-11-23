@@ -11,7 +11,7 @@ ul.logo-list
     a.logo-list__link.logo-list__link--twitter(href="#" @click.prevent="handleTwitterLogin" title="Signin with Twitter")
       svg-logo-twitter.logo-list__logo.logo-list__logo--twitter
   li.logo-list__item
-    a.logo-list__link.logo-list__link--github(href="#" @click.prevent)
+    a.logo-list__link.logo-list__link--github(href="#" @click.prevent="handleGithubLogin" title="Signin with Github")
       svg-logo-github.logo-list__logo.logo-list__logo--github
 </template>
 
@@ -40,7 +40,12 @@ export default {
     this.initializeFacebook();
   },
   methods: {
-    ...mapActions('auth', ['signinWithGoogle', 'signinWithFacebook', 'authWithTwitter']),
+    ...mapActions('auth', [
+      'signinWithGoogle',
+      'signinWithFacebook',
+      'authWithTwitter',
+      'authWithGithub',
+    ]),
     ...mapActions(['setLoading']),
     initializeGoogleButton() {
       if (!window.google) return setTimeout(this.initializeGoogleButton, 100);
@@ -103,6 +108,15 @@ export default {
       this.setLoading(true);
       try {
         await this.authWithTwitter();
+      } catch (e) {
+        this.$emit('auth-error', e);
+      }
+      this.setLoading(false);
+    },
+    async handleGithubLogin() {
+      this.setLoading(true);
+      try {
+        await this.authWithGithub();
       } catch (e) {
         this.$emit('auth-error', e);
       }

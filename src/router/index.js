@@ -63,22 +63,42 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to) => {
+  /* twitter auth callback */
   if (to.path === '/' && to.query.oauth_token && to.query.oauth_verifier) {
-    await store.dispatch('auth/signinWithTwitter', {
-      token: to.query.oauth_token,
-      verifier: to.query.oauth_verifier,
-    });
-    next({ name: 'home' });
-  } else {
-    next();
+    try {
+      await store.dispatch('auth/signinWithTwitter', {
+        token: to.query.oauth_token,
+        verifier: to.query.oauth_verifier,
+      });
+      return { name: 'home' };
+    } catch (e) {
+      store.dispatch('auth/setAuthError', e);
+      return { name: 'login' };
+    }
   }
+
+  /* github auth callback */
+  if (to.path === '/' && to.query.code && to.query.state) {
+    try {
+      await store.dispatch('auth/signinWithGithub', {
+        code: to.query.code,
+        state: to.query.state,
+      });
+      return { name: 'home' };
+    } catch (e) {
+      store.dispatch('auth/setAuthError', e);
+      return { name: 'login' };
+    }
+  }
+
+  return true;
 });
 
-router.beforeEach((to, from, next) => {
-  if (!to.meta.requireAuth) return next();
-  if (!store.state.auth.loggedIn) return next({ name: 'login' });
-  return next();
+router.beforeEach((to) => {
+  if (!to.meta.requireAuth) return true;
+  if (!store.state.auth.loggedIn) return { name: 'login' };
+  return true;
 });
 
 router.afterEach((to) => {
