@@ -18,7 +18,7 @@ export default {
       state.token = payload.token;
 
       localStorage.setItem('token', payload.token);
-      axios.defaults.headers.common.authorization = `Bearer ${payload.token}`;
+      axios.defaults.headers.common.Authorization = `Bearer ${payload.token}`;
     },
     setAuthError(state, payload) {
       state.authError = payload;
@@ -34,6 +34,21 @@ export default {
       const res = await api.auth.login(payload);
 
       commit('loginUser', res.data.data.login);
+    },
+    async autologin({ commit }) {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      try {
+        const res = await api.auth.autologin(token);
+        const data = res.data.data.autologin;
+
+        if (data) {
+          commit('loginUser', { user: data.user, token });
+        }
+      } catch (e) {
+        console.log(e);
+      }
     },
     async signinWithGoogle({ commit }, payload) {
       const res = await api.auth.signinWithGoogle(payload);
@@ -58,13 +73,13 @@ export default {
     async authWithGithub() {
       const res = await api.auth.authWithGithub();
 
-      localStorage.setItem('githubState', res.data.data.authWithGithub.state);
+      sessionStorage.setItem('githubState', res.data.data.authWithGithub.state);
       document.location.href = res.data.data.authWithGithub.url;
     },
     async signinWithGithub({ commit }, payload) {
-      if (payload.state !== localStorage.getItem('githubState')) return;
+      if (payload.state !== sessionStorage.getItem('githubState')) return;
 
-      localStorage.removeItem('githubState');
+      sessionStorage.removeItem('githubState');
       const res = await api.auth.signinWithGithub(payload.code);
 
       commit('loginUser', res.data.data.signinWithGithub);

@@ -27,11 +27,6 @@ export default {
   components: {
     LogoList,
   },
-  props: {
-    authError: {
-      type: Object,
-    },
-  },
   setup() {
     const schema = {
       email: 'required|email|max:100',
@@ -88,5 +83,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

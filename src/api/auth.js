@@ -51,6 +51,26 @@ const login = async ({ email, password }) => {
   return axios.post('', graphqlQuery);
 };
 
+const autologin = async (token) => {
+  const graphqlQuery = {
+    query: `
+      query autologin {
+        autologin {
+          user {
+            _id
+            role
+            email
+            name
+            photo
+          }
+        }
+      }
+    `,
+  };
+
+  return axios.post('', graphqlQuery, { headers: { Authorization: `Bearer ${token}` } });
+};
+
 const signinWithGoogle = async (token) => {
   const graphqlQuery = {
     query: `
@@ -179,6 +199,7 @@ const signinWithGithub = async (code) => {
 export {
   signup,
   login,
+  autologin,
   signinWithGoogle,
   signinWithFacebook,
   authWithTwitter,

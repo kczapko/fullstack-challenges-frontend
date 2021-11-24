@@ -11,12 +11,20 @@ import globalComponents from './plugins/globalComponents';
 import '@/assets/scss/main.scss';
 import 'nprogress/nprogress.css';
 
-const app = createApp(App);
+const init = async () => {
+  const app = createApp(App);
 
-app.use(store);
-app.use(router);
-app.use(createMetaManager());
-app.use(veeValidate);
-app.use(globalComponents);
+  app.use(store);
+  await store.dispatch('auth/autologin');
 
-app.mount('#app');
+  app.use(router);
+  await router.isReady();
+
+  app.use(createMetaManager());
+  app.use(veeValidate);
+  app.use(globalComponents);
+
+  app.mount('#app');
+};
+
+init();
