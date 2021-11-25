@@ -5,6 +5,8 @@ import Test from '@/views/Test.vue';
 import Home from '@/views/Home.vue';
 import Auth from '@/views/Auth.vue';
 
+import HomeDashboard from '@/components/home/HomeDashboard.vue';
+
 const routes = [
   {
     path: '/test',
@@ -19,6 +21,13 @@ const routes = [
       requireAuth: true,
       title: 'Home',
     },
+    children: [
+      {
+        path: '',
+        name: 'dashboard',
+        component: HomeDashboard,
+      },
+    ],
   },
   {
     path: '/login',

@@ -47,7 +47,8 @@ export default {
           commit('loginUser', { user: data.user, token });
         }
       } catch (e) {
-        console.log(e);
+        // fall off silently
+        localStorage.removeItem('token');
       }
     },
     async signinWithGoogle({ commit }, payload) {

@@ -12,6 +12,7 @@ const signup = async ({ email, password, passwordConfirm }) => {
             email
             name
             photo
+            emailConfirmed
           }
         }
       }
@@ -38,6 +39,7 @@ const login = async ({ email, password }) => {
             email
             name
             photo
+            emailConfirmed
           }
         }
       }
@@ -62,6 +64,7 @@ const autologin = async (token) => {
             email
             name
             photo
+            emailConfirmed
           }
         }
       }
@@ -83,6 +86,7 @@ const signinWithGoogle = async (token) => {
             email
             name
             photo
+            emailConfirmed
           }
         }
       }
@@ -107,6 +111,7 @@ const signinWithFacebook = async ({ token, userId }) => {
             email
             name
             photo
+            emailConfirmed
           }
         }
       }
@@ -144,6 +149,7 @@ const signinWithTwitter = async ({ token, verifier }) => {
             email
             name
             photo
+            emailConfirmed
           }
         }
       }
@@ -184,6 +190,7 @@ const signinWithGithub = async (code) => {
             email
             name
             photo
+            emailConfirmed
           }
         }
       }

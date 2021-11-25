@@ -1,20 +1,26 @@
-<template>
-  <div class="home">
-    <h1>Home page content</h1>
-    <hr />
-    <h2>{{ user.name }}</h2>
-    <h2>{{ user.email }}</h2>
-    <img :src="user.photo" />
-  </div>
+<template lang="pug">
+.home
+  base-header
+  router-view
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapActions } from 'vuex';
+import BaseHeader from '@/components/base/BaseHeader.vue';
 
 export default {
   name: 'Home',
-  computed: {
-    ...mapState('auth', ['user']),
+  components: {
+    BaseHeader,
+  },
+  mounted() {
+    this.addBodyClass('module-home');
+  },
+  unmounted() {
+    this.removeBodyClass('module-home');
+  },
+  methods: {
+    ...mapActions(['addBodyClass', 'removeBodyClass']),
   },
 };
 </script>
