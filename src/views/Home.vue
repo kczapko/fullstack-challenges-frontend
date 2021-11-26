@@ -1,7 +1,9 @@
 <template lang="pug">
 .home
   base-header
-  router-view
+  main
+    router-view
+  base-footer
 </template>
 
 <script>

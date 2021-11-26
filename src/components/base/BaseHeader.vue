@@ -9,7 +9,7 @@ header.header
     .header__user(:class="{'header__user--open' : dropdownOpen}")
       .header__user-info(@click="dropdownOpen = !dropdownOpen")
         base-user-image.header__user-image(:user="user")
-        .header__user-name {{ username }}
+        .header__user-name.font-700 {{ username }}
         .header__user-dropdown-arrow
       transition(name="fade")
         .header__user-dropdown(v-show="dropdownOpen")
@@ -17,10 +17,10 @@ header.header
             li.header__user-dropdown-listitem
               base-button.header__user-dropdown-link(tag="router-link"  :to="{ name: 'home' }" icon="account_circle" variant="link" size="small") My Profile
             li.header__user-dropdown-listitem
-              base-button.header__user-dropdown-link(tag="a" icon="group" variant="link" size="small") Group Chat
+              base-button.header__user-dropdown-link(icon="group" variant="link" size="small") Group Chat
             li.header__user-dropdown-listitem.header__user-dropdown-listitem--line
             li.header__user-dropdown-listitem
-              base-button.header__user-dropdown-link(tag="a" @click.prevent="logoutUser" icon="logout" color="danger" variant="link" size="small") Logout
+              base-button.header__user-dropdown-link(@click="logoutUser" icon="logout" color="danger" variant="link" size="small") Logout
 </template>
 
 <script>
