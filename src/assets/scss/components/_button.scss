@@ -45,13 +45,24 @@
     }
   }
 
-  &.base-btn--circle {
+  &--size-small {
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    padding: 1.1rem 1.3rem;
+  }
+
+  &--variant-link {
+    border: 0;
+    color: var(--color-dark-gray2);
+  }
+
+  &--circle {
     padding: 1rem;
     border-radius: 50%;
     aspect-ratio: 1;
   }
 
-  &.base-btn--primary {
+  &--primary {
     background-color: var(--color-primary);
     color: var(--color-white);
     border-color: var(--color-primary);
@@ -70,9 +81,19 @@
         border-color: var(--color-primary);
       }
     }
+
+    &.base-btn--variant-link {
+      background-color: var(--color-white);
+      color: var(--color-primary);
+
+      &:hover,
+      &:focus {
+        background-color: lighten($color-primary, 40);
+      }
+    }
   }
 
-  &.base-btn--danger {
+  &--danger {
     background-color: var(--color-danger);
     color: var(--color-white);
     border-color: var(--color-danger);
@@ -91,22 +112,62 @@
         border-color: var(--color-danger);
       }
     }
+
+    &.base-btn--variant-link {
+      background-color: var(--color-white);
+      color: var(--color-danger);
+
+      &:hover,
+      &:focus {
+        background-color: lighten($color-danger, 33);
+      }
+    }
   }
 }
 
-.dark .base-btn--default {
-  background-color: var(--color-dark-gray);
+.dark .base-btn {
+  &--default {
+    background-color: var(--color-dark-gray);
 
-  &:hover,
-  &:focus {
-    background-color: darken($color-dark-gray, 8);
-  }
-
-  &:disabled {
-    &,
     &:hover,
     &:focus {
+      background-color: darken($color-dark-gray, 8);
+    }
+
+    &:disabled {
+      &,
+      &:hover,
+      &:focus {
+        background-color: var(--color-dark-gray);
+      }
+    }
+  }
+
+  &--variant-link {
+    color: var(--color-light-gray2);
+  }
+
+  &--primary {
+    &.base-btn--variant-link {
       background-color: var(--color-dark-gray);
+      color: var(--color-primary);
+    }
+
+    &:hover,
+    &:focus {
+      background-color: darken($color-dark-gray, 8);
+    }
+  }
+
+  &--danger {
+    &.base-btn--variant-link {
+      background-color: var(--color-dark-gray);
+      color: var(--color-danger);
+    }
+
+    &:hover,
+    &:focus {
+      background-color: darken($color-dark-gray, 8);
     }
   }
 }

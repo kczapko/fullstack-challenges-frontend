@@ -1,5 +1,6 @@
-import axios from '../../api/axios';
-import api from '../../api';
+import axios from '@/api/axios';
+import api from '@/api';
+import { username, initials } from '@/utils/user';
 
 export default {
   namespaced: true,
@@ -19,6 +20,14 @@ export default {
 
       localStorage.setItem('token', payload.token);
       axios.defaults.headers.common.Authorization = `Bearer ${payload.token}`;
+    },
+    logoutUser(state) {
+      state.loggedIn = false;
+      state.user = {};
+      state.token = '';
+
+      localStorage.removeItem('token');
+      delete axios.defaults.headers.common.Authorization;
     },
     setAuthError(state, payload) {
       state.authError = payload;
@@ -88,6 +97,16 @@ export default {
     setAuthError({ commit }, payload) {
       commit('setAuthError', payload);
     },
+    logout({ commit }) {
+      commit('logoutUser');
+    },
   },
-  getters: {},
+  getters: {
+    username(state) {
+      return username(state.user);
+    },
+    initials(state, getters) {
+      return initials(getters.username);
+    },
+  },
 };

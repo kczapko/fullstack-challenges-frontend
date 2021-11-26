@@ -1,10 +1,14 @@
 @import 'variables';
 @import 'mixins';
 @import 'utility';
+@import 'animations';
 
 @import 'base';
 
 @import 'components/button';
 @import 'components/input';
+@import 'components/user-image';
+@import 'components/header';
 
 @import 'modules/auth/main';
+@import 'modules/home/main';

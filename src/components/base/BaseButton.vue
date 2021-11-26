@@ -24,9 +24,23 @@ export default {
     tag: {
       type: String,
       validator(val) {
-        return ['a', 'button'].includes(val);
+        return ['a', 'button', 'router-link'].includes(val);
       },
       default: 'button',
+    },
+    variant: {
+      type: String,
+      validator(val) {
+        return ['default', 'link'].includes(val);
+      },
+      default: 'default',
+    },
+    size: {
+      type: String,
+      validator(val) {
+        return ['default', 'small'].includes(val);
+      },
+      default: 'default',
     },
   },
   computed: {
@@ -34,6 +48,8 @@ export default {
       return {
         [`base-btn--${this.color}`]: true,
         'base-btn--circle': this.circle,
+        [`base-btn--variant-${this.variant}`]: this.variant !== 'default',
+        [`base-btn--size-${this.size}`]: this.size !== 'default',
       };
     },
     hasSlot() {

@@ -1,0 +1,34 @@
+.user-image {
+  width: 5rem;
+  aspect-ratio: 1;
+  border-radius: 0.8rem;
+  overflow: hidden;
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    &--svg {
+      rect {
+        fill: var(--color-black);
+      }
+
+      text {
+        fill: var(--color-white);
+        font-size: 2.2rem;
+        font-family: sans-serif;
+      }
+
+      .dark & {
+        rect {
+          fill: var(--color-light-gray2);
+        }
+
+        text {
+          fill: var(--color-dark-gray2);
+        }
+      }
+    }
+  }
+}
