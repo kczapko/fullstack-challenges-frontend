@@ -20,7 +20,7 @@ header.header
               base-button.header__user-dropdown-link(tag="a" icon="group" variant="link" size="small") Group Chat
             li.header__user-dropdown-listitem.header__user-dropdown-listitem--line
             li.header__user-dropdown-listitem
-              base-button.header__user-dropdown-link(tag="router-link" :to="{ name: 'login' }" @click="logout" icon="logout" color="danger" variant="link" size="small") Logout
+              base-button.header__user-dropdown-link(tag="a" @click.prevent="logoutUser" icon="logout" color="danger" variant="link" size="small") Logout
 </template>
 
 <script>
@@ -43,6 +43,10 @@ export default {
   },
   methods: {
     ...mapActions('auth', ['logout']),
+    async logoutUser() {
+      await this.$router.push({ name: 'login' });
+      this.logout();
+    },
   },
 };
 </script>
