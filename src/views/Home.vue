@@ -8,6 +8,9 @@
 
 <script>
 import { mapActions } from 'vuex';
+
+import useBodyClass from '@/hooks/useBodyClass';
+
 import BaseHeader from '@/components/base/BaseHeader.vue';
 
 export default {
@@ -15,11 +18,8 @@ export default {
   components: {
     BaseHeader,
   },
-  mounted() {
-    this.addBodyClass('module-home');
-  },
-  unmounted() {
-    this.removeBodyClass('module-home');
+  setup() {
+    useBodyClass('module-home');
   },
   methods: {
     ...mapActions(['addBodyClass', 'removeBodyClass']),

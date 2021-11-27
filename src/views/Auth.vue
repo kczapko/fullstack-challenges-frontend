@@ -11,6 +11,8 @@ section.auth
 <script>
 import { mapActions } from 'vuex';
 
+import useBodyClass from '@/hooks/useBodyClass';
+
 import SvgLogoDevChallenges from '@/components/svg/LogoDevChallenges.vue';
 import SignupForm from '@/components/auth/SignupForm.vue';
 import LoginForm from '@/components/auth/LoginForm.vue';
@@ -29,6 +31,9 @@ export default {
       },
     },
   },
+  setup() {
+    useBodyClass('module-auth');
+  },
   data() {
     return {
       googleScript: null,
@@ -42,14 +47,10 @@ export default {
     },
   },
   mounted() {
-    this.addBodyClass('module-auth');
-
     this.addGoogleScript();
     this.addFacebookScript();
   },
   unmounted() {
-    this.removeBodyClass('module-auth');
-
     this.removeGoogleScript();
     this.removeFacebookScript();
   },
@@ -67,6 +68,8 @@ export default {
       document.getElementById('googleidentityservice_button_styles')?.remove();
       // eslint-disable-next-line no-unused-expressions
       document.getElementById('googleidentityservice')?.remove();
+      // eslint-disable-next-line no-unused-expressions
+      document.getElementById('g_a11y_announcement')?.remove();
       delete window.google;
     },
     addFacebookScript() {

@@ -57,7 +57,7 @@ export default {
 
       try {
         await this.signup(values);
-        this.$router.push({ name: 'home' });
+        this.$router.push({ name: 'dashboard' });
       } catch (e) {
         // prettier-ignore
         this.error = e.response?.data?.errors[0]?.message

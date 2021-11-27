@@ -151,11 +151,11 @@
     &.base-btn--variant-link {
       background-color: var(--color-dark-gray);
       color: var(--color-primary);
-    }
 
-    &:hover,
-    &:focus {
-      background-color: darken($color-dark-gray, 8);
+      &:hover,
+      &:focus {
+        background-color: darken($color-dark-gray, 8);
+      }
     }
   }
 
@@ -163,11 +163,11 @@
     &.base-btn--variant-link {
       background-color: var(--color-dark-gray);
       color: var(--color-danger);
-    }
 
-    &:hover,
-    &:focus {
-      background-color: darken($color-dark-gray, 8);
+      &:hover,
+      &:focus {
+        background-color: darken($color-dark-gray, 8);
+      }
     }
   }
 }

@@ -54,7 +54,7 @@ export default {
         this.setLoading(true);
         try {
           await this.signinWithGoogle(response.credential);
-          this.$router.push({ name: 'home' });
+          this.$router.push({ name: 'dashboard' });
         } catch (e) {
           this.$emit('auth-error', e);
         }
@@ -92,7 +92,7 @@ export default {
                 token: response.authResponse.accessToken,
                 userId: response.authResponse.userID,
               });
-              this.$router.push({ name: 'home' });
+              this.$router.push({ name: 'dashboard' });
             } catch (e) {
               this.$emit('auth-error', e);
             }

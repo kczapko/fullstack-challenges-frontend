@@ -26,6 +26,9 @@ const routes = [
         path: '',
         name: 'dashboard',
         component: HomeDashboard,
+        meta: {
+          title: 'Dashboard',
+        },
       },
     ],
   },
@@ -80,7 +83,7 @@ router.beforeEach(async (to) => {
         token: to.query.oauth_token,
         verifier: to.query.oauth_verifier,
       });
-      return { name: 'home' };
+      return { name: 'dashboard' };
     } catch (e) {
       store.dispatch('auth/setAuthError', e);
       return { name: 'login' };
@@ -94,7 +97,7 @@ router.beforeEach(async (to) => {
         code: to.query.code,
         state: to.query.state,
       });
-      return { name: 'home' };
+      return { name: 'dashboard' };
     } catch (e) {
       store.dispatch('auth/setAuthError', e);
       return { name: 'login' };
