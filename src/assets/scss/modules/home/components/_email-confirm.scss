@@ -51,7 +51,7 @@
   border-color: var(--color-dark-gray2);
 }
 
-@media screen and (min-width: $brakpoint-large) {
+@media screen and (min-width: $breakpoint-large) {
   .form--confirm-email {
     .form {
       &__header {

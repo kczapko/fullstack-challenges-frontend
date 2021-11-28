@@ -135,7 +135,7 @@ router.beforeEach((to) => {
 router.beforeEach((to) => {
   if (!to.meta.requireConfirm) return true;
   if (!store.state.user.emailConfirmed) {
-    store.dispatch('addMessage', new Message('You need to confirm your account first'));
+    store.dispatch('addMessage', new Message('You need to confirm your account first!'));
     return { name: 'dashboard' };
   }
   return true;

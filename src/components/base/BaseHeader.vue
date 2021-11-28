@@ -58,7 +58,6 @@ export default {
       this.$logoutUser();
     },
     hideDropdown() {
-      console.log('hide dropdown');
       if (this.dropdownOpen) this.dropdownOpen = false;
     },
   },

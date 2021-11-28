@@ -2,6 +2,7 @@
 
 @import 'components/dashboard';
 @import 'components/email-confirm';
+@import 'components/profile';
 
 .home {
   width: 100%;
@@ -43,6 +44,10 @@
 
   &__content {
     margin: 0 -1.8rem;
+  }
+
+  &__back {
+    margin-bottom: 1rem;
   }
 }
 

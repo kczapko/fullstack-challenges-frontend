@@ -27,4 +27,22 @@ const resendConfirmEmail = async () => {
   return axios.post('', graphqlQuery);
 };
 
-export { confirmEmail, resendConfirmEmail };
+const myData = async () => {
+  const graphqlQuery = {
+    query: `
+      query me {
+        me {
+          name
+          photo
+          bio
+          phone
+          email
+        }
+      }
+    `,
+  };
+
+  return axios.post('', graphqlQuery);
+};
+
+export { confirmEmail, resendConfirmEmail, myData };
