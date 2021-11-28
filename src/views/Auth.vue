@@ -14,6 +14,7 @@ import useBodyClass from '@/hooks/useBodyClass';
 import SvgLogoDevChallenges from '@/components/svg/LogoDevChallenges.vue';
 import SignupForm from '@/components/auth/SignupForm.vue';
 import LoginForm from '@/components/auth/LoginForm.vue';
+import FrogotPasswordForm from '@/components/auth/FrogotPasswordForm.vue';
 
 export default {
   name: 'Auth',
@@ -25,7 +26,7 @@ export default {
       type: String,
       required: true,
       validator(val) {
-        return ['login', 'signup'].includes(val);
+        return ['login', 'signup', 'forgot-password'].includes(val);
       },
     },
   },
@@ -41,6 +42,7 @@ export default {
   computed: {
     formComponent() {
       if (this.action === 'signup') return SignupForm;
+      if (this.action === 'forgot-password') return FrogotPasswordForm;
       return LoginForm;
     },
   },

@@ -53,7 +53,11 @@ const routes = [
   {
     path: '/forgot-password',
     name: 'forgot-password',
-    component: Home,
+    component: Auth,
+    props: { action: 'forgot-password' },
+    meta: {
+      title: 'Forgot Password',
+    },
   },
   {
     path: '/password-rest',

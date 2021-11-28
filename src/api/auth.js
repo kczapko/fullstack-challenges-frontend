@@ -196,6 +196,21 @@ const signinWithGithub = async (code) => {
   return axios.post('', graphqlQuery);
 };
 
+const requestPasswordReset = async ({ email }) => {
+  const graphqlQuery = {
+    query: `
+      mutation requestPasswordReset($email: String!) {
+        requestPasswordReset(email: $email)
+      }
+    `,
+    variables: {
+      email,
+    },
+  };
+
+  return axios.post('', graphqlQuery);
+};
+
 export {
   signup,
   login,
@@ -206,4 +221,5 @@ export {
   signinWithTwitter,
   authWithGithub,
   signinWithGithub,
+  requestPasswordReset,
 };

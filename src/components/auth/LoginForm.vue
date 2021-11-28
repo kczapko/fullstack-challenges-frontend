@@ -15,6 +15,8 @@
     |
     |
     router-link(:to="{name: 'signup'}") Register
+  p.form__text.text-gray.text-center
+    router-link(:to="{name: 'forgot-password'}") Forgot password?
 </template>
 
 <script>

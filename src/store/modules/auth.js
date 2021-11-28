@@ -76,7 +76,7 @@ export default {
     setAuthError({ commit }, payload) {
       commit('setAuthError', payload);
     },
-    async logout({ commit }) {
+    logout({ commit }) {
       commit('logoutUser', null, { root: true });
     },
   },
