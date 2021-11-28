@@ -34,7 +34,7 @@ export default {
           alpha_spaces: `The field ${field} can contain only alpabetical characters and spaces.`,
           alpha_num: `The field ${field} can contain only alpabetical characters and numbers.`,
           email: `${value} is not valid email.`,
-          passwords_mismatch: "The passwords don't match",
+          passwords_mismatch: "The passwords don't match.",
         };
 
         const message = messages[rule.name]

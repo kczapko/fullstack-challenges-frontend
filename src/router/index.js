@@ -1,18 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import store from '@/store';
 
-import Test from '@/views/Test.vue';
+import Message from '@/utils/Message';
+
 import Home from '@/views/Home.vue';
 import Auth from '@/views/Auth.vue';
 
 import HomeDashboard from '@/components/home/HomeDashboard.vue';
 
+// prettier-ignore
+const UserProfile = () => import(/* webpackChunkName: "profile" */ '@/components/home/UserProfile.vue');
+// prettier-ignore
+const UserProfileEdit = () => import(/* webpackChunkName: "profile" */ '@/components/home/UserProfileEdit.vue');
+
 const routes = [
-  {
-    path: '/test',
-    name: 'test',
-    component: Test,
-  },
   {
     path: '/',
     name: 'home',
@@ -28,6 +29,24 @@ const routes = [
         component: HomeDashboard,
         meta: {
           title: 'Dashboard',
+        },
+      },
+      {
+        path: 'profile',
+        name: 'profile',
+        component: UserProfile,
+        meta: {
+          requireConfirm: true,
+          title: 'Profile',
+        },
+      },
+      {
+        path: 'profile-edit',
+        name: 'profile-edit',
+        component: UserProfileEdit,
+        meta: {
+          requireConfirm: true,
+          title: 'Edit Profile',
         },
       },
     ],
@@ -67,14 +86,6 @@ const routes = [
     meta: {
       title: 'Change Password',
     },
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue'),
   },
 ];
 
@@ -118,6 +129,15 @@ router.beforeEach(async (to) => {
 router.beforeEach((to) => {
   if (!to.meta.requireAuth) return true;
   if (!store.state.loggedIn) return { name: 'login' };
+  return true;
+});
+
+router.beforeEach((to) => {
+  if (!to.meta.requireConfirm) return true;
+  if (!store.state.user.emailConfirmed) {
+    store.dispatch('addMessage', new Message('You need to confirm your account first'));
+    return { name: 'dashboard' };
+  }
   return true;
 });
 
