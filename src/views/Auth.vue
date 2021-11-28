@@ -15,6 +15,7 @@ import SvgLogoDevChallenges from '@/components/svg/LogoDevChallenges.vue';
 import SignupForm from '@/components/auth/SignupForm.vue';
 import LoginForm from '@/components/auth/LoginForm.vue';
 import FrogotPasswordForm from '@/components/auth/FrogotPasswordForm.vue';
+import ChangePasswordForm from '@/components/auth/ChangePasswordForm.vue';
 
 export default {
   name: 'Auth',
@@ -26,7 +27,7 @@ export default {
       type: String,
       required: true,
       validator(val) {
-        return ['login', 'signup', 'forgot-password'].includes(val);
+        return ['login', 'signup', 'forgot-password', 'change-password'].includes(val);
       },
     },
   },
@@ -43,6 +44,7 @@ export default {
     formComponent() {
       if (this.action === 'signup') return SignupForm;
       if (this.action === 'forgot-password') return FrogotPasswordForm;
+      if (this.action === 'change-password') return ChangePasswordForm;
       return LoginForm;
     },
   },

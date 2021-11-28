@@ -1,5 +1,5 @@
 <template lang="pug">
-.form.form--forget-password
+.form.form--forgot-password
   h1.form__header.font-600 Forgot password?
   p.form__error(v-if="error") {{ error }}
   vee-form.form__form(:validation-schema="schema" @submit="submit")
@@ -7,6 +7,8 @@
       base-input(name="email" type="email" icon="email" placeholder="E-mail")
     .form__row.form__row--submit
       base-button.font-600(type="submit" color="primary" :disabled="submitting") Reset Password
+  p.form__text.text-gray.text-center
+    router-link(:to="{name: 'login'}") Back to Login
 </template>
 
 <script>
@@ -43,7 +45,7 @@ export default {
         const res = await api.auth.requestPasswordReset(values);
         if (res.data.data.requestPasswordReset) {
           this.addMessage(new Message('Details how to change password were sent to your e-mail.'));
-          this.$router.push({ name: 'login' });
+          this.$router.push({ name: 'change-password' });
         } else {
           this.error = 'Unexpected error';
         }

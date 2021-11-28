@@ -60,9 +60,13 @@ const routes = [
     },
   },
   {
-    path: '/password-rest',
-    name: 'password-reset',
-    component: Home,
+    path: '/change-password',
+    name: 'change-password',
+    component: Auth,
+    props: { action: 'change-password' },
+    meta: {
+      title: 'Change Password',
+    },
   },
   {
     path: '/about',

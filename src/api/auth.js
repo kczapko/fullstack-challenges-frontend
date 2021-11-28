@@ -211,6 +211,23 @@ const requestPasswordReset = async ({ email }) => {
   return axios.post('', graphqlQuery);
 };
 
+const changePassword = async ({ token, password, passwordConfirm }) => {
+  const graphqlQuery = {
+    query: `
+      mutation changePassword($token: String!, $password: String!, $passwordConfirm: String!) {
+        changePassword(changePasswordInput: {token: $token, password: $password, passwordConfirm: $passwordConfirm})
+      }
+    `,
+    variables: {
+      token,
+      password,
+      passwordConfirm,
+    },
+  };
+
+  return axios.post('', graphqlQuery);
+};
+
 export {
   signup,
   login,
@@ -222,4 +239,5 @@ export {
   authWithGithub,
   signinWithGithub,
   requestPasswordReset,
+  changePassword,
 };
