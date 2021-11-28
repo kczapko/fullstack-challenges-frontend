@@ -7,7 +7,6 @@ const signup = async ({ email, password, passwordConfirm }) => {
         signup(signupInput: {email: $email, password: $password, passwordConfirm: $passwordConfirm}) {
           token
           user {
-            _id
             role
             email
             name
@@ -34,7 +33,6 @@ const login = async ({ email, password }) => {
         login(loginInput: {email: $email, password: $password}) {
           token
           user {
-            _id
             role
             email
             name
@@ -59,7 +57,6 @@ const autologin = async (token) => {
       query autologin {
         autologin {
           user {
-            _id
             role
             email
             name
@@ -81,7 +78,6 @@ const signinWithGoogle = async (token) => {
         signinWithGoogle(idToken: $token) { 
           token
           user {
-            _id
             role
             email
             name
@@ -106,7 +102,6 @@ const signinWithFacebook = async ({ token, userId }) => {
         signinWithFacebook(accessToken: $token, userId: $userId) { 
           token
           user {
-            _id
             role
             email
             name
@@ -144,7 +139,6 @@ const signinWithTwitter = async ({ token, verifier }) => {
         signinWithTwitter(oauthToken: $token, oauthVerifier: $verifier) { 
           token
           user {
-            _id
             role
             email
             name
@@ -184,8 +178,7 @@ const signinWithGithub = async (code) => {
       mutation signinWithGithub($code: String!) {
         signinWithGithub(code: $code) { 
           token
-          user {
-            _id
+          user {    
             role
             email
             name

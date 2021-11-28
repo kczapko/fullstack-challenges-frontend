@@ -1,34 +1,13 @@
-import axios from '@/api/axios';
 import api from '@/api';
-import { username, initials } from '@/utils/user';
 
 export default {
   namespaced: true,
   state() {
     return {
-      loggedIn: false,
-      token: '',
-      user: {},
       authError: null,
     };
   },
   mutations: {
-    loginUser(state, payload) {
-      state.loggedIn = true;
-      state.user = payload.user;
-      state.token = payload.token;
-
-      localStorage.setItem('token', payload.token);
-      axios.defaults.headers.common.Authorization = `Bearer ${payload.token}`;
-    },
-    logoutUser(state) {
-      state.loggedIn = false;
-      state.user = {};
-      state.token = '';
-
-      localStorage.removeItem('token');
-      delete axios.defaults.headers.common.Authorization;
-    },
     setAuthError(state, payload) {
       state.authError = payload;
     },
@@ -37,12 +16,12 @@ export default {
     async signup({ commit }, payload) {
       const res = await api.auth.signup(payload);
 
-      commit('loginUser', res.data.data.signup);
+      commit('loginUser', res.data.data.signup, { root: true });
     },
     async login({ commit }, payload) {
       const res = await api.auth.login(payload);
 
-      commit('loginUser', res.data.data.login);
+      commit('loginUser', res.data.data.login, { root: true });
     },
     async autologin({ commit }) {
       const token = localStorage.getItem('token');
@@ -53,7 +32,7 @@ export default {
         const data = res.data.data.autologin;
 
         if (data) {
-          commit('loginUser', { user: data.user, token });
+          commit('loginUser', { user: data.user, token }, { root: true });
         }
       } catch (e) {
         // fall off silently
@@ -63,12 +42,12 @@ export default {
     async signinWithGoogle({ commit }, payload) {
       const res = await api.auth.signinWithGoogle(payload);
 
-      commit('loginUser', res.data.data.signinWithGoogle);
+      commit('loginUser', res.data.data.signinWithGoogle, { root: true });
     },
     async signinWithFacebook({ commit }, payload) {
       const res = await api.auth.signinWithFacebook(payload);
 
-      commit('loginUser', res.data.data.signinWithFacebook);
+      commit('loginUser', res.data.data.signinWithFacebook, { root: true });
     },
     async authWithTwitter() {
       const res = await api.auth.authWithTwitter();
@@ -78,7 +57,7 @@ export default {
     async signinWithTwitter({ commit }, payload) {
       const res = await api.auth.signinWithTwitter(payload);
 
-      commit('loginUser', res.data.data.signinWithTwitter);
+      commit('loginUser', res.data.data.signinWithTwitter, { root: true });
     },
     async authWithGithub() {
       const res = await api.auth.authWithGithub();
@@ -92,21 +71,13 @@ export default {
       sessionStorage.removeItem('githubState');
       const res = await api.auth.signinWithGithub(payload.code);
 
-      commit('loginUser', res.data.data.signinWithGithub);
+      commit('loginUser', res.data.data.signinWithGithub, { root: true });
     },
     setAuthError({ commit }, payload) {
       commit('setAuthError', payload);
     },
-    logout({ commit }) {
-      commit('logoutUser');
-    },
-  },
-  getters: {
-    username(state) {
-      return username(state.user);
-    },
-    initials(state, getters) {
-      return initials(getters.username);
+    async logout({ commit }) {
+      commit('logoutUser', null, { root: true });
     },
   },
 };

@@ -5,5 +5,9 @@
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 250ms ease-in-out;
+  transition: opacity 300ms ease-in-out;
+}
+
+.fade-move {
+  transition: opacity 300ms ease, transform 200ms ease;
 }

@@ -59,8 +59,8 @@ import { useMeta } from 'vue-meta';
 export default {
   name: 'Home',
   methods: {
-    submit(values) {
-      console.log(values);
+    submit() {
+      // console.log(values);
     },
   },
   setup() {

@@ -24,7 +24,7 @@ header.header
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import SvgLogoDevChallenges from '@/components/svg/LogoDevChallenges.vue';
 
 export default {
@@ -38,14 +38,12 @@ export default {
     };
   },
   computed: {
-    ...mapState('auth', ['user']),
-    ...mapGetters('auth', ['username']),
+    ...mapState(['user']),
+    ...mapGetters(['username']),
   },
   methods: {
-    ...mapActions('auth', ['logout']),
-    async logoutUser() {
-      await this.$router.push({ name: 'login' });
-      this.logout();
+    logoutUser() {
+      this.$logoutUser();
     },
   },
 };

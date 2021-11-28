@@ -9,8 +9,6 @@ section.auth
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-
 import useBodyClass from '@/hooks/useBodyClass';
 
 import SvgLogoDevChallenges from '@/components/svg/LogoDevChallenges.vue';
@@ -42,8 +40,8 @@ export default {
   },
   computed: {
     formComponent() {
-      if (this.action === 'login') return LoginForm;
-      return SignupForm;
+      if (this.action === 'signup') return SignupForm;
+      return LoginForm;
     },
   },
   mounted() {
@@ -55,7 +53,6 @@ export default {
     this.removeFacebookScript();
   },
   methods: {
-    ...mapActions(['addBodyClass', 'removeBodyClass']),
     addGoogleScript() {
       this.googleScript = document.createElement('script');
       this.googleScript.src = 'https://accounts.google.com/gsi/client';

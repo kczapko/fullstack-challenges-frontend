@@ -109,7 +109,7 @@ router.beforeEach(async (to) => {
 
 router.beforeEach((to) => {
   if (!to.meta.requireAuth) return true;
-  if (!store.state.auth.loggedIn) return { name: 'login' };
+  if (!store.state.loggedIn) return { name: 'login' };
   return true;
 });
 

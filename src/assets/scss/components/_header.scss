@@ -6,6 +6,8 @@ $breakpoint-medium: 35rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  z-index: 10;
 
   &__logo {
     .logo {
@@ -117,6 +119,6 @@ $breakpoint-medium: 35rem;
 
 @media screen and (min-width: $breakpoint-large) {
   .header {
-    padding: 0 8rem 4rem;
+    padding: 0 6.2rem 4rem;
   }
 }
