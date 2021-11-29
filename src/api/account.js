@@ -45,4 +45,29 @@ const myData = async () => {
   return axios.post('', graphqlQuery);
 };
 
-export { confirmEmail, resendConfirmEmail, myData };
+const changeMyData = async ({ name, bio, phone }) => {
+  const graphqlQuery = {
+    query: `
+      mutation changeMyData($name: String, $bio: String, $phone: String) {
+        changeMyData(userDataInput: {name: $name, bio: $bio, phone: $phone}) {
+          name
+        }
+      }
+    `,
+    variables: {
+      name,
+      bio,
+      phone,
+    },
+  };
+
+  return axios.post('', graphqlQuery);
+};
+
+// prettier-ignore
+export {
+  confirmEmail,
+  resendConfirmEmail,
+  myData,
+  changeMyData,
+};

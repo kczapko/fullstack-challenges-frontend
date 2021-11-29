@@ -11,13 +11,14 @@ base-button.home__back(
       .profile__header-left
         h2 Change Info
         p.font-500.text-gray Changes will be reflected to every services
-    .profile__body(v-if="!loading")
+    .profile__body(v-if="userData.email")
       .profile__body-row.profile__body-row--photo
         base-user-image(:user="userData")
         base-button(variant="link" color="primary") Change photo
       .profile__body-row.profile__body-row--form
         .form.form--profile
-          vee-form.form__form(:validation-schema="userSchema" :initial-values="userData" @submit="submit")
+          p.form__error(v-if="userError") {{ userError }}
+          vee-form.form__form(:validation-schema="userSchema" :initial-values="userData" @submit="updateMyData" ref="userDataForm")
             .form__row
               base-input(name="name" placeholder="Enter your name...")
             .form__row
@@ -43,19 +44,19 @@ export default {
   name: 'UserProfileEdit',
   setup() {
     const userSchema = {
-      name: '',
-      bio: '',
-      phone: '',
+      name: 'alpha_spaces|max:200',
+      bio: 'max:1000',
+      phone: 'max:50',
     };
 
     const emailSchema = {
-      email: '',
+      email: 'required|email|max:100',
     };
 
     const passwordSchema = {
-      currentPassword: '',
-      password: '',
-      confirmPassword: '',
+      currentPassword: 'required|max:32',
+      password: 'required|alpha_num|min:8|max:32',
+      confirmPassword: 'passwords_mismatch:@password',
     };
 
     return {
@@ -67,26 +68,50 @@ export default {
   data() {
     return {
       userData: {},
+      userError: '',
       submitting: false,
     };
   },
   computed: {
     ...mapState(['loading']),
   },
-  async created() {
-    this.setLoading(true);
-    try {
-      const res = await api.account.myData();
-      this.userData = res.data.data.me;
-    } catch (e) {
-      this.addMessage(new Message('There is a problem with getting your data.', 'error'));
-    }
-    this.setLoading(false);
+  created() {
+    this.getMyData();
   },
   methods: {
     ...mapActions(['setLoading', 'addMessage']),
-    submit(values) {
-      console.log(values);
+    ...mapActions('account', ['updateUserData']),
+    async getMyData() {
+      this.setLoading(true);
+      try {
+        const res = await api.account.myData();
+        this.userData = res.data.data.me;
+      } catch (e) {
+        this.addMessage(new Message('There is a problem with getting your data.', 'error'));
+      }
+      this.setLoading(false);
+    },
+    async updateMyData(values) {
+      this.userError = '';
+      this.submitting = true;
+      this.setLoading(true);
+
+      try {
+        await this.updateUserData(values);
+
+        this.addMessage(new Message('Your data has been updated.'));
+        await this.getMyData();
+        this.$refs.userDataForm.setValues(this.userData);
+      } catch (e) {
+        // prettier-ignore
+        this.userError = e.response?.data?.errors[0]?.message
+          || e.response?.message
+          || e.message
+          || 'Network problems';
+      }
+
+      this.submitting = false;
+      this.setLoading(false);
     },
   },
 };

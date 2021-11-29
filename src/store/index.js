@@ -58,6 +58,12 @@ export default createStore({
       delete axios.defaults.headers.common.Authorization;
       axios.interceptors.response.eject(errorInterceptor);
     },
+    updateUser(state, payload) {
+      const fileds = ['email', 'name', 'photo'];
+      fileds.forEach((field) => {
+        if (Object.keys(payload).includes(field)) state.user[field] = payload[field];
+      });
+    },
     confirmEmail(state) {
       state.user.emailConfirmed = true;
     },

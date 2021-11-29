@@ -24,15 +24,15 @@ $breakpoint-large: 32em; //512px
   }
 
   .form {
+    line-height: normal;
+
     &__header {
       font-size: 1.8rem;
-      line-height: 1.35;
       margin: 0 0 1.4rem;
     }
 
     &__text {
       margin: 0;
-      line-height: 1.35;
 
       &.text-gray {
         font-size: 1.4rem;
@@ -44,7 +44,6 @@ $breakpoint-large: 32em; //512px
       background: var(--color-danger);
       border-radius: 0.4rem;
       font-size: 1.4rem;
-      line-height: 1.35;
       padding: 1rem;
       margin: 3rem 0 0;
     }

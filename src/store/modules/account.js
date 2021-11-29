@@ -15,5 +15,10 @@ export default {
 
       return res.data.data.confirmEmail;
     },
+    async updateUserData({ commit }, payload) {
+      const res = await api.account.changeMyData(payload);
+
+      commit('updateUser', res.data.data.changeMyData, { root: true });
+    },
   },
 };
