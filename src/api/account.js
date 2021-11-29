@@ -64,10 +64,28 @@ const changeMyData = async ({ name, bio, phone }) => {
   return axios.post('', graphqlQuery);
 };
 
+const changeMyPassword = async ({ currentPassword, password, passwordConfirm }) => {
+  const graphqlQuery = {
+    query: `
+      mutation changeMyPassword($currentPassword: String!, $password: String!, $passwordConfirm: String!) {
+        changeMyPassword(changeMyPasswordInput: {currentPassword: $currentPassword, password: $password, passwordConfirm: $passwordConfirm})
+      }
+    `,
+    variables: {
+      currentPassword,
+      password,
+      passwordConfirm,
+    },
+  };
+
+  return axios.post('', graphqlQuery);
+};
+
 // prettier-ignore
 export {
   confirmEmail,
   resendConfirmEmail,
   myData,
   changeMyData,
+  changeMyPassword,
 };

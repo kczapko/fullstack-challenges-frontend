@@ -1,12 +1,12 @@
 <template lang="pug">
 teleport(to="#modals")
-  .base-modal(:class="{ 'base-modal--opened': isOpen }")
+  .base-modal(:class="{ 'base-modal--opened': isOpen }" v-bind="$attrs")
     .base-modal__background(@click="close")
     .base-modal__modal
       base-button.base-modal__close(circle icon="close" variant="link" @click="close")
       .base-modal__header(v-if="hasHeader")
         slot(name="header")
-          h3.base-modal__header-title {{ title }}
+          h3.base-modal__header-title {{ modalTitle }}
       .base-modal__body
         slot
       .base-modal__footer(v-if="hasFooter")
@@ -17,8 +17,9 @@ teleport(to="#modals")
 <script>
 export default {
   name: 'BaseModal',
+  inheritAttrs: false,
   props: {
-    title: String,
+    modalTitle: String,
     footerButton: String,
     closed: {
       type: Boolean,
@@ -33,7 +34,7 @@ export default {
   },
   computed: {
     hasHeader() {
-      return Boolean(this.$props.title || this.$slots.header);
+      return Boolean(this.$props.modalTitle || this.$slots.header);
     },
     hasFooter() {
       return Boolean(this.$props.footerButton || this.$slots.footer);

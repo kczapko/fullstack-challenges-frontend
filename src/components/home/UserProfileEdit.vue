@@ -21,11 +21,11 @@ base-button.home__back(
           p.form__error(v-if="userError") {{ userError }}
           vee-form.form__form(:validation-schema="userSchema" :initial-values="userData" @submit="updateMyData" ref="userDataForm")
             .form__row
-              base-input(name="name" placeholder="Enter your name...")
+              base-input(name="name" label="Name" placeholder="Enter your name...")
             .form__row
-              base-input(name="bio" tag="textarea" placeholder="Enter your bio")
+              base-input(name="bio" label="Bio" tag="textarea" placeholder="Enter your bio")
             .form__row
-              base-input(name="phone" placeholder="Enter your phone...")
+              base-input(name="phone" label="Phone" placeholder="Enter your phone...")
             .form__row.form__row--submit
               base-button(type="submit" color="primary" :disabled="submitting") Save
       .profile__body-row.profile__body-row--email
@@ -33,7 +33,18 @@ base-button.home__back(
         base-button(variant="link" color="primary") Change email
       .profile__body-row.profile__body-row--password
         base-button(variant="link" color="primary" @click="openChangePasswordModal") Change password
-        base-modal(title="Modal Title" footer-button="OK!" closed ref="changePasswordModal")
+        base-modal.profile__modal(modal-title="Change password" closed ref="changePasswordModal")
+          .form.form--change-password
+            p.form__error(v-if="changePasswordError") {{ changePasswordError }}
+            vee-form.form__form(:validation-schema="passwordSchema" @submit="changeMyPassword" ref="changePasswordForm")
+              .form__row
+                base-input(name="currentPassword" type="password" label="Current Password" placeholder="Enter your current password...")
+              .form__row
+                base-input(name="password" type="password" label="New Password" placeholder="Enter new password...")
+              .form__row
+                base-input(name="passwordConfirm" type="password" label="Confirm New Password" placeholder="Confirm new password...")
+              .form__row.form__row--submit
+                base-button(type="submit" color="primary" :disabled="submitting") Change password
       .profile__body-row.profile__body-row--delete
         base-button(variant="link" color="danger") Delete account
 </template>
@@ -60,7 +71,7 @@ export default {
     const passwordSchema = {
       currentPassword: 'required|max:32',
       password: 'required|alpha_num|min:8|max:32',
-      confirmPassword: 'passwords_mismatch:@password',
+      passwordConfirm: 'passwords_mismatch:@password',
     };
 
     return {
@@ -73,6 +84,7 @@ export default {
     return {
       userData: {},
       userError: '',
+      changePasswordError: '',
       submitting: false,
     };
   },
@@ -119,6 +131,32 @@ export default {
     },
     openChangePasswordModal() {
       this.$refs.changePasswordModal.open();
+    },
+    async changeMyPassword(values) {
+      this.changePasswordError = '';
+      this.submitting = true;
+      this.setLoading(true);
+
+      try {
+        const res = await api.account.changeMyPassword(values);
+
+        if (res.data.data.changeMyPassword) {
+          this.addMessage(new Message('Password changed.'));
+          this.$refs.changePasswordForm.resetForm();
+          this.$refs.changePasswordModal.close();
+        } else {
+          this.addMessage(new Message('Unexpected error while setting new password.', 'error'));
+        }
+      } catch (e) {
+        // prettier-ignore
+        this.changePasswordError = e.response?.data?.errors[0]?.message
+          || e.response?.message
+          || e.message
+          || 'Network problems';
+      }
+
+      this.submitting = false;
+      this.setLoading(false);
     },
   },
 };

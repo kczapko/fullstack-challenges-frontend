@@ -82,3 +82,19 @@
     }
   }
 }
+
+.dark {
+  .base-modal {
+    &__modal {
+      background-color: var(--color-dark-gray);
+    }
+
+    &__header {
+      border-color: var(--color-dark-gray2);
+    }
+
+    &__footer {
+      border-color: var(--color-dark-gray2);
+    }
+  }
+}
