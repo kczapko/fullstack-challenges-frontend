@@ -14,7 +14,8 @@ base-button.home__back(
     .profile__body(v-if="userData.email")
       .profile__body-row.profile__body-row--photo
         base-user-image(:user="userData")
-        base-button(variant="link" color="primary") Change photo
+        base-button(variant="link" color="primary" size="small") Change photo
+        base-button(variant="link" color="danger" size="small") Delete photo
       .profile__body-row.profile__body-row--form
         .form.form--profile
           p.form__error(v-if="userError") {{ userError }}
@@ -31,7 +32,10 @@ base-button.home__back(
         base-input(name="email" :value="userData.email" disabled)
         base-button(variant="link" color="primary") Change email
       .profile__body-row.profile__body-row--password
-        base-button(variant="link" color="primary") Change password
+        base-button(variant="link" color="primary" @click="openChangePasswordModal") Change password
+        base-modal(title="Modal Title" footer-button="OK!" closed ref="changePasswordModal")
+      .profile__body-row.profile__body-row--delete
+        base-button(variant="link" color="danger") Delete account
 </template>
 
 <script>
@@ -44,7 +48,7 @@ export default {
   name: 'UserProfileEdit',
   setup() {
     const userSchema = {
-      name: 'alpha_spaces|max:200',
+      name: 'alpha_spaces|max:100',
       bio: 'max:1000',
       phone: 'max:50',
     };
@@ -112,6 +116,9 @@ export default {
 
       this.submitting = false;
       this.setLoading(false);
+    },
+    openChangePasswordModal() {
+      this.$refs.changePasswordModal.open();
     },
   },
 };

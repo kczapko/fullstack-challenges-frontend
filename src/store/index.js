@@ -60,8 +60,9 @@ export default createStore({
     },
     updateUser(state, payload) {
       const fileds = ['email', 'name', 'photo'];
+      const payloadKeys = Object.keys(payload);
       fileds.forEach((field) => {
-        if (Object.keys(payload).includes(field)) state.user[field] = payload[field];
+        if (payloadKeys.includes(field)) state.user[field] = payload[field];
       });
     },
     confirmEmail(state) {
