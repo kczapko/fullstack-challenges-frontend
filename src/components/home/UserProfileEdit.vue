@@ -29,20 +29,35 @@ base-button.home__back(
             .form__row.form__row--submit
               base-button(type="submit" color="primary" :disabled="submitting") Save
       .profile__body-row.profile__body-row--email
-        base-input(name="email" :value="userData.email" disabled)
-        base-button(variant="link" color="primary") Change email
+        base-input(name="email" label="E-mail" :value="userData.email" disabled)
+        base-button(variant="link" color="primary"  @click="openModal('changeEmailModal')") Change email
+        base-modal.profile__modal(modal-title="Change email" closed ref="changeEmailModal")
+          .form.form--change-email
+            p.form__error(v-if="changeEmailError") {{ changeEmailError }}
+            vee-form.form__form(:validation-schema="emailSchema" @submit="changeMyEmail" ref="changeEmailForm")
+              .form__row
+                base-input(name="email" type="email" icon="email" label="E-mail" placeholder="New E-mail")
+              .form__row.form__row--submit
+                base-button(type="submit" color="primary" :disabled="submitting") Change e-mail
+            vee-form.form__form(:validation-schema="tokenSchema" @submit="confirmChangeMyEmail" ref="confirmChangeEmailForm")
+              .form__row
+                base-input(name="oldEmailToken" icon="tag" label="Token from current e-mail" placeholder="Current E-mail Token")
+              .form__row
+                base-input(name="newEmailtoken" icon="tag" label="Token from new e-mail" placeholder="New E-mail Token")
+              .form__row.form__row--submit
+                base-button(type="submit" color="primary" :disabled="submitting") Confirm change e-mail
       .profile__body-row.profile__body-row--password
-        base-button(variant="link" color="primary" @click="openChangePasswordModal") Change password
+        base-button(variant="link" color="primary" @click="openModal('changePasswordModal')") Change password
         base-modal.profile__modal(modal-title="Change password" closed ref="changePasswordModal")
           .form.form--change-password
             p.form__error(v-if="changePasswordError") {{ changePasswordError }}
             vee-form.form__form(:validation-schema="passwordSchema" @submit="changeMyPassword" ref="changePasswordForm")
               .form__row
-                base-input(name="currentPassword" type="password" label="Current Password" placeholder="Enter your current password...")
+                base-input(name="currentPassword" type="password" icon="lock" label="Current Password" placeholder="Enter your current password...")
               .form__row
-                base-input(name="password" type="password" label="New Password" placeholder="Enter new password...")
+                base-input(name="password" type="password" icon="lock" label="New Password" placeholder="Enter new password...")
               .form__row
-                base-input(name="passwordConfirm" type="password" label="Confirm New Password" placeholder="Confirm new password...")
+                base-input(name="passwordConfirm" type="password" icon="lock" label="Confirm New Password" placeholder="Confirm new password...")
               .form__row.form__row--submit
                 base-button(type="submit" color="primary" :disabled="submitting") Change password
       .profile__body-row.profile__body-row--delete
@@ -74,10 +89,16 @@ export default {
       passwordConfirm: 'passwords_mismatch:@password',
     };
 
+    const tokenSchema = {
+      oldEmailToken: 'required|min:64|max:64',
+      newEmailtoken: 'required|min:64|max:64',
+    };
+
     return {
       userSchema,
       emailSchema,
       passwordSchema,
+      tokenSchema,
     };
   },
   data() {
@@ -85,6 +106,7 @@ export default {
       userData: {},
       userError: '',
       changePasswordError: '',
+      changeEmailError: '',
       submitting: false,
     };
   },
@@ -129,8 +151,8 @@ export default {
       this.submitting = false;
       this.setLoading(false);
     },
-    openChangePasswordModal() {
-      this.$refs.changePasswordModal.open();
+    openModal(name) {
+      this.$refs[name].open();
     },
     async changeMyPassword(values) {
       this.changePasswordError = '';
@@ -160,6 +182,7 @@ export default {
       this.submitting = false;
       this.setLoading(false);
     },
+    changeMyEmail() {},
   },
 };
 </script>

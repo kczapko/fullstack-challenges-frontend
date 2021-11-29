@@ -43,8 +43,13 @@ export default {
   watch: {
     isOpen: {
       handler(val) {
-        if (val) this.$emit('opened');
-        else this.$emit('closed');
+        if (val) {
+          this.$emit('opened');
+          document.getElementById('modals').classList.add('modal-open');
+        } else {
+          this.$emit('closed');
+          document.getElementById('modals').classList.remove('modal-open');
+        }
       },
       flush: 'post',
     },

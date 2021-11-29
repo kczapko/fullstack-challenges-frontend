@@ -113,6 +113,11 @@
 
     &--email {
       flex-wrap: wrap;
+      align-items: flex-end;
+
+      label {
+        font-size: 1.4rem;
+      }
 
       .base-input {
         width: 100%;

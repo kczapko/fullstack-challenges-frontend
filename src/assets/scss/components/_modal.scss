@@ -1,10 +1,13 @@
 #modals {
   position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
+  inset: 0;
   z-index: 15;
-  height: 0;
+  pointer-events: none;
+  overflow-y: auto;
+
+  &.modal-open {
+    pointer-events: all;
+  }
 }
 
 .base-modal {
@@ -12,9 +15,14 @@
   grid-template-areas: 'main';
   min-height: 100vh;
   place-items: center;
-  pointer-events: none;
   opacity: 0;
   transition: opacity 200ms linear;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 0;
+  overflow: hidden;
 
   &__background {
     grid-area: main;
@@ -72,6 +80,7 @@
     opacity: 1;
     pointer-events: all;
     transition: opacity 0ms linear;
+    height: auto;
 
     .base-modal__background {
       opacity: 1;
