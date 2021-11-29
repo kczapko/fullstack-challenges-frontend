@@ -144,6 +144,8 @@ export default {
           this.addMessage(new Message('Password changed.'));
           this.$refs.changePasswordForm.resetForm();
           this.$refs.changePasswordModal.close();
+          this.$logoutUser();
+          this.addMessage(new Message('Please login with your new password.'));
         } else {
           this.addMessage(new Message('Unexpected error while setting new password.', 'error'));
         }
