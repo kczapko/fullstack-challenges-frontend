@@ -39,9 +39,8 @@ export default {
   },
   methods: {
     ...mapActions('account', ['confirmEmail']),
-    ...mapActions(['setLoading', 'addMessage']),
+    ...mapActions(['addMessage']),
     async submit(values) {
-      this.setLoading(true);
       this.submitting = true;
       this.error = '';
 
@@ -59,10 +58,8 @@ export default {
       }
 
       this.submitting = false;
-      this.setLoading(false);
     },
     async requestNewToken() {
-      this.setLoading(true);
       this.error = '';
 
       try {
@@ -71,8 +68,6 @@ export default {
       } catch (e) {
         this.error = 'Unexpected problem during e-mail resending.';
       }
-
-      this.setLoading(false);
     },
   },
 };

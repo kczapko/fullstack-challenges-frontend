@@ -46,19 +46,16 @@ export default {
       'authWithTwitter',
       'authWithGithub',
     ]),
-    ...mapActions(['setLoading']),
     initializeGoogleButton() {
       if (!window.google) return setTimeout(this.initializeGoogleButton, 100);
 
       const handleCredentialResponse = async (response) => {
-        this.setLoading(true);
         try {
           await this.signinWithGoogle(response.credential);
           this.$router.push({ name: 'dashboard' });
         } catch (e) {
           this.$emit('auth-error', e);
         }
-        this.setLoading(false);
       };
 
       window.google.accounts.id.initialize({
@@ -86,7 +83,6 @@ export default {
       window.FB.login(
         async (response) => {
           if (response.status === 'connected' && response.authResponse?.accessToken) {
-            this.setLoading(true);
             try {
               await this.signinWithFacebook({
                 token: response.authResponse.accessToken,
@@ -96,7 +92,6 @@ export default {
             } catch (e) {
               this.$emit('auth-error', e);
             }
-            this.setLoading(false);
           } else {
             this.$emit('auth-error', new Error('Facebook response error.'));
           }
@@ -105,22 +100,18 @@ export default {
       );
     },
     async handleTwitterLogin() {
-      this.setLoading(true);
       try {
         await this.authWithTwitter();
       } catch (e) {
         this.$emit('auth-error', e);
       }
-      this.setLoading(false);
     },
     async handleGithubLogin() {
-      this.setLoading(true);
       try {
         await this.authWithGithub();
       } catch (e) {
         this.$emit('auth-error', e);
       }
-      this.setLoading(false);
     },
   },
 };

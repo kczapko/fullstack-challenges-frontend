@@ -11,7 +11,7 @@
       .profile__header-right
         base-button(tag="router-link" :to="{ name: 'profile-edit' }") Edit
     .profile__body
-      dl.profile__details(v-if="!loading")
+      dl.profile__details(v-if="userData.email")
         dt Photo
         dd
           base-user-image(:user="userData")
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 
 import api from '@/api';
 import Message from '@/utils/Message';
@@ -42,21 +42,16 @@ export default {
       userData: {},
     };
   },
-  computed: {
-    ...mapState(['loading']),
-  },
   async created() {
-    this.setLoading(true);
     try {
       const res = await api.account.myData();
       this.userData = res.data.data.me;
     } catch (e) {
       this.addMessage(new Message('There is a problem with getting your data.', 'error'));
     }
-    this.setLoading(false);
   },
   methods: {
-    ...mapActions(['setLoading', 'addMessage']),
+    ...mapActions(['addMessage']),
   },
 };
 </script>

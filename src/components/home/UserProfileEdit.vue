@@ -65,7 +65,7 @@ base-button.home__back(
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 
 import api from '@/api';
 import Message from '@/utils/Message';
@@ -110,29 +110,23 @@ export default {
       submitting: false,
     };
   },
-  computed: {
-    ...mapState(['loading']),
-  },
   created() {
     this.getMyData();
   },
   methods: {
-    ...mapActions(['setLoading', 'addMessage']),
+    ...mapActions(['addMessage']),
     ...mapActions('account', ['updateUserData']),
     async getMyData() {
-      this.setLoading(true);
       try {
         const res = await api.account.myData();
         this.userData = res.data.data.me;
       } catch (e) {
         this.addMessage(new Message('There is a problem with getting your data.', 'error'));
       }
-      this.setLoading(false);
     },
     async updateMyData(values) {
       this.userError = '';
       this.submitting = true;
-      this.setLoading(true);
 
       try {
         await this.updateUserData(values);
@@ -149,7 +143,6 @@ export default {
       }
 
       this.submitting = false;
-      this.setLoading(false);
     },
     openModal(name) {
       this.$refs[name].open();
@@ -157,7 +150,6 @@ export default {
     async changeMyPassword(values) {
       this.changePasswordError = '';
       this.submitting = true;
-      this.setLoading(true);
 
       try {
         const res = await api.account.changeMyPassword(values);
@@ -180,7 +172,6 @@ export default {
       }
 
       this.submitting = false;
-      this.setLoading(false);
     },
     changeMyEmail() {},
     confirmChangeMyEmail() {},

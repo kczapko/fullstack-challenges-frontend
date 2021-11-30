@@ -47,11 +47,10 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['setLoading', 'addMessage']),
+    ...mapActions(['addMessage']),
     async submit(values) {
       this.error = '';
       this.submitting = true;
-      this.setLoading(true);
 
       try {
         const res = await api.auth.changePassword(values);
@@ -71,7 +70,6 @@ export default {
       }
 
       this.submitting = false;
-      this.setLoading(false);
     },
   },
 };
