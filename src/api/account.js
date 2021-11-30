@@ -81,11 +81,26 @@ const changeMyPassword = async ({ currentPassword, password, passwordConfirm }) 
   return axios.post('', graphqlQuery);
 };
 
-// prettier-ignore
+const deleteMyAccount = async ({ password }) => {
+  const graphqlQuery = {
+    query: `
+      mutation deleteMyAccount( $password: String!) {
+        deleteMyAccount(password: $password)
+      }
+    `,
+    variables: {
+      password,
+    },
+  };
+
+  return axios.post('', graphqlQuery);
+};
+
 export {
   confirmEmail,
   resendConfirmEmail,
   myData,
   changeMyData,
   changeMyPassword,
+  deleteMyAccount,
 };

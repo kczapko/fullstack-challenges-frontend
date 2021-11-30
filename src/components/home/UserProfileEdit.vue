@@ -26,7 +26,8 @@ base-button.home__back(
         base-button(variant="link" color="primary" @click="openModal('changePasswordModal')") Change password
         change-password-modal.profile__modal(ref="changePasswordModal")
       .profile__body-row.profile__body-row--delete
-        base-button(variant="link" color="danger") Delete account
+        base-button(variant="link" color="danger" @click="openModal('deleteAccountModal')") Delete account
+        delete-account-modal.profile__modal(ref="deleteAccountModal")
 </template>
 
 <script>
@@ -38,6 +39,7 @@ import Message from '@/utils/Message';
 import ChangeUserDataForm from '@/components/home/ChangeUserDataForm.vue';
 import ChangeEmailModal from '@/components/home/ChangeEmailModal.vue';
 import ChangePasswordModal from '@/components/home/ChangePasswordModal.vue';
+import DeleteAccountModal from '@/components/home/DeleteAccountModal.vue';
 
 export default {
   name: 'UserProfileEdit',
@@ -45,6 +47,7 @@ export default {
     ChangeUserDataForm,
     ChangeEmailModal,
     ChangePasswordModal,
+    DeleteAccountModal,
   },
   data() {
     return {
