@@ -8,7 +8,7 @@ teleport(to="#modals")
         slot(name="header")
           h3.base-modal__header-title {{ modalTitle }}
       .base-modal__body
-        slot
+        slot(:isOpen="isOpen")
       .base-modal__footer(v-if="hasFooter")
         slot(name="footer")
           base-button.base-modal__footer-button(@click="close" color="primary") {{ footerButton }}

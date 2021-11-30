@@ -21,7 +21,7 @@ base-button.home__back(
       .profile__body-row.profile__body-row--email
         base-input(name="email" label="E-mail" :value="userData.email" disabled)
         base-button(variant="link" color="primary"  @click="openModal('changeEmailModal')") Change e-mail
-        change-email-modal.profile__modal(ref="changeEmailModal")
+        change-email-modal.profile__modal(ref="changeEmailModal" :new-email="userData.newEmail" @userDataUpdated="getMyData")
       .profile__body-row.profile__body-row--password
         base-button(variant="link" color="primary" @click="openModal('changePasswordModal')") Change password
         change-password-modal.profile__modal(ref="changePasswordModal")

@@ -37,6 +37,7 @@ const myData = async () => {
           bio
           phone
           email
+          newEmail
         }
       }
     `,
@@ -81,6 +82,51 @@ const changeMyPassword = async ({ currentPassword, password, passwordConfirm }) 
   return axios.post('', graphqlQuery);
 };
 
+const changeMyEmail = async ({ email }) => {
+  const graphqlQuery = {
+    query: `
+      mutation changeMyEmail( $email: String!) {
+        changeMyEmail(email: $email)
+      }
+    `,
+    variables: {
+      email,
+    },
+  };
+
+  return axios.post('', graphqlQuery);
+};
+
+const cancelMyNewEmail = async () => {
+  const graphqlQuery = {
+    query: `
+      mutation cancelMyNewEmail {
+        cancelMyNewEmail
+      }
+    `,
+  };
+
+  return axios.post('', graphqlQuery);
+};
+
+const confirmMyNewEmail = async ({ currentEmailToken, newEmailtoken }) => {
+  const graphqlQuery = {
+    query: `
+      mutation confirmMyNewEmail($currentEmailToken: String!, $newEmailtoken: String!) {
+        confirmMyNewEmail(currentEmailToken: $currentEmailToken, newEmailtoken: $newEmailtoken) {
+          email
+        }
+      }
+    `,
+    variables: {
+      currentEmailToken,
+      newEmailtoken,
+    },
+  };
+
+  return axios.post('', graphqlQuery);
+};
+
 const deleteMyAccount = async ({ password }) => {
   const graphqlQuery = {
     query: `
@@ -102,5 +148,8 @@ export {
   myData,
   changeMyData,
   changeMyPassword,
+  changeMyEmail,
+  cancelMyNewEmail,
+  confirmMyNewEmail,
   deleteMyAccount,
 };

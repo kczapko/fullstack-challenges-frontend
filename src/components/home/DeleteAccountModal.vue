@@ -2,8 +2,8 @@
 base-modal.base-modal--delete-account(modal-title="Delete account" ref="modal")
   .form.form--delete-account
     .form__head
-      p.form__text.font-700 Please confirm account deletion!
-      p.form__text All your info and data from all services will be deleted.
+      p.form__text.font-700.text-danger Please confirm account deletion!
+      p.form__text.text-danger All your info and data from all services will be deleted.
     p.form__error(v-if="error") {{ error }}
     vee-form.form__form(:validation-schema="schema" @submit="submit")
       .form__row
