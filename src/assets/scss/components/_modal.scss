@@ -6,7 +6,7 @@
   overflow-y: auto;
 
   &.modal-open {
-    pointer-events: all;
+    pointer-events: auto;
   }
 }
 
@@ -78,8 +78,6 @@
 
   &--opened {
     opacity: 1;
-    pointer-events: all;
-    transition: opacity 0ms linear;
     height: auto;
 
     .base-modal__background {

@@ -2,11 +2,11 @@
 metainfo
   template(v-slot:title="{ content }") {{ content ? `${content} - Fullstack challenge` : `Fullstack challenge` }}
 base-message
-router-view(:style="{ 'pointer-events': loading ? 'none' : '' }")
+router-view
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 import useAppMeta from '@/hooks/useAppMeta';
 
@@ -20,9 +20,12 @@ export default {
   },
   watch: {
     loading(val) {
-      if (val) document.body.style.cursor = 'wait';
-      else document.body.style.cursor = '';
+      if (val) this.addBodyClass('loading');
+      else this.removeBodyClass('loading');
     },
+  },
+  methods: {
+    ...mapActions(['addBodyClass', 'removeBodyClass']),
   },
 };
 </script>

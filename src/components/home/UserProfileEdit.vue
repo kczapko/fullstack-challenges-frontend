@@ -30,8 +30,8 @@ base-button.home__back(
               base-button(type="submit" color="primary" :disabled="submitting") Save
       .profile__body-row.profile__body-row--email
         base-input(name="email" label="E-mail" :value="userData.email" disabled)
-        base-button(variant="link" color="primary"  @click="openModal('changeEmailModal')") Change email
-        base-modal.profile__modal(modal-title="Change email" closed ref="changeEmailModal")
+        base-button(variant="link" color="primary"  @click="openModal('changeEmailModal')") Change e-mail
+        base-modal.profile__modal(modal-title="Change e-mail" closed ref="changeEmailModal")
           .form.form--change-email
             p.form__error(v-if="changeEmailError") {{ changeEmailError }}
             vee-form.form__form(:validation-schema="emailSchema" @submit="changeMyEmail" ref="changeEmailForm")
@@ -183,6 +183,7 @@ export default {
       this.setLoading(false);
     },
     changeMyEmail() {},
+    confirmChangeMyEmail() {},
   },
 };
 </script>
