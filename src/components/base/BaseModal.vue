@@ -21,7 +21,7 @@ export default {
   props: {
     modalTitle: String,
     footerButton: String,
-    closed: {
+    opened: {
       type: Boolean,
       default: false,
     },
@@ -55,7 +55,7 @@ export default {
     },
   },
   created() {
-    this.isOpen = !this.$props.closed;
+    this.isOpen = this.$props.opened;
   },
   methods: {
     open() {

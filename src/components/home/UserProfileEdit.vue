@@ -17,49 +17,14 @@ base-button.home__back(
         base-button(variant="link" color="primary" size="small") Change photo
         base-button(variant="link" color="danger" size="small") Delete photo
       .profile__body-row.profile__body-row--form
-        .form.form--profile
-          p.form__error(v-if="userError") {{ userError }}
-          vee-form.form__form(:validation-schema="userSchema" :initial-values="userData" @submit="updateMyData" ref="userDataForm")
-            .form__row
-              base-input(name="name" label="Name" placeholder="Enter your name...")
-            .form__row
-              base-input(name="bio" label="Bio" tag="textarea" placeholder="Enter your bio")
-            .form__row
-              base-input(name="phone" label="Phone" placeholder="Enter your phone...")
-            .form__row.form__row--submit
-              base-button(type="submit" color="primary" :disabled="submitting") Save
+        change-user-data-form.profile__form(:user-data="userData" @userDataUpdated="getMyData")
       .profile__body-row.profile__body-row--email
         base-input(name="email" label="E-mail" :value="userData.email" disabled)
         base-button(variant="link" color="primary"  @click="openModal('changeEmailModal')") Change e-mail
-        base-modal.profile__modal(modal-title="Change e-mail" closed ref="changeEmailModal")
-          .form.form--change-email
-            p.form__error(v-if="changeEmailError") {{ changeEmailError }}
-            vee-form.form__form(:validation-schema="emailSchema" @submit="changeMyEmail" ref="changeEmailForm")
-              .form__row
-                base-input(name="email" type="email" icon="email" label="E-mail" placeholder="New E-mail")
-              .form__row.form__row--submit
-                base-button(type="submit" color="primary" :disabled="submitting") Change e-mail
-            vee-form.form__form(:validation-schema="tokenSchema" @submit="confirmChangeMyEmail" ref="confirmChangeEmailForm")
-              .form__row
-                base-input(name="oldEmailToken" icon="tag" label="Token from current e-mail" placeholder="Current E-mail Token")
-              .form__row
-                base-input(name="newEmailtoken" icon="tag" label="Token from new e-mail" placeholder="New E-mail Token")
-              .form__row.form__row--submit
-                base-button(type="submit" color="primary" :disabled="submitting") Confirm change e-mail
+        change-email-modal.profile__modal(ref="changeEmailModal")
       .profile__body-row.profile__body-row--password
         base-button(variant="link" color="primary" @click="openModal('changePasswordModal')") Change password
-        base-modal.profile__modal(modal-title="Change password" closed ref="changePasswordModal")
-          .form.form--change-password
-            p.form__error(v-if="changePasswordError") {{ changePasswordError }}
-            vee-form.form__form(:validation-schema="passwordSchema" @submit="changeMyPassword" ref="changePasswordForm")
-              .form__row
-                base-input(name="currentPassword" type="password" icon="lock" label="Current Password" placeholder="Enter your current password...")
-              .form__row
-                base-input(name="password" type="password" icon="lock" label="New Password" placeholder="Enter new password...")
-              .form__row
-                base-input(name="passwordConfirm" type="password" icon="lock" label="Confirm New Password" placeholder="Confirm new password...")
-              .form__row.form__row--submit
-                base-button(type="submit" color="primary" :disabled="submitting") Change password
+        change-password-modal.profile__modal(ref="changePasswordModal")
       .profile__body-row.profile__body-row--delete
         base-button(variant="link" color="danger") Delete account
 </template>
@@ -70,44 +35,20 @@ import { mapActions } from 'vuex';
 import api from '@/api';
 import Message from '@/utils/Message';
 
+import ChangeUserDataForm from '@/components/home/ChangeUserDataForm.vue';
+import ChangeEmailModal from '@/components/home/ChangeEmailModal.vue';
+import ChangePasswordModal from '@/components/home/ChangePasswordModal.vue';
+
 export default {
   name: 'UserProfileEdit',
-  setup() {
-    const userSchema = {
-      name: 'alpha_spaces|max:100',
-      bio: 'max:1000',
-      phone: 'max:50',
-    };
-
-    const emailSchema = {
-      email: 'required|email|max:100',
-    };
-
-    const passwordSchema = {
-      currentPassword: 'required|max:32',
-      password: 'required|alpha_num|min:8|max:32',
-      passwordConfirm: 'passwords_mismatch:@password',
-    };
-
-    const tokenSchema = {
-      oldEmailToken: 'required|min:64|max:64',
-      newEmailtoken: 'required|min:64|max:64',
-    };
-
-    return {
-      userSchema,
-      emailSchema,
-      passwordSchema,
-      tokenSchema,
-    };
+  components: {
+    ChangeUserDataForm,
+    ChangeEmailModal,
+    ChangePasswordModal,
   },
   data() {
     return {
       userData: {},
-      userError: '',
-      changePasswordError: '',
-      changeEmailError: '',
-      submitting: false,
     };
   },
   created() {
@@ -115,7 +56,6 @@ export default {
   },
   methods: {
     ...mapActions(['addMessage']),
-    ...mapActions('account', ['updateUserData']),
     async getMyData() {
       try {
         const res = await api.account.myData();
@@ -124,57 +64,9 @@ export default {
         this.addMessage(new Message('There is a problem with getting your data.', 'error'));
       }
     },
-    async updateMyData(values) {
-      this.userError = '';
-      this.submitting = true;
-
-      try {
-        await this.updateUserData(values);
-
-        this.addMessage(new Message('Your data has been updated.'));
-        await this.getMyData();
-        this.$refs.userDataForm.setValues(this.userData);
-      } catch (e) {
-        // prettier-ignore
-        this.userError = e.response?.data?.errors[0]?.message
-          || e.response?.message
-          || e.message
-          || 'Network problems';
-      }
-
-      this.submitting = false;
-    },
     openModal(name) {
       this.$refs[name].open();
     },
-    async changeMyPassword(values) {
-      this.changePasswordError = '';
-      this.submitting = true;
-
-      try {
-        const res = await api.account.changeMyPassword(values);
-
-        if (res.data.data.changeMyPassword) {
-          this.addMessage(new Message('Password changed.'));
-          this.$refs.changePasswordForm.resetForm();
-          this.$refs.changePasswordModal.close();
-          this.$logoutUser();
-          this.addMessage(new Message('Please login with your new password.'));
-        } else {
-          this.addMessage(new Message('Unexpected error while setting new password.', 'error'));
-        }
-      } catch (e) {
-        // prettier-ignore
-        this.changePasswordError = e.response?.data?.errors[0]?.message
-          || e.response?.message
-          || e.message
-          || 'Network problems';
-      }
-
-      this.submitting = false;
-    },
-    changeMyEmail() {},
-    confirmChangeMyEmail() {},
   },
 };
 </script>
