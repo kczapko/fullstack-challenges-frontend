@@ -13,9 +13,11 @@ base-button.home__back(
         p.font-500.text-gray Changes will be reflected to every services
     .profile__body(v-if="userData.email")
       .profile__body-row.profile__body-row--photo
-        base-user-image(:user="userData")
-        base-button(variant="link" color="primary" size="small") Change photo
-        base-button(variant="link" color="danger" size="small") Delete photo
+        base-user-image(:user="userData" @click="openModal('changePhotoModal')")
+        base-button(variant="link" color="primary" size="small" @click="openModal('changePhotoModal')") {{ userData.photo ? 'Change' : 'Add' }} photo
+        base-button(v-if="userData.photo" variant="link" color="danger" size="small" @click="openModal('deletePhotoModal')") Delete photo
+        change-photo-modal.profile__modal(ref="changePhotoModal" :photo="userData.photo")
+        delete-photo-modal.profile__modal(ref="deletePhotoModal")
       .profile__body-row.profile__body-row--form
         change-user-data-form.profile__form(:user-data="userData" @userDataUpdated="getMyData")
       .profile__body-row.profile__body-row--email
@@ -40,6 +42,8 @@ import ChangeUserDataForm from '@/components/home/ChangeUserDataForm.vue';
 import ChangeEmailModal from '@/components/home/ChangeEmailModal.vue';
 import ChangePasswordModal from '@/components/home/ChangePasswordModal.vue';
 import DeleteAccountModal from '@/components/home/DeleteAccountModal.vue';
+import ChangePhotoModal from '@/components/home/ChangePhotoModal.vue';
+import DeletePhotoModal from '@/components/home/DeletePhotoModal.vue';
 
 export default {
   name: 'UserProfileEdit',
@@ -48,6 +52,8 @@ export default {
     ChangeEmailModal,
     ChangePasswordModal,
     DeleteAccountModal,
+    ChangePhotoModal,
+    DeletePhotoModal,
   },
   data() {
     return {

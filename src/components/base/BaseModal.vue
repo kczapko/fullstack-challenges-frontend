@@ -5,12 +5,12 @@ teleport(to="#modals")
     .base-modal__modal
       base-button.base-modal__close(circle icon="close" variant="link" @click="close")
       .base-modal__header(v-if="hasHeader")
-        slot(name="header")
+        slot(name="header" :header-text="modalTitle")
           h3.base-modal__header-title {{ modalTitle }}
-      .base-modal__body
+      .base-modal__body(v-if="hasBody")
         slot(:isOpen="isOpen")
       .base-modal__footer(v-if="hasFooter")
-        slot(name="footer")
+        slot(name="footer" :close="close" :button-text="footerButton")
           base-button.base-modal__footer-button(@click="close" color="primary") {{ footerButton }}
 </template>
 
@@ -35,6 +35,9 @@ export default {
   computed: {
     hasHeader() {
       return Boolean(this.$props.modalTitle || this.$slots.header);
+    },
+    hasBody() {
+      return Boolean(this.$slots.default);
     },
     hasFooter() {
       return Boolean(this.$props.footerButton || this.$slots.footer);

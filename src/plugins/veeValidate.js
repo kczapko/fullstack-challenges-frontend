@@ -9,6 +9,7 @@ import {
   alpha_num as alphaNum,
   email,
   confirmed,
+  url,
 } from '@vee-validate/rules';
 
 export default {
@@ -23,6 +24,7 @@ export default {
     defineRule('alpha_num', alphaNum);
     defineRule('email', email);
     defineRule('passwords_mismatch', confirmed);
+    defineRule('photoUrl', url);
 
     configure({
       // generateMessage: (ctx) => {
@@ -35,6 +37,8 @@ export default {
           alpha_num: `The field ${field} can contain only alpabetical characters and numbers.`,
           email: `${value} is not valid email.`,
           passwords_mismatch: "The passwords don't match.",
+          photoUrl:
+            'Not valid photo url. Only https:// protocol and .jpg, .png and .webp files are allowed.',
         };
 
         const message = messages[rule.name]
