@@ -1,7 +1,7 @@
 <template lang="pug">
 .form.form--change-user-data
   p.form__error(v-if="error") {{ error }}
-  vee-form.form__form(:validation-schema="schema" :initial-values="userData" @submit="submit" ref="form")
+  vee-form.form__form(:validation-schema="schema" :initial-values="userData" @submit="submit" ref="form" v-slot="{ meta }")
     .form__row
       base-input(name="name" label="Name" placeholder="Enter your name...")
     .form__row
@@ -9,7 +9,7 @@
     .form__row
       base-input(name="phone" label="Phone" placeholder="Enter your phone...")
     .form__row.form__row--submit
-      base-button(type="submit" color="primary" :disabled="submitting") Save
+      base-button(type="submit" color="primary" :disabled="submitting || !meta.dirty") Save
 </template>
 
 <script>

@@ -20,7 +20,7 @@
           span {{ userData.name }}
         dt Bio
         dd
-          span {{ userData.bio }}
+          span.text-pre {{ userData.bio }}
         dt Phone
         dd
           span {{ userData.phone }}
