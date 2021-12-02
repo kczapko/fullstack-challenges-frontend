@@ -1,12 +1,10 @@
 <template lang="pug">
 base-modal.base-modal--change-photo(:modal-title="`${photo ? 'Change' : 'Add'} my photo`" ref="modal")
   .form.form--change-image
-    .image-upload
-      input.image-upload__input(type="file" name="image" accept="image/jpg,image/jpeg,image/png,image/webp")
-      .image-upload__dropzone
-        span.image-upload__dropzone-text.text-gray Drag and Drop Image
-        span.image-upload__dropzone-text.text-gray Or
-        a.image-upload__dropzone-link(href="#") Browse files
+    .form__head
+      p.form__text Only .jpg, .png and .webp files are allowed. Maximum 1MB file size.
+    base-file-upload(url="/files/user-photo")
+    p.form__error(v-if="error") {{ error }}
     vee-form.form__form(:validation-schema="schema" @submit="submit" ref="form")
       .form__row
         base-input(name="imageUrl" type="url" icon="link" label="Or paste url to your photo" placeholder="Link to your photo")
@@ -24,7 +22,7 @@ export default {
   },
   setup() {
     const schema = {
-      imageUrl: { photoUrl: /https:\/\/.*(\.jpg|\.png|\.webp)$/ },
+      imageUrl: { photoUrl: /^(http|https):\/\/.*(\.jpg|\.png|\.webp)$/ },
     };
 
     return { schema };

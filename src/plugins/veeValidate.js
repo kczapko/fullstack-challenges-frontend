@@ -24,6 +24,7 @@ export default {
     defineRule('alpha_num', alphaNum);
     defineRule('email', email);
     defineRule('passwords_mismatch', confirmed);
+    defineRule('url', url);
     defineRule('photoUrl', url);
 
     configure({
@@ -37,8 +38,9 @@ export default {
           alpha_num: `The field ${field} can contain only alpabetical characters and numbers.`,
           email: `${value} is not valid email.`,
           passwords_mismatch: "The passwords don't match.",
+          url: `${value} is not valid url`,
           photoUrl:
-            'Not valid photo url. Only https:// protocol and .jpg, .png and .webp files are allowed.',
+            'Not valid photo url. Only http:// and https:// protocols and .jpg, .png and .webp files are allowed.',
         };
 
         const message = messages[rule.name]

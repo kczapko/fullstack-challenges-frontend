@@ -23,7 +23,7 @@ const signup = async ({ email, password, passwordConfirm }) => {
     },
   };
 
-  return axios.post('', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery);
 };
 
 const login = async ({ email, password }) => {
@@ -48,7 +48,7 @@ const login = async ({ email, password }) => {
     },
   };
 
-  return axios.post('', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery);
 };
 
 const autologin = async (token) => {
@@ -68,7 +68,7 @@ const autologin = async (token) => {
     `,
   };
 
-  return axios.post('', graphqlQuery, { headers: { Authorization: `Bearer ${token}` } });
+  return axios.post('/graphql', graphqlQuery, { headers: { Authorization: `Bearer ${token}` } });
 };
 
 const signinWithGoogle = async (token) => {
@@ -92,7 +92,7 @@ const signinWithGoogle = async (token) => {
     },
   };
 
-  return axios.post('', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery);
 };
 
 const signinWithFacebook = async ({ token, userId }) => {
@@ -117,7 +117,7 @@ const signinWithFacebook = async ({ token, userId }) => {
     },
   };
 
-  return axios.post('', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery);
 };
 
 const authWithTwitter = async () => {
@@ -129,7 +129,7 @@ const authWithTwitter = async () => {
     `,
   };
 
-  return axios.post('', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery);
 };
 
 const signinWithTwitter = async ({ token, verifier }) => {
@@ -154,7 +154,7 @@ const signinWithTwitter = async ({ token, verifier }) => {
     },
   };
 
-  return axios.post('', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery);
 };
 
 const authWithGithub = async () => {
@@ -169,7 +169,7 @@ const authWithGithub = async () => {
     `,
   };
 
-  return axios.post('', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery);
 };
 
 const signinWithGithub = async (code) => {
@@ -193,7 +193,7 @@ const signinWithGithub = async (code) => {
     },
   };
 
-  return axios.post('', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery);
 };
 
 const requestPasswordReset = async ({ email }) => {
@@ -208,7 +208,7 @@ const requestPasswordReset = async ({ email }) => {
     },
   };
 
-  return axios.post('', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery);
 };
 
 const changePassword = async ({ token, password, passwordConfirm }) => {
@@ -225,7 +225,7 @@ const changePassword = async ({ token, password, passwordConfirm }) => {
     },
   };
 
-  return axios.post('', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery);
 };
 
 export {

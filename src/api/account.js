@@ -12,7 +12,7 @@ const confirmEmail = async ({ token }) => {
     },
   };
 
-  return axios.post('', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery);
 };
 
 const resendConfirmEmail = async () => {
@@ -43,7 +43,7 @@ const myData = async () => {
     `,
   };
 
-  return axios.post('', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery);
 };
 
 const changeMyData = async ({ name, bio, phone }) => {
@@ -62,7 +62,7 @@ const changeMyData = async ({ name, bio, phone }) => {
     },
   };
 
-  return axios.post('', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery);
 };
 
 const changeMyPassword = async ({ currentPassword, password, passwordConfirm }) => {
@@ -79,7 +79,7 @@ const changeMyPassword = async ({ currentPassword, password, passwordConfirm }) 
     },
   };
 
-  return axios.post('', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery);
 };
 
 const changeMyEmail = async ({ email }) => {
@@ -94,7 +94,7 @@ const changeMyEmail = async ({ email }) => {
     },
   };
 
-  return axios.post('', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery);
 };
 
 const cancelMyNewEmail = async () => {
@@ -106,7 +106,7 @@ const cancelMyNewEmail = async () => {
     `,
   };
 
-  return axios.post('', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery);
 };
 
 const confirmMyNewEmail = async ({ currentEmailToken, newEmailtoken }) => {
@@ -124,7 +124,7 @@ const confirmMyNewEmail = async ({ currentEmailToken, newEmailtoken }) => {
     },
   };
 
-  return axios.post('', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery);
 };
 
 const deleteMyAccount = async ({ password }) => {
@@ -139,7 +139,7 @@ const deleteMyAccount = async ({ password }) => {
     },
   };
 
-  return axios.post('', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery);
 };
 
 export {

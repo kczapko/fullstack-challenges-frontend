@@ -25,10 +25,8 @@ export default {
     errorInterceptor = axios.interceptors.response.use(
       (response) => response,
       async (error) => {
-        // eslint-disable-next-line operator-linebreak
-        const message =
-          error.response?.data?.errors[0]?.message || error.response?.message || error.message;
-        if (message === 'Wrong token' || message === 'Token expired') await this.$logoutUser();
+        // prettier-ignore
+        if (error.message === 'Wrong token' || error.message === 'Token expired') await this.$logoutUser();
         return Promise.reject(error);
       },
     );
