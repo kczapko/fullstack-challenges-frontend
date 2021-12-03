@@ -61,11 +61,7 @@ export default {
       this.submitting = false;
     },
     handleSocialAuthError(err) {
-      // prettier-ignore
-      this.error = err.response?.data?.errors[0]?.message
-      || err.response?.message
-      || err.message
-      || 'Network problems';
+      this.error = err.message;
     },
   },
   created() {
