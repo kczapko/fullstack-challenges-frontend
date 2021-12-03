@@ -2,7 +2,7 @@ import axios from 'axios';
 import nProgress from 'nprogress';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:3333',
+  baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:3333' : '',
 });
 instance.interceptors.request.use(
   (config) => {

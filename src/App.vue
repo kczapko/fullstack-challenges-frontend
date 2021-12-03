@@ -3,6 +3,7 @@ metainfo
   template(v-slot:title="{ content }") {{ content ? `${content} - Fullstack challenge` : `Fullstack challenge` }}
 base-message
 router-view
+base-cookie-message
 </template>
 
 <script>

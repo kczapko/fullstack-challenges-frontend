@@ -1,0 +1,21 @@
+.cookie-message {
+  position: fixed;
+  left: 2rem;
+  right: 2rem;
+  bottom: 2rem;
+  text-align: center;
+  background: var(--color-white);
+  box-shadow: 0 0 0.7rem rgba($color-primary, 0.5);
+  padding: 1.5rem;
+  border-radius: 1rem;
+
+  &__text {
+    font-size: 1.4rem;
+    line-height: normal;
+    margin: 0 0 1.5rem;
+  }
+
+  .dark & {
+    background: var(--color-dark-gray2);
+  }
+}
