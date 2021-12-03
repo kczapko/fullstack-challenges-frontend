@@ -5,6 +5,6 @@ export default {
     return username(state.user);
   },
   initials(state, getters) {
-    return initials(getters.username);
+    return getters.username && initials(getters.username);
   },
 };
