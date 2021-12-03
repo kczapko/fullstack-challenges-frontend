@@ -24,7 +24,7 @@ const resendConfirmEmail = async () => {
     `,
   };
 
-  return axios.post('', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery);
 };
 
 const myData = async () => {

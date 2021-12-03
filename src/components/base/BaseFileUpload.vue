@@ -35,7 +35,7 @@ export default {
     },
     size: {
       type: Number,
-      default: 10 * 1024 * 1024,
+      default: 1024 * 1024,
     },
     onError: Function,
     onSuccess: Function,
