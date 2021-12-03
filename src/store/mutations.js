@@ -29,9 +29,11 @@ export default {
         if (
           error.message === 'Wrong token'
           || error.message === 'Token expired'
-          || error.message === 'Your account has been blocked'
-          || error.message === 'User does not exist'
+          || error.message === 'Your account has been blocked.'
+          || error.message === 'User does not exist or was deleted.'
+          || error.message === 'You recently changed password. Please login again.'
         ) {
+          this.dispatch('auth/setAuthError', error);
           await this.$logoutUser();
         }
         return Promise.reject(error);
