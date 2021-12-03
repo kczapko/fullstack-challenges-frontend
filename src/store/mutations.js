@@ -26,7 +26,14 @@ export default {
       (response) => response,
       async (error) => {
         // prettier-ignore
-        if (error.message === 'Wrong token' || error.message === 'Token expired') await this.$logoutUser();
+        if (
+          error.message === 'Wrong token'
+          || error.message === 'Token expired'
+          || error.message === 'Your account has been blocked'
+          || error.message === 'User does not exist'
+        ) {
+          await this.$logoutUser();
+        }
         return Promise.reject(error);
       },
     );
