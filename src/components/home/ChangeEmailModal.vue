@@ -143,24 +143,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.form__forms {
-  overflow: hidden;
-  position: relative;
-  transition: height 200ms;
-  height: 0;
-
-  .form__form {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-
-    &.fade-enter-active,
-    &.fade-leave-active {
-      pointer-events: none;
-    }
-  }
-}
-</style>
