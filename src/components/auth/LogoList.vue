@@ -81,17 +81,18 @@ export default {
     },
     handleFacebookLogin() {
       window.FB.login(
-        async (response) => {
+        (response) => {
           if (response.status === 'connected' && response.authResponse?.accessToken) {
-            try {
-              await this.signinWithFacebook({
-                token: response.authResponse.accessToken,
-                userId: response.authResponse.userID,
+            this.signinWithFacebook({
+              token: response.authResponse.accessToken,
+              userId: response.authResponse.userID,
+            })
+              .then(() => {
+                this.$router.push({ name: 'dashboard' });
+              })
+              .catch((err) => {
+                this.$emit('auth-error', err);
               });
-              this.$router.push({ name: 'dashboard' });
-            } catch (e) {
-              this.$emit('auth-error', e);
-            }
           } else {
             this.$emit('auth-error', new Error('Facebook response error.'));
           }

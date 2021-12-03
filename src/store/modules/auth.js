@@ -62,13 +62,13 @@ export default {
     async authWithGithub() {
       const res = await api.auth.authWithGithub();
 
-      sessionStorage.setItem('githubState', res.data.data.authWithGithub.state);
+      localStorage.setItem('githubState', res.data.data.authWithGithub.state);
       document.location.href = res.data.data.authWithGithub.url;
     },
     async signinWithGithub({ commit }, payload) {
-      if (payload.state !== sessionStorage.getItem('githubState')) return;
+      if (payload.state !== localStorage.getItem('githubState')) return;
 
-      sessionStorage.removeItem('githubState');
+      localStorage.removeItem('githubState');
       const res = await api.auth.signinWithGithub(payload.code);
 
       commit('loginUser', res.data.data.signinWithGithub, { root: true });
