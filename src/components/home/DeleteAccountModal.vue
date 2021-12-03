@@ -7,7 +7,7 @@ base-modal.base-modal--delete-account(modal-title="Delete account" ref="modal")
     p.form__error(v-if="error") {{ error }}
     vee-form.form__form(:validation-schema="schema" @submit="submit")
       .form__row
-        base-input(name="password" type="password" icon="lock" label="Password" placeholder="Enter password...")
+        base-input(name="password" type="password" id="deletePassword" icon="lock" label="Password" placeholder="Enter password...")
       .form__row.form__row--submit
         base-button(type="submit" color="danger" :disabled="submitting") Delete account
 </template>

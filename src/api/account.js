@@ -127,6 +127,35 @@ const confirmMyNewEmail = async ({ currentEmailToken, newEmailtoken }) => {
   return axios.post('/graphql', graphqlQuery);
 };
 
+const deleteMyPhoto = async () => {
+  const graphqlQuery = {
+    query: `
+      mutation deleteMyPhoto {
+        deleteMyPhoto
+      }
+    `,
+  };
+
+  return axios.post('/graphql', graphqlQuery);
+};
+
+const changeMyPhoto = async ({ imageUrl }) => {
+  const graphqlQuery = {
+    query: `
+      mutation changeMyPhoto( $imageUrl: String!) {
+        changeMyPhoto(imageUrl: $imageUrl) {
+          photo
+        }
+      }
+    `,
+    variables: {
+      imageUrl,
+    },
+  };
+
+  return axios.post('/graphql', graphqlQuery);
+};
+
 const deleteMyAccount = async ({ password }) => {
   const graphqlQuery = {
     query: `
@@ -151,5 +180,7 @@ export {
   changeMyEmail,
   cancelMyNewEmail,
   confirmMyNewEmail,
+  changeMyPhoto,
+  deleteMyPhoto,
   deleteMyAccount,
 };

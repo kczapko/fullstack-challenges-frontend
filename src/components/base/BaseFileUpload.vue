@@ -1,14 +1,14 @@
 <template lang="pug">
 .file-upload
   p.file-upload__error(v-if="error") {{ error }}
-  input.file-upload__input(type="file" name="file" @change="submit" :multiple="multiple" :accept="accept" ref="input")
+  input.file-upload__input(type="file" name="files" @change="submit" :multiple="multiple" :accept="accept" ref="input")
   .file-upload__dropzone(
     :class="{'file-upload__dropzone--over' : overDropZone}"
     @dragenter="overDropZone = true"
     @dragleave="overDropZone = false"
     @dragover.prevent="overDropZone = true"
     @drop="submit")
-    span.file-upload__dropzone-text.text-gray Drag and Drop File
+    span.file-upload__dropzone-text.text-gray Drag and Drop {{ multiple ? 'Files' : 'File' }}
     span.file-upload__dropzone-text.text-gray Or
     a.file-upload__dropzone-link(href="#" @click.prevent="onBrowseFileClick") Browse files
   .file-upload__progress(v-if="progress")
@@ -94,7 +94,7 @@ export default {
             this.progress = progressEvent.loaded / progressEvent.total;
           },
         });
-        console.log(res);
+        this.$emit('success', res.data);
       } catch (err) {
         if (!this.$props.onError) this.error = err.message;
         else this.$emit('error', [err.message]);

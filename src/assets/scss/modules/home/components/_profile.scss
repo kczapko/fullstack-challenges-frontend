@@ -130,6 +130,7 @@
     .form {
       label {
         font-size: 1.4rem;
+        line-height: normal;
       }
 
       &__row {
@@ -158,6 +159,17 @@
         color: var(--color-white);
         font-size: 1.4rem;
         line-height: normal;
+      }
+    }
+
+    &.base-modal--delete-photo {
+      .form {
+        width: 100%;
+        text-align: center;
+
+        &__error {
+          text-align-last: left;
+        }
       }
     }
   }

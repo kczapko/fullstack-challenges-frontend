@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapState } from 'vuex';
 
 import ConfirmEmailForm from '@/components/home/ConfirmEmailForm.vue';
 
@@ -24,9 +24,6 @@ export default {
   },
   computed: {
     ...mapState(['user']),
-  },
-  methods: {
-    ...mapActions(['addBodyClass', 'removeBodyClass']),
   },
 };
 </script>

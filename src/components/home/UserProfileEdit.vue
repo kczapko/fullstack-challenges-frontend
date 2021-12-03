@@ -16,8 +16,8 @@ base-button.home__back(
         base-user-image(:user="userData" @click="openModal('changePhotoModal')")
         base-button(variant="link" color="primary" size="small" @click="openModal('changePhotoModal')") {{ userData.photo ? 'Change' : 'Add' }} photo
         base-button(v-if="userData.photo" variant="link" color="danger" size="small" @click="openModal('deletePhotoModal')") Delete photo
-        change-photo-modal.profile__modal(ref="changePhotoModal" :photo="userData.photo")
-        delete-photo-modal.profile__modal(ref="deletePhotoModal")
+        change-photo-modal.profile__modal(ref="changePhotoModal" :photo="userData.photo" @userDataUpdated="getMyData")
+        delete-photo-modal.profile__modal(ref="deletePhotoModal" @userDataUpdated="getMyData")
       .profile__body-row.profile__body-row--form
         change-user-data-form.profile__form(:user-data="userData" @userDataUpdated="getMyData")
       .profile__body-row.profile__body-row--email

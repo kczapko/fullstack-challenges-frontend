@@ -23,10 +23,10 @@ instance.interceptors.response.use(
     nProgress.done();
 
     let message = 'Network Error';
-    const err = { ...error };
+    const err = Object.create(error);
     const data = error.response && error.response.data;
-    if (data.errors && data.errors.length) message = data.errors[0].message;
-    if (data.message) message = data.message;
+    if (data && data.errors && data.errors.length) message = data.errors[0].message;
+    if (data && data.message) message = data.message;
     err.message = message;
 
     return Promise.reject(err);

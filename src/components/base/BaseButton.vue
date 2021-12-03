@@ -53,7 +53,7 @@ export default {
       };
     },
     hasSlot() {
-      return this.$slots.default ? 1 : 0;
+      return Boolean(this.$slots.default);
     },
   },
 };
