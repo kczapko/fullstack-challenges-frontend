@@ -39,12 +39,8 @@ export default {
         } else {
           this.addMessage(new Message('Unexpected error while deleting your photo.', 'error'));
         }
-      } catch (e) {
-        // prettier-ignore
-        this.error = e.response?.data?.errors[0]?.message
-          || e.response?.message
-          || e.message
-          || 'Network problems';
+      } catch (err) {
+        this.error = err.message;
       }
 
       this.submitting = false;

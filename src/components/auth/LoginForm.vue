@@ -54,12 +54,8 @@ export default {
       try {
         await this.login(values);
         this.$router.push({ name: 'dashboard' });
-      } catch (e) {
-        // prettier-ignore
-        this.error = e.response?.data?.errors[0]?.message
-          || e.response?.message
-          || e.message
-          || 'Network problems';
+      } catch (err) {
+        this.error = err.message;
       }
 
       this.submitting = false;

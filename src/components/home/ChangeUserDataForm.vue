@@ -57,12 +57,8 @@ export default {
 
         this.addMessage(new Message('Your data has been updated.'));
         this.$emit('userDataUpdated');
-      } catch (e) {
-        // prettier-ignore
-        this.error = e.response?.data?.errors[0]?.message
-          || e.response?.message
-          || e.message
-          || 'Network problems';
+      } catch (err) {
+        this.error = err.message;
       }
 
       this.submitting = false;

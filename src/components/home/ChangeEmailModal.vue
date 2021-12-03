@@ -99,12 +99,8 @@ export default {
         } else {
           this.addMessage(new Message('Unexpected error while setting new e-mail.', 'error'));
         }
-      } catch (e) {
-        // prettier-ignore
-        this.error = e.response?.data?.errors[0]?.message
-          || e.response?.message
-          || e.message
-          || 'Network problems';
+      } catch (err) {
+        this.error = err.message;
       }
 
       this.submitting = false;
@@ -122,12 +118,8 @@ export default {
         } else {
           this.addMessage(new Message('Unexpected error while removing new e-mail.', 'error'));
         }
-      } catch (e) {
-        // prettier-ignore
-        this.error = e.response?.data?.errors[0]?.message
-          || e.response?.message
-          || e.message
-          || 'Network problems';
+      } catch (err) {
+        this.error = err.message;
       }
 
       this.submitting = false;
@@ -141,12 +133,9 @@ export default {
         this.addMessage(new Message('Your e-mail has been changed.'));
         this.$emit('userDataUpdated');
         this.$refs.modal.close();
-      } catch (e) {
+      } catch (err) {
         // prettier-ignore
-        this.error = e.response?.data?.errors[0]?.message
-          || e.response?.message
-          || e.message
-          || 'Network problems';
+        this.error = err.message;
       }
 
       this.submitting = false;
