@@ -1,5 +1,12 @@
 <template lang="pug">
 section.auth
+  small.text-center.font-500(
+    v-if="formComponent.name === 'LoginForm'"
+    style="display: block; margin: 2rem; padding: 1rem; background: var(--color-primary); color: var(--color-white); line-height: normal;") For testing purposes you may use:
+    br
+    span.font-700 demo@demo.demo / demo1234
+    br
+    span for login.
   .auth__container
     header.auth__header
       .auth__header-logo
