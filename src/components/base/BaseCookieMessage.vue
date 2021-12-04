@@ -4,11 +4,11 @@ transition(name="fade" appear)
     p.cookie-message__text This website uses
       |
       |
-      a(href="https://developer.mozilla.org/en-US/docs/Glossary/Cookie" target="_blank") cookies
+      a(href="https://developer.mozilla.org/en-US/docs/Glossary/Cookie" rel="noopener noreferrer" target="_blank") cookies
       |
       | and
       |
-      a(href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API" target="_blank") storage
+      a(href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API" rel="noopener noreferrer" target="_blank") storage
       |
       | mechanism to function properly. If you do not accept this, please leave this site.
     base-button(color="primary" @click="acceptCookies") I accept
