@@ -50,10 +50,31 @@
         background-color: var(--color-primary);
         border-radius: 100vw;
       }
+
+      &.success {
+        &::-moz-progress-bar {
+          background-color: var(--color-success);
+        }
+
+        &::-webkit-progress-value {
+          background-color: var(--color-success);
+        }
+      }
+
+      &.error {
+        &::-moz-progress-bar {
+          background-color: var(--color-danger);
+        }
+
+        &::-webkit-progress-value {
+          background-color: var(--color-denger);
+        }
+      }
     }
   }
 
-  &__error {
+  &__error,
+  &__success {
     margin: 0 0 1.5rem;
     padding: 1rem;
     background-color: var(--color-danger);
@@ -62,6 +83,10 @@
     font-size: 1.4rem;
     line-height: normal;
     white-space: pre;
+  }
+
+  &__success {
+    background-color: var(--color-success);
   }
 }
 

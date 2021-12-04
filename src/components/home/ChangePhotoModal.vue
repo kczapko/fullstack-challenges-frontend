@@ -4,7 +4,7 @@ base-modal.base-modal--change-photo(:modal-title="`${photo ? 'Change' : 'Add'} m
     .form.form--change-image
       .form__head
         p.form__text Only .jpg, .png and .webp files are allowed. Maximum 1MB file size.
-      base-file-upload(url="/files/user-photo" @success="updatePhoto" v-if="isOpen")
+      base-file-upload(url="/files/user-photo" @upload-success="updatePhoto" v-if="isOpen")
       p.form__error(v-if="error") {{ error }}
       vee-form.form__form(:validation-schema="schema" @submit="submit" ref="form")
         .form__row
@@ -28,7 +28,7 @@ export default {
   emits: ['userDataUpdated'],
   setup() {
     const schema = {
-      imageUrl: { photoUrl: /^(http|https):\/\/.*(\.jpg|\.png|\.webp)$/ },
+      imageUrl: { required: true, photoUrl: /^(http|https):\/\/.*(\.jpg|\.png|\.webp)$/ },
     };
 
     return { schema };

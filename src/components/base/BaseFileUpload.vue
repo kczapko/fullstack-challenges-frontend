@@ -1,6 +1,8 @@
 <template lang="pug">
 .file-upload
-  p.file-upload__error(v-if="error") {{ error }}
+  p.file-upload__error(v-if="error && !onError") {{ error }}
+  p.file-upload__error.file-upload__error--upload(v-if="uploadError && !onUploadError") {{ uploadError }}
+  p.file-upload__success(v-if="uploadSuccess && !onUploadSuccess") {{ uploadSuccess }}
   input.file-upload__input(type="file" name="files" @change="submit" :multiple="multiple" :accept="accept" ref="input")
   .file-upload__dropzone(
     :class="{'file-upload__dropzone--over' : overDropZone}"
@@ -12,7 +14,7 @@
     span.file-upload__dropzone-text.text-gray Or
     a.file-upload__dropzone-link(href="#" @click.prevent="onBrowseFileClick") Browse files
   .file-upload__progress(v-if="progress")
-    progress(max="1" :value="progress")
+    progress(max="1" :value="progress" :class="progressBarClass")
 </template>
 
 <script>
@@ -38,15 +40,26 @@ export default {
       default: 1024 * 1024,
     },
     onError: Function,
-    onSuccess: Function,
+    onUploadError: Function,
+    onUploadSuccess: Function,
   },
-  emits: ['error', 'success'],
+  emits: ['error', 'uploadError', 'uploadSuccess'],
   data() {
     return {
       overDropZone: false,
       error: '',
+      uploadError: '',
+      uploadSuccess: '',
       progress: 0,
     };
+  },
+  computed: {
+    progressBarClass() {
+      return {
+        error: this.uploadError,
+        success: this.uploadSuccess,
+      };
+    },
   },
   methods: {
     onBrowseFileClick() {
@@ -55,6 +68,8 @@ export default {
     async submit(e) {
       e.preventDefault();
       this.error = '';
+      this.uploadError = '';
+      this.uploadSuccess = '';
       this.overDropZone = false;
       this.progress = 0;
 
@@ -79,8 +94,8 @@ export default {
       }
 
       if (errors.length) {
-        if (!this.$props.onError) this.error = errors.join('\n');
-        else this.$emit('error', errors);
+        this.error = errors.join('\n');
+        this.$emit('error', errors);
       }
       if (!files.length) return;
       if (!this.multiple) files = [files[0]];
@@ -94,10 +109,11 @@ export default {
             this.progress = progressEvent.loaded / progressEvent.total;
           },
         });
-        this.$emit('success', res.data);
+        this.uploadSuccess = `${this.multiple ? 'Files' : 'File'} uploaded successfully`;
+        this.$emit('uploadSuccess', res.data);
       } catch (err) {
-        if (!this.$props.onError) this.error = err.message;
-        else this.$emit('error', [err.message]);
+        this.uploadError = err.message;
+        this.$emit('uploadError', err.message);
       }
     },
   },
