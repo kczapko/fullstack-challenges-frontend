@@ -3,7 +3,7 @@
   h1 Dashboard
 .home__content
   ul.dashboard
-    home-dashboard-item(coming-soon)
+    home-dashboard-item(:to="{ name: 'unsplash' }")
       template(#logo)
         SvgLogoMyUnsplash
     home-dashboard-item(coming-soon name="Group Chat")

@@ -8,6 +8,9 @@ const UserProfile = () => import(/* webpackChunkName: "profile" */ '@/components
 // prettier-ignore
 const UserProfileEdit = () => import(/* webpackChunkName: "profile" */ '@/components/home/profile/UserProfileEdit.vue');
 
+// prettier-ignore
+const Unsplash = () => import(/* webpackChunkName: "unsplash" */ '@/views/Unsplash.vue');
+
 export default [
   {
     path: '/',
@@ -80,6 +83,15 @@ export default [
     props: { action: 'change-password' },
     meta: {
       title: 'Change Password',
+    },
+  },
+  {
+    path: '/unsplash',
+    name: 'unsplash',
+    component: Unsplash,
+    meta: {
+      title: 'My Unsplash',
+      requireConfirm: true,
     },
   },
 ];

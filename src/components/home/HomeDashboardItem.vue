@@ -1,6 +1,10 @@
 <template lang="pug">
 li.dashboard__item
-  a.dashboard__link(href="#" :class="{'dashboard__link--inactive': comingSoon}")
+  component.dashboard__link(
+    :is="to ? 'router-link' : 'a'"
+    :to="to && to"
+    :class="{'dashboard__link--inactive': comingSoon}"
+  )
     span.dashboard__logo
       slot(name="logo")
     span.dashboard__name.font-600(v-if="name") {{ name }}
@@ -13,6 +17,7 @@ export default {
   props: {
     name: String,
     comingSoon: Boolean,
+    to: Object,
   },
 };
 </script>

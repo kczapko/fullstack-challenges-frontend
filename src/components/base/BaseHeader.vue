@@ -4,7 +4,7 @@ header.header
     .header__logo
       slot(name="logo")
         router-link(:to="{ name: 'dashboard' }")
-          SvgLogoDevChallenges
+          svg-logo-dev-challenges
   .header__right
     .header__user(:class="{'header__user--open' : dropdownOpen}" @click.stop)
       .header__user-info(@click="dropdownOpen = !dropdownOpen")
@@ -14,6 +14,14 @@ header.header
       transition(name="fade")
         .header__user-dropdown(v-show="dropdownOpen")
           ul.header__user-dropdown-list
+            li.header__user-dropdown-listitem
+              base-button.header__user-dropdown-link(
+                tag="router-link"
+                :to="{ name: 'dashboard' }"
+                @click="hideDropdown"
+                icon="home"
+                variant="link"
+                size="small") Home
             li.header__user-dropdown-listitem
               base-button.header__user-dropdown-link(
                 tag="router-link"
