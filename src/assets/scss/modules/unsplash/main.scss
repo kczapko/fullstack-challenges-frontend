@@ -55,13 +55,48 @@
   .footer {
     border-top: 1px solid var(--color-light-gray2);
     margin-top: 1rem;
-    padding: 1rem 0;
+    padding: 1rem 0 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
     font-size: 1.4rem;
+    line-height: normal;
     color: var(--color-gray);
+  }
+
+  &__modal {
+    .form {
+      label {
+        font-size: 1.4rem;
+        line-height: normal;
+      }
+
+      &__row {
+        margin-bottom: 1.5rem;
+
+        &--submit {
+          margin-bottom: 0;
+          display: flex;
+          justify-content: flex-end;
+          gap: 1rem;
+
+          .base-btn:not(.base-btn--default) {
+            box-shadow: 0px 1px 0.6rem rgba($color-black, 0.1);
+          }
+        }
+      }
+
+      &__error {
+        margin: 0 0 1.5rem;
+        padding: 1rem;
+        background-color: var(--color-danger);
+        border-radius: 0.4rem;
+        color: var(--color-white);
+        font-size: 1.4rem;
+        line-height: normal;
+      }
+    }
   }
 }
 
@@ -144,13 +179,13 @@
 
     main {
       padding: 0 6.2rem;
-      max-width: 184.4rem;
+      max-width: 188.4rem;
       margin: 0 auto;
     }
 
     .footer {
-      padding: 2rem 6.2rem;
-      max-width: 184.4rem;
+      padding: 2rem 6.2rem 0;
+      max-width: 188.4rem;
       margin: 2rem auto 0;
     }
   }

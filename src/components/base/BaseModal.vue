@@ -8,7 +8,7 @@ teleport(to="#modals")
         slot(name="header" :header-text="modalTitle")
           h3.base-modal__header-title {{ modalTitle }}
       .base-modal__body(v-if="hasBody")
-        slot(:isOpen="isOpen")
+        slot(:isOpen="isOpen" :close="close")
       .base-modal__footer(v-if="hasFooter")
         slot(name="footer" :close="close" :button-text="footerButton")
           base-button.base-modal__footer-button(@click="close" color="primary") {{ footerButton }}

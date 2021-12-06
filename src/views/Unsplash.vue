@@ -7,19 +7,26 @@
     template(#default)
       .header__search
         .form.form--search
-          vee-form.form__form(:validation-schema="schema" @submit="submit")
+          vee-form.form__form(@submit="search")
             .form__row
               base-input(name="search" icon="search" placeholder="Search by name")
-      base-button.header__add-photo.font-700(color="primary") Add photo
+      base-button.header__add-photo.font-700(color="primary" @click="$refs.addPhotoModal.open()") Add photo
   main
     p Unsplash
   base-footer
+  //- Modals
+  add-photo-modal.unsplash__modal(ref="addPhotoModal")
+  edit-photo-modal.unsplash__modal(ref="editPhotoModal")
+  delete-photo-modal.unsplash__modal(ref="deletePhotoModal")
 </template>
 
 <script>
 import useBodyClass from '@/hooks/useBodyClass';
 
 import SvgLogoMyUnsplash from '@/components/svg/LogoMyUnsplash.vue';
+import AddPhotoModal from '@/components/unsplash/AddPhotoModal.vue';
+import EditPhotoModal from '@/components/unsplash/EditPhotoModal.vue';
+import DeletePhotoModal from '@/components/unsplash/DeletePhotoModal.vue';
 
 import '@/assets/scss/modules/unsplash/main.scss';
 
@@ -27,9 +34,17 @@ export default {
   name: 'Unsplash',
   components: {
     SvgLogoMyUnsplash,
+    AddPhotoModal,
+    EditPhotoModal,
+    DeletePhotoModal,
   },
   setup() {
     useBodyClass('module-unsplash');
+  },
+  methods: {
+    search(values) {
+      console.log(values);
+    },
   },
 };
 </script>
