@@ -1,0 +1,11 @@
+.module-unsplash {
+  --color-primary: hsl(144, 49%, 47%);
+  --color-primary-darker: hsl(144, 49%, 37%);
+  --color-primary-lighter: hsl(144, 49%, 87%);
+}
+
+$color-primary: #3db46d;
+
+$breakpoint-medium: 48em;
+$breakpoint-big: 64em;
+$breakpoint-large: 80rem;
