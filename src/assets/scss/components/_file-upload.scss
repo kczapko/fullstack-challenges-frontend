@@ -82,7 +82,8 @@
     color: var(--color-white);
     font-size: 1.4rem;
     line-height: normal;
-    white-space: pre;
+    white-space: pre-line;
+    word-break: break-word;
   }
 
   &__success {

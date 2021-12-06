@@ -3,19 +3,19 @@
   h1 Dashboard
 .home__content
   ul.dashboard
-    dashboard-item(coming-soon)
+    home-dashboard-item(coming-soon)
       template(#logo)
         SvgLogoMyUnsplash
-    dashboard-item(coming-soon name="Group Chat")
+    home-dashboard-item(coming-soon name="Group Chat")
       template(#logo)
         SvgLogoChat
-    dashboard-item(coming-soon name="Shoppingify")
+    home-dashboard-item(coming-soon name="Shoppingify")
       template(#logo)
         SvgLogoShoppingify
-    dashboard-item(coming-soon name="Tweeter")
+    home-dashboard-item(coming-soon name="Tweeter")
       template(#logo)
         SvgLogoTweeter
-    dashboard-item(coming-soon name="Thullo")
+    home-dashboard-item(coming-soon name="Thullo")
       template(#logo)
         SvgLogoThullo
 </template>
@@ -26,7 +26,7 @@ import SvgLogoChat from '@/components/svg/LogoChat.vue';
 import SvgLogoShoppingify from '@/components/svg/LogoShoppingify.vue';
 import SvgLogoTweeter from '@/components/svg/LogoTweeter.vue';
 import SvgLogoThullo from '@/components/svg/LogoThullo.vue';
-import DashboardItem from '@/components/home/DashboardItem.vue';
+import HomeDashboardItem from '@/components/home/HomeDashboardItem.vue';
 
 export default {
   name: 'HomeDashboard',
@@ -36,7 +36,7 @@ export default {
     SvgLogoShoppingify,
     SvgLogoTweeter,
     SvgLogoThullo,
-    DashboardItem,
+    HomeDashboardItem,
   },
 };
 </script>

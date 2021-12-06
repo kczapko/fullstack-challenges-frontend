@@ -4,9 +4,9 @@ import Auth from '@/views/Auth.vue';
 import HomeDashboard from '@/components/home/HomeDashboard.vue';
 
 // prettier-ignore
-const UserProfile = () => import(/* webpackChunkName: "profile" */ '@/components/home/UserProfile.vue');
+const UserProfile = () => import(/* webpackChunkName: "profile" */ '@/components/home/profile/UserProfile.vue');
 // prettier-ignore
-const UserProfileEdit = () => import(/* webpackChunkName: "profile" */ '@/components/home/UserProfileEdit.vue');
+const UserProfileEdit = () => import(/* webpackChunkName: "profile" */ '@/components/home/profile/UserProfileEdit.vue');
 
 export default [
   {

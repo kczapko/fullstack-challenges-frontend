@@ -79,7 +79,7 @@ export default {
       if (this.accept) {
         const accept = this.accept.split(',');
         files = files.filter((file) => {
-          const allowed = accept.some((type) => file.type === type);
+          const allowed = accept.includes(file.type);
           if (!allowed) errors.push(`File ${file.name} is wrong type. Skipping it.`);
           return allowed;
         });

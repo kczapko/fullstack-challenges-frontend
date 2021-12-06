@@ -30,8 +30,10 @@ header.header
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapActions } from 'vuex';
 import SvgLogoDevChallenges from '@/components/svg/LogoDevChallenges.vue';
+
+import Message from '@/utils/Message';
 
 export default {
   name: 'BaseHeader',
@@ -54,8 +56,10 @@ export default {
     document.body.removeEventListener('click', this.hideDropdown);
   },
   methods: {
+    ...mapActions(['addMessage']),
     logoutUser() {
       this.$logoutUser();
+      this.addMessage(new Message('You were successfully logged out'));
     },
     hideDropdown() {
       if (this.dropdownOpen) this.dropdownOpen = false;

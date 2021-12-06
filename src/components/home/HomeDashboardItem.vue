@@ -9,7 +9,7 @@ li.dashboard__item
 
 <script>
 export default {
-  name: 'DashboardItem',
+  name: 'HomeDashboardItem',
   props: {
     name: String,
     comingSoon: Boolean,

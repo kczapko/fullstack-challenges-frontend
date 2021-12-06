@@ -38,12 +38,12 @@ import { mapActions } from 'vuex';
 import api from '@/api';
 import Message from '@/utils/Message';
 
-import ChangeUserDataForm from '@/components/home/ChangeUserDataForm.vue';
-import ChangeEmailModal from '@/components/home/ChangeEmailModal.vue';
-import ChangePasswordModal from '@/components/home/ChangePasswordModal.vue';
-import DeleteAccountModal from '@/components/home/DeleteAccountModal.vue';
-import ChangePhotoModal from '@/components/home/ChangePhotoModal.vue';
-import DeletePhotoModal from '@/components/home/DeletePhotoModal.vue';
+import ChangeUserDataForm from '@/components/home/profile/ChangeUserDataForm.vue';
+import ChangeEmailModal from '@/components/home/profile/ChangeEmailModal.vue';
+import ChangePasswordModal from '@/components/home/profile/ChangePasswordModal.vue';
+import DeleteAccountModal from '@/components/home/profile/DeleteAccountModal.vue';
+import ChangePhotoModal from '@/components/home/profile/ChangePhotoModal.vue';
+import DeletePhotoModal from '@/components/home/profile/DeletePhotoModal.vue';
 
 export default {
   name: 'UserProfileEdit',
