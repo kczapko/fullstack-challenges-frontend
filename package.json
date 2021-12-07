@@ -11,6 +11,7 @@
     "@vee-validate/rules": "^4.5.5",
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
+    "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
     "vee-validate": "^4.5.5",
     "vue": "^3.0.0",
