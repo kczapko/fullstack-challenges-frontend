@@ -56,6 +56,10 @@
     color: var(--color-dark-gray2);
   }
 
+  &--variant-outline {
+    background-color: transparent;
+  }
+
   &--circle {
     padding: 1rem;
     border-radius: 50%;
@@ -85,6 +89,16 @@
     &.base-btn--variant-link {
       background-color: var(--color-white);
       color: var(--color-primary);
+
+      &:hover,
+      &:focus {
+        background-color: var(--color-primary-lighter);
+      }
+    }
+
+    &.base-btn--variant-outline {
+      color: var(--color-primary);
+      background-color: transparent;
 
       &:hover,
       &:focus {
@@ -122,6 +136,16 @@
         background-color: var(--color-danger-lighter);
       }
     }
+
+    &.base-btn--variant-outline {
+      color: var(--color-danger);
+      background-color: transparent;
+
+      &:hover,
+      &:focus {
+        background-color: var(--color-danger-lighter);
+      }
+    }
   }
 }
 
@@ -147,6 +171,10 @@
     color: var(--color-light-gray2);
   }
 
+  &--variant-outline {
+    background-color: transparent;
+  }
+
   &--primary {
     &.base-btn--variant-link {
       background-color: var(--color-dark-gray);
@@ -155,6 +183,14 @@
       &:hover,
       &:focus {
         background-color: darken($color-dark-gray, 8);
+      }
+    }
+
+    &.base-btn--variant-outline {
+      &:hover,
+      &:focus {
+        background-color: var(--color-primary-darker);
+        color: var(--color-white);
       }
     }
   }
@@ -167,6 +203,14 @@
       &:hover,
       &:focus {
         background-color: darken($color-dark-gray, 8);
+      }
+    }
+
+    &.base-btn--variant-outline {
+      &:hover,
+      &:focus {
+        background-color: var(--color-danger-darker);
+        color: var(--color-white);
       }
     }
   }

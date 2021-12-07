@@ -31,7 +31,7 @@ export default {
     variant: {
       type: String,
       validator(val) {
-        return ['default', 'link'].includes(val);
+        return ['default', 'link', 'outline'].includes(val);
       },
       default: 'default',
     },

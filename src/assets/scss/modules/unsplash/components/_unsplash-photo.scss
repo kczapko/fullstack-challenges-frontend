@@ -1,0 +1,86 @@
+.unsplash-photo {
+  position: relative;
+
+  &:hover,
+  &:focus {
+    &::before {
+      opacity: 1;
+    }
+
+    .unsplash-photo__actions {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .unsplash-photo__caption {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba($color-black, 0.5);
+    opacity: 0;
+    transition: opacity 200ms;
+  }
+
+  &__actions {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    z-index: 2;
+    display: flex;
+    gap: 2rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 200ms;
+  }
+
+  &__image {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__caption {
+    line-height: normal;
+    font-size: 1.4rem;
+    color: var(--color-white);
+    position: absolute;
+    left: 1.5rem;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(150%);
+    transition: opacity 200ms, transform 200ms;
+  }
+
+  &__caption-source {
+    display: block;
+    color: var(--color-light-gray);
+    margin-top: 0.3rem;
+
+    span {
+      color: var(--color-white);
+    }
+  }
+}
+
+@media screen and (min-width: $breakpoint-big) {
+  .unsplash-photo {
+    &__caption {
+      font-size: 1.8rem;
+    }
+  }
+}

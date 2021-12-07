@@ -91,6 +91,7 @@ export default [
     component: Unsplash,
     meta: {
       title: 'My Unsplash',
+      requireAuth: true,
       requireConfirm: true,
     },
   },

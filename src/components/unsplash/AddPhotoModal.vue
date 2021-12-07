@@ -14,10 +14,14 @@ base-modal.base-modal--add-photo(modal-title="Add new photo" ref="modal")
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 import api from '@/api';
+import Message from '@/utils/Message';
 
 export default {
   name: 'AddPhotoModal',
+  emits: ['add-photo'],
   setup() {
     const schema = {
       label: 'required|max:200',
@@ -35,6 +39,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['addMessage']),
     open() {
       this.$refs.modal.open();
       this.$refs.form.resetForm();
@@ -45,8 +50,9 @@ export default {
 
       try {
         const res = await api.unsplash.addPhoto(values);
-        console.log(res);
         this.$refs.modal.close();
+        this.$emit('add-photo', res.data.data.addUnsplashImage);
+        this.addMessage(new Message('Added new photo'));
       } catch (err) {
         this.error = err;
       }
