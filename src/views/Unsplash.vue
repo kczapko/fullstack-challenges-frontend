@@ -1,6 +1,6 @@
 <template lang="pug">
 .unsplash
-  unsplash-header(@add-photo-click="openAddPhotoModal" @search-query-updated="updateSearch")
+  unsplash-header(@add-photo-click="openAddPhotoModal")
   main
     p.unsplash__error(v-if="error") {{ error }}
     unsplash-photo-grid(:photos="photos" :search-query="searchQuery")
@@ -54,9 +54,15 @@ export default {
     searchQuery() {
       this.getPhotos();
     },
+    '$route.query.q': {
+      handler(val) {
+        this.searchQuery = val || '';
+      },
+      immediate: true,
+    },
   },
   async created() {
-    await this.getPhotos();
+    if (!this.$route.query.q) await this.getPhotos();
   },
   methods: {
     async getPhotos() {

@@ -6,7 +6,7 @@ base-header
   template(#default)
     .header__search
       .form.form--search
-        vee-form.form__form(@submit="search" v-slot="{ values }")
+        vee-form.form__form(@submit="search" :initial-values="{ search: $route.query.q }" v-slot="{ values }")
           .form__row
             base-input(name="search" icon="search" placeholder="Search by name" @input="searchQuery = values.search")
     base-button.header__add-photo.font-700(color="primary" @click="$emit('add-photo-click')") Add photo
@@ -22,7 +22,7 @@ export default {
   components: {
     SvgLogoMyUnsplash,
   },
-  emits: ['add-photo-click', 'search-query-updated'],
+  emits: ['add-photo-click'],
   data() {
     return {
       searchQuery: '',
@@ -39,7 +39,11 @@ export default {
   },
   methods: {
     search() {
-      this.$emit('search-query-updated', this.searchQuery);
+      if (this.searchQuery) {
+        this.$router.push({ query: { q: this.searchQuery } });
+      } else {
+        this.$router.push({ query: {} });
+      }
     },
   },
 };
