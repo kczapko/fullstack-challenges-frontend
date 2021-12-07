@@ -51,7 +51,7 @@ export default {
       try {
         const res = await api.unsplash.addPhoto(values);
         this.$refs.modal.close();
-        this.$emit('add-photo', res.data.data.addUnsplashImage);
+        this.$emit('add-photo', res.data.data.addMyUnsplashImage);
         this.addMessage(new Message('Added new photo'));
       } catch (err) {
         this.error = err;

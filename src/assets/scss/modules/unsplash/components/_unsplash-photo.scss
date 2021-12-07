@@ -64,6 +64,7 @@
     opacity: 0;
     transform: translateY(150%);
     transition: opacity 200ms, transform 200ms;
+    word-break: break-word;
   }
 
   &__caption-source {

@@ -3,8 +3,8 @@ import axios from './axios';
 const addPhoto = async ({ label, imageUrl }) => {
   const graphqlQuery = {
     query: `
-      mutation addUnsplashImage($label: String!, $imageUrl: String!) {
-        addUnsplashImage(label: $label, imageUrl: $imageUrl) {
+      mutation addMyUnsplashImage($label: String!, $imageUrl: String!) {
+        addMyUnsplashImage(label: $label, imageUrl: $imageUrl) {
           _id
           path
           source
@@ -42,4 +42,47 @@ const myPhotos = async () => {
   return axios.post('/graphql', graphqlQuery);
 };
 
-export { addPhoto, myPhotos };
+const editPhoto = async ({ id, label }) => {
+  const graphqlQuery = {
+    query: `
+      mutation editMyUnsplashImage($id: ID!, $label: String!) {
+        editMyUnsplashImage(id: $id, label: $label) {
+          _id
+          label
+        }
+      }
+    `,
+    variables: {
+      id,
+      label,
+    },
+  };
+
+  return axios.post('/graphql', graphqlQuery);
+};
+
+const deletePhoto = async ({ id, password }) => {
+  const graphqlQuery = {
+    query: `
+      mutation deleteMyUnsplashImage($id: ID!, $password: String!) {
+        deleteMyUnsplashImage(id: $id, password: $password) {
+          _id
+        }
+      }
+    `,
+    variables: {
+      id,
+      password,
+    },
+  };
+
+  return axios.post('/graphql', graphqlQuery);
+};
+
+// prettier-ignore
+export {
+  addPhoto,
+  myPhotos,
+  editPhoto,
+  deletePhoto,
+};

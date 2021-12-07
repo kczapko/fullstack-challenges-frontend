@@ -1,8 +1,8 @@
 <template lang="pug">
 li.unsplash-photo(:class="photoClass" :style="photoStyle")
   .unsplash-photo__actions
-    base-button(variant="outline" size="small" color="primary") Edit Label
-    base-button(variant="outline" size="small" color="danger") Delete
+    base-button(variant="outline" size="small" color="primary" @click="openEditPhotoModal(photo)") Edit Label
+    base-button(variant="outline" size="small" color="danger" @click="openDeletePhotoModal(photo._id)") Delete
   figure.unsplash-photo__image
     img.unsplash-photo__img(:src="photo.path" :alt="photo.label")
     figcaption.unsplash-photo__caption.font-700 {{ photo.label }}
@@ -15,6 +15,7 @@ li.unsplash-photo(:class="photoClass" :style="photoStyle")
 <script>
 export default {
   name: 'UnsplashPhoto',
+  inject: ['openEditPhotoModal', 'openDeletePhotoModal'],
   props: {
     photo: {
       type: Object,

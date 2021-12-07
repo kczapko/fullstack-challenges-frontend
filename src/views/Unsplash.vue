@@ -1,32 +1,14 @@
 <template lang="pug">
 .unsplash
-  base-header
-    template(#logo)
-      router-link(:to="{ name: 'unsplash' }")
-        svg-logo-my-unsplash
-    template(#default)
-      .header__search
-        .form.form--search
-          vee-form.form__form(@submit="search")
-            .form__row
-              base-input(name="search" icon="search" placeholder="Search by name")
-      base-button.header__add-photo.font-700(color="primary" @click="$refs.addPhotoModal.open()") Add photo
+  unsplash-header(@add-photo-click="openAddPhotoModal")
   main
-    .unsplash-photos
-      .unsplash-photos__add-photos(v-if="!photos.length && !searchQuery")
-        span.material-icons.text-gray no_photography
-        p You don't have any photos.
-        base-button(variant="link" icon="image" color="primary" @click="$refs.addPhotoModal.open()") Start adding
-      .unsplash-photos__no-results(v-else-if="!photos.length && searchQuery")
-        span.material-icons.text-gray search_off
-        p You do not have any photos that match the search criteria.
-      ul.unsplash-photos__photo-list(v-else-if="photos.length")
-        unsplash-photo.unsplash-photos__photo-item(v-for="photo in photos" :key="photo._id" :photo="photo")
+    p.unsplash__error(v-if="error") {{ error }}
+    unsplash-photo-grid(:photos="photos" :search-query="searchQuery")
   base-footer
   //- Modals
   add-photo-modal.unsplash__modal(ref="addPhotoModal" @add-photo="addPhoto")
-  edit-photo-modal.unsplash__modal(ref="editPhotoModal")
-  delete-photo-modal.unsplash__modal(ref="deletePhotoModal")
+  edit-photo-modal.unsplash__modal(ref="editPhotoModal" @edit-photo="updatePhoto")
+  delete-photo-modal.unsplash__modal(ref="deletePhotoModal" @delete-photo="deletePhoto")
 </template>
 
 <script>
@@ -34,27 +16,35 @@ import api from '@/api';
 
 import useBodyClass from '@/hooks/useBodyClass';
 
-import SvgLogoMyUnsplash from '@/components/svg/LogoMyUnsplash.vue';
+import UnsplashHeader from '@/components/unsplash/UnsplashHeader.vue';
+import UnsplashPhotoGrid from '@/components/unsplash/UnsplashPhotoGrid.vue';
+
 import AddPhotoModal from '@/components/unsplash/AddPhotoModal.vue';
 import EditPhotoModal from '@/components/unsplash/EditPhotoModal.vue';
 import DeletePhotoModal from '@/components/unsplash/DeletePhotoModal.vue';
-import UnsplashPhoto from '@/components/unsplash/UnsplashPhoto.vue';
 
 import '@/assets/scss/modules/unsplash/main.scss';
 
 export default {
   name: 'Unsplash',
   components: {
-    SvgLogoMyUnsplash,
+    UnsplashHeader,
+    UnsplashPhotoGrid,
     AddPhotoModal,
     EditPhotoModal,
     DeletePhotoModal,
-    UnsplashPhoto,
+  },
+  provide() {
+    return {
+      openEditPhotoModal: this.openEditPhotoModal,
+      openDeletePhotoModal: this.openDeletePhotoModal,
+    };
   },
   data() {
     return {
       photos: [],
       searchQuery: '',
+      error: '',
     };
   },
   setup() {
@@ -64,19 +54,37 @@ export default {
     await this.getPhotos();
   },
   methods: {
-    search(values) {
-      console.log(values);
-    },
     async getPhotos() {
+      this.error = '';
+
       try {
         const res = await api.unsplash.myPhotos();
         this.photos = res.data.data.myUnsplashImages;
       } catch (err) {
-        console.log(err);
+        this.error = err;
       }
     },
     addPhoto(photo) {
       this.photos.unshift(photo);
+    },
+    updatePhoto(updatedPhoto) {
+      // eslint-disable-next-line no-underscore-dangle
+      const photo = this.photos.find((p) => p._id === updatedPhoto._id);
+      if (photo) photo.label = updatedPhoto.label;
+    },
+    deletePhoto(deletedPhoto) {
+      // eslint-disable-next-line no-underscore-dangle
+      const index = this.photos.findIndex((p) => p._id === deletedPhoto._id);
+      if (index >= 0) this.photos.splice(index, 1);
+    },
+    openAddPhotoModal() {
+      this.$refs.addPhotoModal.open();
+    },
+    openEditPhotoModal(photo) {
+      this.$refs.editPhotoModal.open(photo);
+    },
+    openDeletePhotoModal(id) {
+      this.$refs.deletePhotoModal.open(id);
     },
   },
 };

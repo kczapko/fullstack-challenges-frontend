@@ -67,6 +67,16 @@
     color: var(--color-gray);
   }
 
+  &__error {
+    color: var(--color-white);
+    background: var(--color-danger);
+    border-radius: 0.6rem;
+    font-size: 1.6rem;
+    padding: 2rem;
+    margin: 0 0 2rem;
+    text-align: center;
+  }
+
   &__modal {
     .form {
       label {
