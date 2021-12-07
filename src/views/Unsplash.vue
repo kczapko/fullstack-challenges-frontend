@@ -36,6 +36,7 @@ export default {
   },
   provide() {
     return {
+      openAddPhotoModal: this.openAddPhotoModal,
       openEditPhotoModal: this.openEditPhotoModal,
       openDeletePhotoModal: this.openDeletePhotoModal,
     };
@@ -45,6 +46,10 @@ export default {
       photos: [],
       searchQuery: '',
       error: '',
+      page: 1,
+      perPage: 10,
+      total: null,
+      loading: false,
     };
   },
   setup() {
@@ -56,7 +61,9 @@ export default {
     },
     '$route.query.q': {
       handler(val) {
-        this.searchQuery = val || '';
+        this.page = 1;
+        this.total = null;
+        this.searchQuery = (val && val.trim()) || '';
       },
       immediate: true,
     },
@@ -64,19 +71,53 @@ export default {
   async created() {
     if (!this.$route.query.q) await this.getPhotos();
   },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  unmounted() {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
   methods: {
     async getPhotos() {
       this.error = '';
 
+      if (this.loading || this.photos.length === this.total) return;
+      this.loading = true;
+
       try {
-        const res = await api.unsplash.myPhotos({ search: this.searchQuery });
-        this.photos = res.data.data.myUnsplashImages;
+        const res = await api.unsplash.myPhotos({
+          search: this.searchQuery,
+          page: this.page,
+          perPage: this.perPage,
+        });
+
+        if (this.page === 1) {
+          this.total = res.data.data.myUnsplashImages.total;
+          this.photos = res.data.data.myUnsplashImages.images;
+        } else {
+          this.photos.push(...res.data.data.myUnsplashImages.images);
+        }
       } catch (err) {
         this.error = err;
       }
+
+      this.loading = false;
     },
-    async updateSearch(val) {
-      this.searchQuery = val.trim();
+    handleScroll() {
+      const scroll = window.innerHeight + window.scrollY;
+      const bodyHeight = document.body.offsetHeight;
+
+      if (scroll === bodyHeight) {
+        if (this.loading) return;
+
+        const nextPage = this.page + 1;
+        const morePhotos = this.total + this.perPage > nextPage * this.perPage;
+
+        if (morePhotos) {
+          this.page += 1;
+          this.getPhotos();
+        }
+      }
     },
     addPhoto(photo) {
       this.photos.unshift(photo);

@@ -23,22 +23,27 @@ const addPhoto = async ({ label, imageUrl }) => {
   return axios.post('/graphql', graphqlQuery);
 };
 
-const myPhotos = async ({ search }) => {
+const myPhotos = async ({ search, page = 1, perPage = 10 }) => {
   const graphqlQuery = {
     query: `
-      query myUnsplashImages($search: String) {
-        myUnsplashImages(search: $search) {
-          _id
-          path
-          source
-          width
-          height
-          label
+      query myUnsplashImages($search: String, $page: Int, $perPage: Int) {
+        myUnsplashImages(search: $search, page: $page, perPage: $perPage) {
+          total
+          images {
+            _id
+            path
+            source
+            width
+            height
+            label
+          }
         }
       }
     `,
     variables: {
       search,
+      page,
+      perPage,
     },
   };
 

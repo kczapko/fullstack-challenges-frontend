@@ -3,7 +3,7 @@
     .unsplash-photos__add-photos(v-if="!photos.length && !searchQuery")
       span.material-icons.text-gray no_photography
       p You don't have any photos.
-      base-button(variant="link" icon="image" color="primary" @click="$refs.addPhotoModal.open()") Start adding
+      base-button(variant="link" icon="image" color="primary" @click="openAddPhotoModal") Start adding
     .unsplash-photos__no-results(v-else-if="!photos.length && searchQuery")
       span.material-icons.text-gray search_off
       p You do not have any photos that match the search criteria.
@@ -19,6 +19,7 @@ export default {
   components: {
     UnsplashPhoto,
   },
+  inject: ['openAddPhotoModal'],
   props: {
     photos: {
       type: Array,
