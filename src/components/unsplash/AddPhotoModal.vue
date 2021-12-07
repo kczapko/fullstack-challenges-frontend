@@ -7,19 +7,21 @@ base-modal.base-modal--add-photo(modal-title="Add new photo" ref="modal")
         .form__row
           base-input(name="label" label="Label" placeholder="Caption your photo")
         .form__row
-          base-input(name="url" label="Photo URL" placeholder="Link to your photo")
+          base-input(name="imageUrl" label="Photo URL" placeholder="Link to your photo")
         .form__row.form__row--submit
           base-button(type="button" variant="link" @click="close") Cancel
           base-button(type="submit" color="primary" :disabled="submitting") Add photo
 </template>
 
 <script>
+import api from '@/api';
+
 export default {
   name: 'AddPhotoModal',
   setup() {
     const schema = {
       label: 'required|max:200',
-      url: { required: true, photoUrl: /^(http|https):\/\/.*(\.jpg|\.png|\.webp)$/ },
+      imageUrl: { required: true, photoUrl: /^(http|https):\/\/.*(\.jpg|\.png|\.webp)$/ },
     };
 
     return {
@@ -37,8 +39,19 @@ export default {
       this.$refs.modal.open();
       this.$refs.form.resetForm();
     },
-    submit(values) {
-      console.log(values);
+    async submit(values) {
+      this.submitting = true;
+      this.error = '';
+
+      try {
+        const res = await api.unsplash.addPhoto(values);
+        console.log(res);
+        this.$refs.modal.close();
+      } catch (err) {
+        this.error = err;
+      }
+
+      this.submitting = false;
     },
   },
 };

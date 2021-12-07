@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import api from '@/api';
+
 import useBodyClass from '@/hooks/useBodyClass';
 
 import SvgLogoMyUnsplash from '@/components/svg/LogoMyUnsplash.vue';
@@ -38,12 +40,28 @@ export default {
     EditPhotoModal,
     DeletePhotoModal,
   },
+  data() {
+    return {
+      photos: [],
+    };
+  },
   setup() {
     useBodyClass('module-unsplash');
+  },
+  async created() {
+    await this.getPhotos();
   },
   methods: {
     search(values) {
       console.log(values);
+    },
+    async getPhotos() {
+      try {
+        const res = await api.unsplash.myPhotos();
+        console.log(res);
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 };
