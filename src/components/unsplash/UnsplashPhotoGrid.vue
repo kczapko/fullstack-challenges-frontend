@@ -8,7 +8,12 @@
       span.material-icons.text-gray search_off
       p You do not have any photos that match the search criteria.
     ul.unsplash-photos__photo-list(v-else-if="photos.length")
-      unsplash-photo.unsplash-photos__photo-item(v-for="photo in photos" :key="photo._id" :photo="photo")
+      unsplash-photo.unsplash-photos__photo-item(
+        v-for="photo in photos"
+        :key="photo._id"
+        :photo="photo"
+        show-actions
+        show-caption)
 </template>
 
 <script>

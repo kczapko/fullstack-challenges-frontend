@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import debounce from 'lodash/debounce';
+
 import api from '@/api';
 
 import useBodyClass from '@/hooks/useBodyClass';
@@ -41,6 +43,15 @@ export default {
       openDeletePhotoModal: this.openDeletePhotoModal,
     };
   },
+  setup() {
+    useBodyClass('module-unsplash');
+
+    const debouncedHandleScroll = null;
+
+    return {
+      debouncedHandleScroll,
+    };
+  },
   data() {
     return {
       photos: [],
@@ -51,9 +62,6 @@ export default {
       total: null,
       loading: false,
     };
-  },
-  setup() {
-    useBodyClass('module-unsplash');
   },
   watch: {
     searchQuery() {
@@ -69,13 +77,14 @@ export default {
     },
   },
   async created() {
+    this.debouncedHandleScroll = debounce(this.handleScroll, 200);
     if (!this.$route.query.q) await this.getPhotos();
   },
   mounted() {
-    window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('scroll', this.debouncedHandleScroll);
   },
   unmounted() {
-    window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('scroll', this.debouncedHandleScroll);
   },
   methods: {
     async getPhotos() {
@@ -104,10 +113,12 @@ export default {
       this.loading = false;
     },
     handleScroll() {
-      const scroll = window.innerHeight + window.scrollY;
+      const scroll = Math.round(window.innerHeight + window.scrollY);
       const bodyHeight = document.body.offsetHeight;
 
-      if (scroll === bodyHeight) {
+      // if (scroll === bodyHeight) {
+      // need to substract some pixels becuse of Chrome
+      if (scroll > bodyHeight - 10) {
         if (this.loading) return;
 
         const nextPage = this.page + 1;

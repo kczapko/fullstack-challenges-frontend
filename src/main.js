@@ -8,6 +8,8 @@ import store from './store';
 import veeValidate from './plugins/veeValidate';
 import globalComponents from './plugins/globalComponents';
 
+import lazyLoad from './directives/lazy-load';
+
 import logout from './utils/logout';
 
 import '@/assets/scss/main.scss';
@@ -27,6 +29,8 @@ const init = async () => {
   app.use(createMetaManager());
   app.use(veeValidate);
   app.use(globalComponents);
+
+  app.directive('lazy-load', lazyLoad);
 
   app.config.globalProperties.$logoutUser = logoutUser;
   store.$logoutUser = logoutUser;

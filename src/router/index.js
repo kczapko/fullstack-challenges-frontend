@@ -8,6 +8,10 @@ import Message from '@/utils/Message';
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+  scrollBehavior() {
+    // always scroll to top
+    return { top: 0, behavior: 'smooth' };
+  },
 });
 
 router.beforeEach(async (to) => {
