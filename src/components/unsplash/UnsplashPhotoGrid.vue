@@ -13,7 +13,8 @@
         :key="photo._id"
         :photo="photo"
         show-actions
-        show-caption)
+        show-caption
+        tabindex="0")
 </template>
 
 <script>

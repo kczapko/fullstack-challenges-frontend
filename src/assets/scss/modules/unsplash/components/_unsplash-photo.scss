@@ -2,7 +2,8 @@
   position: relative;
 
   &:hover,
-  &:focus {
+  &:focus,
+  &:focus-within {
     &::before {
       opacity: 1;
     }

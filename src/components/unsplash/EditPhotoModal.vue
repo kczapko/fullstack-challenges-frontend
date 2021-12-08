@@ -53,7 +53,7 @@ export default {
         const res = await api.unsplash.editPhoto({ ...values, id: this.id });
         this.$refs.modal.close();
         this.$emit('edit-photo', res.data.data.editMyUnsplashImage);
-        this.addMessage(new Message('Photo update successfully'));
+        this.addMessage(new Message('Photo updated successfully'));
       } catch (err) {
         this.error = err;
       }
