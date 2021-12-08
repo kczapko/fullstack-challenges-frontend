@@ -5,7 +5,7 @@ base-modal.base-modal--edit-photo(modal-title="Edit photo" ref="modal")
     .form.form--edit-photo
       vee-form.form__form(:validation-schema="schema" @submit="submit" ref="form")
         .form__row
-          base-input(name="label" label="Label" placeholder="Caption your photo")
+          base-input(name="label" id="editLabel" label="Label" placeholder="Caption your photo")
         .form__row.form__row--submit
           base-button(type="button" variant="link" @click="close") Cancel
           base-button(type="submit" color="primary" :disabled="submitting") Update photo

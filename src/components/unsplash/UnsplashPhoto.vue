@@ -54,6 +54,7 @@ export default {
     photoStyle() {
       return {
         // 'aspect-ratio': this.photo.width / this.photo.height,
+        // '--height': Math.round((this.photo.height / this.photo.width) * 2),
       };
     },
     darkTheme() {

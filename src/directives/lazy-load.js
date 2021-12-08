@@ -3,7 +3,7 @@ const event = new Event('visible');
 const options = {
   root: null,
   rootMargin: '0px',
-  threshold: 0.25,
+  threshold: 0.2,
 };
 
 const callback = (entries, observer) => {

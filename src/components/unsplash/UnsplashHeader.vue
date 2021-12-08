@@ -1,7 +1,7 @@
 <template lang="pug">
 base-header
   template(#logo)
-    router-link(:to="{ name: 'unsplash' }")
+    router-link(:to="{ name: 'unsplash' }" aria-label="My Unsplash")
       svg-logo-my-unsplash
   template(#default)
     .header__search

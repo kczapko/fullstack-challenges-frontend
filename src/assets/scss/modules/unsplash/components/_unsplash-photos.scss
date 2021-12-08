@@ -95,6 +95,13 @@
   .unsplash-photos {
     &__photo-list {
       grid-template-columns: repeat(4, 1fr);
+      // --row-height: calc(100vw / 4 - 12rem);
+      // align-items: stretch;
     }
+
+    // &__photo-item {
+    //   min-height: calc(var(--row-height) * var(--height));
+    //   height: auto;
+    // }
   }
 }
