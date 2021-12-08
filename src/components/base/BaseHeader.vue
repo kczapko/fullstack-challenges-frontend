@@ -5,7 +5,7 @@ header.header
       router-link(:to="{ name: 'dashboard' }")
         svg-logo-dev-challenges
   .header__user(:class="{'header__user--open' : dropdownOpen}" @click.stop)
-    .header__user-info(@click="dropdownOpen = !dropdownOpen" @keydown.enter="dropdownOpen = !dropdownOpen" tabindex="0")
+    .header__user-info(@click="dropdownOpen = !dropdownOpen" @keyup.enter="dropdownOpen = !dropdownOpen" tabindex="0")
       base-user-image.header__user-image(:user="user")
       .header__user-name.font-700 {{ username }}
       .header__user-dropdown-arrow
