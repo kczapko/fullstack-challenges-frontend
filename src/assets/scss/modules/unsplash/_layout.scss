@@ -1,5 +1,5 @@
 .unsplash {
-  padding: 1.8rem;
+  padding: 11.9rem 1.8rem 1.8rem 1.8rem;
 
   ::selection {
     background-color: var(--color-primary);
@@ -10,6 +10,12 @@
     display: grid;
     grid-template-columns: min-content min-content;
     gap: 1rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--body-background-color);
+    padding: 1.8rem;
 
     &__logo {
       .logo {
@@ -113,6 +119,10 @@
 }
 
 .dark .unsplash {
+  .header {
+    background-color: var(--dark-body-background-color);
+  }
+
   .footer {
     border-color: var(--color-dark-gray2);
   }
@@ -120,6 +130,8 @@
 
 @media screen and (min-width: $breakpoint-medium) {
   .unsplash {
+    padding-top: 7.7rem;
+
     .header {
       grid-template-columns: min-content min-content 1fr min-content;
       justify-content: start;
@@ -152,6 +164,8 @@
 
 @media screen and (min-width: $breakpoint-big) {
   .unsplash {
+    padding-top: 8.3rem;
+
     .header {
       gap: 2rem;
 
@@ -181,6 +195,8 @@
   .unsplash {
     .header {
       gap: 3rem;
+      padding-left: max(calc((100% - 188.4rem) / 2 + 6.2rem), 8rem);
+      padding-right: max(calc((100% - 188.4rem) / 2 + 6.2rem), 8rem);
 
       &__logo {
         .logo {
