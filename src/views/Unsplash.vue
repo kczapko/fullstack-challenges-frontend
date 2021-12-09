@@ -58,9 +58,10 @@ export default {
       searchQuery: '',
       error: '',
       page: 1,
-      perPage: 10,
+      perPage: 20,
       total: null,
       loading: false,
+      loadThreshold: 500,
     };
   },
   watch: {
@@ -116,9 +117,7 @@ export default {
       const scroll = Math.round(window.innerHeight + window.scrollY);
       const bodyHeight = document.body.offsetHeight;
 
-      // if (scroll === bodyHeight) {
-      // need to substract some pixels becuse of Chrome
-      if (scroll > bodyHeight - 10) {
+      if (scroll > bodyHeight - this.loadThreshold) {
         if (this.loading) return;
 
         const nextPage = this.page + 1;

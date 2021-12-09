@@ -5,7 +5,7 @@ li.unsplash-photo(:class="photoClass" :style="photoStyle")
     base-button(variant="outline" size="small" color="danger" @click="openDeletePhotoModal(photo._id)") Delete
   figure.unsplash-photo__image
     img.unsplash-photo__img(
-      :src="loaded ? photo.path : require(`@/assets/img/${darkTheme ? 'rings-dark.svg' : 'rings.svg'}`)"
+      :src="visible ? photo.path : require(`@/assets/img/${darkTheme ? 'rings-dark.svg' : 'rings.svg'}`)"
       :width="photo.width"
       :height="photo.height"
       :alt="photo.label"
@@ -40,7 +40,7 @@ export default {
   },
   data() {
     return {
-      loaded: false,
+      visible: false,
     };
   },
   computed: {
@@ -62,15 +62,15 @@ export default {
     },
   },
   mounted() {
-    this.$refs.image.addEventListener('visible', this.imageLoaded);
+    this.$refs.image.addEventListener('visible', this.imageVisible);
   },
   beforeUnmount() {
-    this.$refs.image.removeEventListener('visible', this.imageLoaded);
+    this.$refs.image.removeEventListener('visible', this.imageVisible);
   },
   methods: {
-    imageLoaded() {
-      this.loaded = true;
-      this.$refs.image.removeEventListener('visible', this.imageLoaded);
+    imageVisible() {
+      this.visible = true;
+      this.$refs.image.removeEventListener('visible', this.imageVisible);
     },
   },
 };
