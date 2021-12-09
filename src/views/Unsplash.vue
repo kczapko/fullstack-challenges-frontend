@@ -61,7 +61,7 @@ export default {
       perPage: 20,
       total: null,
       loading: false,
-      loadThreshold: 500,
+      loadThreshold: 1000,
     };
   },
   watch: {

@@ -7,7 +7,7 @@ base-modal.base-modal--add-photo(modal-title="Add new photo" ref="modal")
         .form__row
           base-input(name="label" label="Label" placeholder="Caption your photo")
         .form__row
-          base-input(name="imageUrl" label="Photo URL" placeholder="Link to your photo")
+          base-input(name="imageUrl" type="url" label="Photo URL" placeholder="Link to your photo")
         .form__row.form__row--submit
           base-button(type="button" variant="link" @click="close") Cancel
           base-button(type="submit" color="primary" :disabled="submitting") Add photo
@@ -25,7 +25,7 @@ export default {
   setup() {
     const schema = {
       label: 'required|max:200',
-      imageUrl: { required: true, photoUrl: /^(http|https):\/\/.*(\.jpg|\.png|\.webp)$/ },
+      imageUrl: { required: true, photoUrl: /^(http|https):\/\// },
     };
 
     return {

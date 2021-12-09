@@ -39,8 +39,7 @@ export default {
           email: `${value} is not valid email.`,
           passwords_mismatch: "The passwords don't match.",
           url: `${value} is not valid url`,
-          photoUrl:
-            'Not valid photo url. Only http:// and https:// protocols and .jpg, .png and .webp files are allowed.',
+          photoUrl: 'Not valid photo url. Only http:// and https:// protocols are allowed.',
         };
 
         const message = messages[rule.name]

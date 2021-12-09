@@ -28,7 +28,7 @@ export default {
   emits: ['userDataUpdated'],
   setup() {
     const schema = {
-      imageUrl: { required: true, photoUrl: /^(http|https):\/\/.*(\.jpg|\.png|\.webp)$/ },
+      imageUrl: { required: true, photoUrl: /^(http|https):\/\// },
     };
 
     return { schema };

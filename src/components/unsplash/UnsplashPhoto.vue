@@ -5,14 +5,14 @@ li.unsplash-photo(:class="photoClass" :style="photoStyle")
     base-button(variant="outline" size="small" color="danger" @click="openDeletePhotoModal(photo._id)") Delete
   figure.unsplash-photo__image
     img.unsplash-photo__img(
-      :src="visible ? photo.path : require(`@/assets/img/${darkTheme ? 'rings-dark.svg' : 'rings.svg'}`)"
+      :src="visible ? photo.path : darkTheme ? darkLazyLoader : defaultLazyLoader"
       :width="photo.width"
       :height="photo.height"
       :alt="photo.label"
       v-lazy-load
       ref="image")
     figcaption.unsplash-photo__caption.font-700(v-if="showCaption") {{ photo.label }}
-      small.unsplash-photo__caption-source.font-400
+      small.unsplash-photo__caption-source.font-300
         span source:
         |
         | {{ photo.source }}
@@ -20,6 +20,8 @@ li.unsplash-photo(:class="photoClass" :style="photoStyle")
 
 <script>
 import { mapState } from 'vuex';
+
+import lazyLoader from '@/utils/lazyLoader';
 
 export default {
   name: 'UnsplashPhoto',
@@ -59,6 +61,12 @@ export default {
     },
     darkTheme() {
       return this.bodyClasses.includes('dark');
+    },
+    defaultLazyLoader() {
+      return lazyLoader({ width: this.photo.width, height: this.photo.height, stroke: '#999' });
+    },
+    darkLazyLoader() {
+      return lazyLoader({ width: this.photo.width, height: this.photo.height, stroke: '#ccc' });
     },
   },
   mounted() {
