@@ -11,6 +11,9 @@ const UserProfileEdit = () => import(/* webpackChunkName: "profile" */ '@/compon
 // prettier-ignore
 const Unsplash = () => import(/* webpackChunkName: "unsplash" */ '@/views/Unsplash.vue');
 
+// prettier-ignore
+const Shoppingify = () => import(/* webpackChunkName: "shoppingify" */ '@/views/Shoppingify.vue');
+
 export default [
   {
     path: '/',
@@ -91,6 +94,16 @@ export default [
     component: Unsplash,
     meta: {
       title: 'My Unsplash',
+      requireAuth: true,
+      requireConfirm: true,
+    },
+  },
+  {
+    path: '/shoppingify',
+    name: 'shoppingify',
+    component: Shoppingify,
+    meta: {
+      title: 'Shoppingify',
       requireAuth: true,
       requireConfirm: true,
     },

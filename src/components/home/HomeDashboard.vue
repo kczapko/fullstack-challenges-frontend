@@ -9,7 +9,7 @@
     home-dashboard-item(coming-soon name="Group Chat")
       template(#logo)
         SvgLogoChat
-    home-dashboard-item(coming-soon name="Shoppingify")
+    home-dashboard-item(:to="{ name: 'shoppingify' }" name="Shoppingify")
       template(#logo)
         SvgLogoShoppingify
     home-dashboard-item(coming-soon name="Tweeter")

@@ -8,8 +8,8 @@ base-header
       .form.form--search
         vee-form.form__form(@submit="search" v-slot="{ values }" ref="form")
           .form__row
-            base-input(name="search" icon="search" placeholder="Search by name" @input="searchQuery = values.search")
-    base-button.header__add-photo.font-700(color="primary" @click="$emit('add-photo-click')") Add photo
+            base-input(name="search" icon="search" placeholder="Search by name" @input="searchQuery = values.search.trim()")
+    base-button.header__add-photo.font-700(color="primary" @click="openAddPhotoModal") Add photo
 </template>
 
 <script>
@@ -22,7 +22,7 @@ export default {
   components: {
     SvgLogoMyUnsplash,
   },
-  emits: ['add-photo-click'],
+  inject: ['openAddPhotoModal'],
   data() {
     return {
       searchQuery: '',

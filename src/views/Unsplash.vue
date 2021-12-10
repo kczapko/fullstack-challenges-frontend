@@ -1,6 +1,6 @@
 <template lang="pug">
 .unsplash
-  unsplash-header(@add-photo-click="openAddPhotoModal")
+  unsplash-header
   main
     p.unsplash__error(v-if="error") {{ error }}
     unsplash-photo-grid(:photos="photos" :search-query="searchQuery")
@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import debounce from 'lodash/debounce';
 
 import api from '@/api';
@@ -60,9 +61,11 @@ export default {
       page: 1,
       perPage: 20,
       total: null,
-      loading: false,
       loadThreshold: 1000,
     };
+  },
+  computed: {
+    ...mapState(['loading']),
   },
   watch: {
     searchQuery() {
@@ -92,7 +95,6 @@ export default {
       this.error = '';
 
       if (this.loading || this.photos.length === this.total) return;
-      this.loading = true;
 
       try {
         const res = await api.unsplash.myPhotos({
@@ -110,8 +112,6 @@ export default {
       } catch (err) {
         this.error = err;
       }
-
-      this.loading = false;
     },
     handleScroll() {
       const scroll = Math.round(window.innerHeight + window.scrollY);
