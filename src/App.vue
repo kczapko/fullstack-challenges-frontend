@@ -1,6 +1,6 @@
 <template lang="pug">
 metainfo
-  template(v-slot:title="{ content }") {{ content ? `${content} - Fullstack challenge` : `Fullstack challenge` }}
+  template(v-slot:title="{ content }") {{ content ? `${content} - Fullstack challenges` : `Fullstack challenges` }}
 base-message
 router-view
 base-cookie-message

@@ -1,5 +1,8 @@
-@import '../../variables';
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap');
 
-body.module-shoppingify {
-  background: red;
-}
+@import '../../variables';
+@import 'variables';
+
+@import 'layout';
+
+@import 'components/base';

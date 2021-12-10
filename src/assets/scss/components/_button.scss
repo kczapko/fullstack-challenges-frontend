@@ -107,6 +107,47 @@
     }
   }
 
+  &--secondary {
+    background-color: var(--color-secondary);
+    color: var(--color-white);
+    border-color: var(--color-secondary);
+
+    &:hover,
+    &:focus {
+      background-color: var(--color-secondary-darker);
+      border-color: var(--color-secondary-darker);
+    }
+
+    &:disabled {
+      &,
+      &:hover,
+      &:focus {
+        background-color: var(--color-secondary);
+        border-color: var(--color-secondary);
+      }
+    }
+
+    &.base-btn--variant-link {
+      background-color: var(--color-white);
+      color: var(--color-secondary);
+
+      &:hover,
+      &:focus {
+        background-color: var(--color-secondary-lighter);
+      }
+    }
+
+    &.base-btn--variant-outline {
+      color: var(--color-secondary);
+      background-color: transparent;
+
+      &:hover,
+      &:focus {
+        background-color: var(--color-secondary-lighter);
+      }
+    }
+  }
+
   &--danger {
     background-color: var(--color-danger);
     color: var(--color-white);
@@ -190,6 +231,26 @@
       &:hover,
       &:focus {
         background-color: var(--color-primary-darker);
+        color: var(--color-white);
+      }
+    }
+  }
+
+  &--secondary {
+    &.base-btn--variant-link {
+      background-color: var(--color-dark-gray);
+      color: var(--color-secondary);
+
+      &:hover,
+      &:focus {
+        background-color: darken($color-dark-gray, 8);
+      }
+    }
+
+    &.base-btn--variant-outline {
+      &:hover,
+      &:focus {
+        background-color: var(--color-secondary-darker);
         color: var(--color-white);
       }
     }
