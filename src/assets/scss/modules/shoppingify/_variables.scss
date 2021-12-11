@@ -1,11 +1,12 @@
 .module-shoppingify {
   --color-primary: hsl(38, 95%, 51%);
-  --color-primary-darker: hsl(38, 95%, 41%);
+  --color-primary-darker: hsl(38, 95%, 46%);
   --color-primary-lighter: hsl(38, 95%, 96%);
   --color-secondary: hsl(195, 86%, 64%);
   --color-secondary-darker: hsl(195, 86%, 54%);
   --color-secondary-lighter: hsl(195, 86%, 96%);
   --color-light-gray3: #c1c1c4;
+  --color-dark-gray3: #454545;
 
   --text-color: var(--color-black);
 
@@ -17,4 +18,7 @@
 
 $color-primary: #f9a20b;
 $color-secondary: #54cbf2;
-$color-disabled: #c1c1c4;
+$color-light-gray3: #c1c1c4;
+$color-dark-gray3: #454545;
+
+$breakpoint-medium: 48em;

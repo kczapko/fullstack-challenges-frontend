@@ -102,8 +102,31 @@ export default [
     path: '/shoppingify',
     name: 'shoppingify',
     component: Shoppingify,
+    props: { action: 'items' },
     meta: {
       title: 'Shoppingify',
+      requireAuth: true,
+      requireConfirm: true,
+    },
+  },
+  {
+    path: '/shoppingify/history',
+    name: 'shoppingify-history',
+    component: Shoppingify,
+    props: { action: 'history' },
+    meta: {
+      title: 'Shoppingify - History',
+      requireAuth: true,
+      requireConfirm: true,
+    },
+  },
+  {
+    path: '/shoppingify/statistics',
+    name: 'shoppingify-statistics',
+    component: Shoppingify,
+    props: { action: 'statistics' },
+    meta: {
+      title: 'Shoppingify - Statistics',
       requireAuth: true,
       requireConfirm: true,
     },

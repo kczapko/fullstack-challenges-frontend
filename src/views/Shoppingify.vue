@@ -1,6 +1,8 @@
 <template lang="pug">
 .shoppingify
   shoppingify-header
+  main
+  aside
 </template>
 
 <script>

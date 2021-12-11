@@ -12,6 +12,8 @@ const router = createRouter({
     // always scroll to top
     return { top: 0, behavior: 'smooth' };
   },
+  linkActiveClass: 'active',
+  linkExactActiveClass: 'active--exact',
 });
 
 router.beforeEach(async (to) => {

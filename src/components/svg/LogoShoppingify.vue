@@ -1,5 +1,10 @@
 <template>
-  <svg viewBox="0 0 42 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    class="logo logo--shoppingify"
+    viewBox="0 0 42 43"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M31.5698 2.36509C32.0835 2.36509 32.5 1.94725 32.5 1.43181C32.5 0.916377 32.0835 0.498535 31.5698 0.498535C31.0561 0.498535 30.6396 0.916377 30.6396 1.43181C30.6396 1.94725 31.0561 2.36509 31.5698 2.36509Z"
       fill="#3F3D56"
