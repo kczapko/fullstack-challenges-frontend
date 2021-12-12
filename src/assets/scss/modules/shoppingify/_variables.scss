@@ -7,6 +7,8 @@
   --color-secondary-lighter: hsl(195, 86%, 96%);
   --color-light-gray3: #c1c1c4;
   --color-dark-gray3: #454545;
+  --color-light-orange: #fff0de;
+  --color-purple: #80485b;
 
   --text-color: var(--color-black);
 
@@ -21,4 +23,6 @@ $color-secondary: #54cbf2;
 $color-light-gray3: #c1c1c4;
 $color-dark-gray3: #454545;
 
+$breakpoint-very-small: 22em;
+$breakpoint-small: 26em;
 $breakpoint-medium: 48em;

@@ -1,0 +1,31 @@
+.shoppingify {
+  aside,
+  #modals {
+    .base-btn {
+      border: 0;
+
+      &:not(.base-btn--circle) {
+        padding-top: 2rem;
+        padding-bottom: 2.1rem;
+      }
+
+      &--default {
+        color: var(--color-black);
+      }
+
+      .dark &--default {
+        color: var(--color-white);
+      }
+    }
+
+    .base-input {
+      &__input {
+        border-width: 2px;
+        border-color: var(--color-light-gray3);
+        color: var(--color-black);
+        padding-top: 1.9rem;
+        padding-bottom: 1.9rem;
+      }
+    }
+  }
+}

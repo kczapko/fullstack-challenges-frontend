@@ -12,7 +12,7 @@ export default {
     color: {
       type: String,
       validator(val) {
-        return ['default', 'primary', 'danger'].includes(val);
+        return ['default', 'primary', 'secondary', 'danger'].includes(val);
       },
       default: 'default',
     },
