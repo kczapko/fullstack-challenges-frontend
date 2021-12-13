@@ -3,6 +3,11 @@
   font-weight: 500;
   padding: 0 0 0 6.2rem;
 
+  ::selection {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+  }
+
   .header {
     position: fixed;
     left: 0;
@@ -147,6 +152,11 @@
     }
   }
 
+  main {
+    height: 100vh;
+    overflow-y: auto;
+  }
+
   aside {
     position: fixed;
     top: 0;
@@ -154,21 +164,7 @@
     right: 0;
     width: calc(100% - 6.2rem);
     max-width: 40rem;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-white) var(--color-light-orange);
-
-    &::-webkit-scrollbar {
-      width: 0.8rem;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: var(--color-white);
-    }
-
-    &::-webkit-scrollbar-track {
-      background-color: var(--color-light-orange);
-    }
+    transform: translateX(0);
   }
 }
 
@@ -178,18 +174,6 @@
 
     &__nav-link-icon {
       color: var(--color-light-gray3);
-    }
-  }
-
-  aside {
-    scrollbar-color: var(--color-dark-gray) var(--color-dark-gray3);
-
-    &::-webkit-scrollbar-thumb {
-      background-color: var(--color-dark-gray);
-    }
-
-    &::-webkit-scrollbar-track {
-      background-color: var(--color-dark-gray3);
     }
   }
 }

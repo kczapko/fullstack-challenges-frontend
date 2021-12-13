@@ -11,7 +11,7 @@
           .shopping-list__body-section-product-quantity 3pcs
         li.shopping-list__body-section-product
           .shopping-list__body-section-product-complete
-            .shopping-list__body-section-product-complete-label
+            label.shopping-list__body-section-product-complete-label
               input.shopping-list__body-section-product-complete-input(type="checkbox")
           .shopping-list__body-section-product-name Pre-cooked corn corn corn 450g
           .shopping-list__body-section-product-quantity 1pc
@@ -24,7 +24,7 @@
           .shopping-list__body-section-product-quantity 3pcs
         li.shopping-list__body-section-product.shopping-list__body-section-product--completed
           .shopping-list__body-section-product-complete
-            .shopping-list__body-section-product-complete-label
+            label.shopping-list__body-section-product-complete-label
               input.shopping-list__body-section-product-complete-input(type="checkbox")
           .shopping-list__body-section-product-name Pre-cooked corn 450g
           .shopping-list__body-section-product-quantity 1pc
