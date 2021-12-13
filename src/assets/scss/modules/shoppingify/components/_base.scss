@@ -25,6 +25,24 @@
         color: var(--color-black);
         padding-top: 1.9rem;
         padding-bottom: 1.9rem;
+
+        &:focus {
+          border-color: var(--color-primary);
+        }
+      }
+    }
+  }
+}
+
+.dark .shoppingify {
+  aside,
+  #modals {
+    .base-input__input {
+      border-color: var(--color-dark-gray3);
+      color: var(--color-white);
+
+      &:focus {
+        border-color: var(--color-primary);
       }
     }
   }
