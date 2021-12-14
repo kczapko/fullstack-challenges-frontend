@@ -152,6 +152,7 @@
   main {
     height: 100vh;
     overflow-y: auto;
+    padding: 3rem 1.2rem;
   }
 
   aside {
@@ -186,6 +187,18 @@
       &__nav-list {
         gap: 3rem;
       }
+    }
+
+    main {
+      padding: 3rem;
+    }
+  }
+}
+
+@media screen and (min-width: $breakpoint-big) {
+  .shoppingify {
+    main {
+      padding: 3rem 48rem 3rem 8rem;
     }
   }
 }

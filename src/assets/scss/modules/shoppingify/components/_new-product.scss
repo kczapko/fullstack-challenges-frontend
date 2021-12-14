@@ -6,18 +6,18 @@
   overflow-y: auto;
 
   scrollbar-width: thin;
-  scrollbar-color: var(--color-light-gray3) var(-body-background-color);
+  scrollbar-color: var(--color-light-gray3) var(--body-background-color);
 
   &::-webkit-scrollbar {
     width: 0.8rem;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--color-white);
+    background-color: var(--color-light-gray3);
   }
 
   &::-webkit-scrollbar-track {
-    background-color: var(-body-background-color);
+    background-color: var(--body-background-color);
   }
 
   .form {
@@ -80,18 +80,18 @@
       overflow-y: auto;
 
       scrollbar-width: thin;
-      scrollbar-color: var(--color-light-gray3) var(-body-background-color);
+      scrollbar-color: var(--color-light-gray3) var(--color-white);
 
       &::-webkit-scrollbar {
         width: 0.8rem;
       }
 
       &::-webkit-scrollbar-thumb {
-        background-color: var(--color-white);
+        background-color: var(--color-light-gray3);
       }
 
       &::-webkit-scrollbar-track {
-        background-color: var(-body-background-color);
+        background-color: var(--body-color-white);
       }
     }
 
@@ -142,11 +142,32 @@
 
 .dark .new-product {
   background-color: var(--dark-body-background-color);
+  scrollbar-color: var(--color-dark-gray3) var(--dark-body-background-color);
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-dark-gray3);
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: var(--dark-body-background-color);
+  }
 
   .form {
     &__suggestions {
       background: var(--color-dark-gray3);
       border: 1px solid var(--color-dark-gray2);
+    }
+
+    &__suggestions-list {
+      scrollbar-color: var(--color-dark-gray) var(--color-dark-gray3);
+
+      &::-webkit-scrollbar-thumb {
+        background-color: var(--color-dark-gray);
+      }
+
+      &::-webkit-scrollbar-track {
+        background-color: var(--color-dark-gray3);
+      }
     }
 
     &__suggestions-link {

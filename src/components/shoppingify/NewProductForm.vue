@@ -11,7 +11,7 @@ section.new-product
         base-input(name="imageUrl" label="Image (optional)" placeholder="Enter a url")
       .form__row.form__row--category
         base-input(name="category" label="Category" placeholder="Enter a category")
-        base-button(icon="close" circle title="Close suggestions")
+        base-button(icon="close" circle title="Remove selected category")
         .form__suggestions
           ul.form__suggestions-list
             li.form__suggestions-list-item
