@@ -3,10 +3,10 @@
   shoppingify-header
   main
     products-list
-  aside
+  //- aside
     //- shopping-list
     //- new-product-form
-    product-view
+    //- product-view
 </template>
 
 <script>
