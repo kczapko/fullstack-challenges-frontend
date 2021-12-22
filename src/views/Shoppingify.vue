@@ -2,7 +2,9 @@
 .shoppingify
   shoppingify-header
   main
-    products-list
+    //- shoppingify-home
+    //- shopping-history
+    single-history
   //- aside
     //- shopping-list
     //- new-product-form
@@ -16,7 +18,9 @@ import ShoppingifyHeader from '@/components/shoppingify/ShoppingifyHeader.vue';
 import ShoppingList from '@/components/shoppingify/shopping-list/ShoppingList.vue';
 import NewProductForm from '@/components/shoppingify/NewProductForm.vue';
 import ProductView from '@/components/shoppingify/ProductView.vue';
-import ProductsList from '@/components/shoppingify/ProductsList.vue';
+import ShoppingifyHome from '@/components/shoppingify/ShoppingifyHome.vue';
+import ShoppingHistory from '@/components/shoppingify/ShoppingHistory.vue';
+import SingleHistory from '@/components/shoppingify/SingleHistory.vue';
 
 import '@/assets/scss/modules/shoppingify/main.scss';
 
@@ -27,7 +31,9 @@ export default {
     ShoppingList,
     NewProductForm,
     ProductView,
-    ProductsList,
+    ShoppingifyHome,
+    ShoppingHistory,
+    SingleHistory,
   },
   setup() {
     useBodyClass('module-shoppingify');

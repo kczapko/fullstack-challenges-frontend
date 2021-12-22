@@ -1,0 +1,50 @@
+.single-history {
+  &__back-link {
+    font-size: 1.4rem;
+
+    .material-icons {
+      font-size: 1.4rem;
+      vertical-align: middle;
+    }
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      color: var(--color-white);
+      background-color: var(--color-primary);
+    }
+  }
+
+  &__header {
+    margin: 2.5rem 0 4rem;
+  }
+
+  &__title {
+    font-size: 2rem;
+    line-height: normal;
+    margin: 0 0 1rem;
+  }
+
+  &__time {
+    font-size: 1.2rem;
+    color: var(--color-light-gray3);
+    display: flex;
+    align-items: center;
+
+    &::before {
+      content: '\e616';
+      font-family: 'Material Icons';
+      font-size: 2.2rem;
+      margin-right: 0.6rem;
+    }
+  }
+}
+
+@media screen and (min-width: $breakpoint-big) {
+  .single-history {
+    &__title {
+      font-size: 2.6rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+}
