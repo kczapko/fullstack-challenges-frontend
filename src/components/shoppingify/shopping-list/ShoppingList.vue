@@ -4,7 +4,7 @@ section.shopping-list
   .shopping-list__container
     .shopping-list__add-item
       p.shopping-list__add-item-text.font-700 Didn’t find what you need?
-      base-button.shopping-list__add-item-button.font-700 Add item
+      base-button.shopping-list__add-item-button.font-700(@click="$emit('add-item-click')") Add item
     //- .shopping-list__empty
     //-   p.shopping-list__empty-text.font-700 No items
     shopping-list-body
@@ -21,5 +21,6 @@ export default {
     ShoppingListFooter,
     ShoppingListBody,
   },
+  emits: ['add-item-click'],
 };
 </script>

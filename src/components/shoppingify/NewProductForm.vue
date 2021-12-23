@@ -1,5 +1,5 @@
 <template lang="pug">
-section.new-product
+section.new-product(:class="{ 'new-product--open' : isOpen }")
   .form.form--new-product
     h2.form__header Add new product
     vee-form.form__form(:validation-schema="schema" @submit="submit")
@@ -26,7 +26,7 @@ section.new-product
               a.form__suggestions-link(href="#") Beverages
       p.form__error(v-if="error") {{ error }}
       .form__row.form__row--submit
-        base-button(type="button") Cancel
+        base-button(type="button" @click="close") Cancel
         base-button(type="submit" color="primary" :disabled="submitting") Save
 </template>
 
@@ -40,12 +40,19 @@ export default {
   },
   data() {
     return {
+      isOpen: false,
       submitting: false,
       error: '',
     };
   },
   methods: {
     submit() {},
+    open() {
+      this.isOpen = true;
+    },
+    close() {
+      this.isOpen = false;
+    },
   },
 };
 </script>

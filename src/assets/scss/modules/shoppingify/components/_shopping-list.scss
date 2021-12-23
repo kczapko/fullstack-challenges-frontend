@@ -2,6 +2,11 @@
   background-color: var(--color-light-orange);
   height: 100%;
   transform: translateX(0);
+  transition: transform 200ms ease-in-out;
+
+  &--open {
+    transform: translateX(-100%);
+  }
 
   &--empty {
     .shopping-list__container {
@@ -344,5 +349,11 @@
     &__footer-actions {
       gap: 3rem;
     }
+  }
+}
+
+@media screen and (min-width: $breakpoint-large) {
+  .shopping-list {
+    transform: translateX(-100%);
   }
 }

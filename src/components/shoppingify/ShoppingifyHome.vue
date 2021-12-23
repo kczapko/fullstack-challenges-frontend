@@ -1,5 +1,5 @@
 <template lang="pug">
-.shoppingify-home
+section.shoppingify-home
   header.shoppingify-home__header
     h1.shoppingify-home__title.font-500
       strong.color-primary.font-700 Shoppingify

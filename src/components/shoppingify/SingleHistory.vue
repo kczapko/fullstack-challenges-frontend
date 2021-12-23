@@ -1,5 +1,5 @@
 <template lang="pug">
-.single-history
+section.single-history
   .single-history__back
    a.single-history__back-link(href="#")
     span.material-icons keyboard_backspace

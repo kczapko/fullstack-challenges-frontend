@@ -129,6 +129,12 @@
       justify-content: center;
       align-items: center;
       position: relative;
+      cursor: pointer;
+
+      &:hover,
+      &:focus {
+        background-color: var(--color-primary-darker);
+      }
     }
 
     &__cart-icon {
@@ -162,7 +168,7 @@
     right: 0;
     width: calc(100% - 6.2rem);
     max-width: 40rem;
-    transform: translateX(0);
+    transform: translateX(100%);
   }
 }
 

@@ -18,7 +18,7 @@ base-header
           router-link.header__nav-link.header__nav-link--statistics(:to="{ name: 'shoppingify-statistics' }")
             span.header__nav-link-icon.material-icons insert_chart_outlined
             span.header__nav-link-text statistics
-    .header__cart
+    .header__cart(@click="$emit('cart-clicked')")
       span.header__cart-icon.material-icons-outlined shopping_cart
       span.header__cart-count 4
 </template>
@@ -31,5 +31,6 @@ export default {
   components: {
     SvgLogoShoppingify,
   },
+  emits: ['cart-clicked'],
 };
 </script>
