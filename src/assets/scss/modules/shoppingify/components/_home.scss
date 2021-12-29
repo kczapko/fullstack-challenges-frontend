@@ -24,6 +24,7 @@
 .dark .shoppingify-home {
   &__search {
     .base-input__input {
+      border: 1px solid var(--color-gray);
       box-shadow: 0px 0.2rem 1.2rem rgba($color-white, 0.1);
     }
   }

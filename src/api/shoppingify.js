@@ -33,4 +33,30 @@ const myProducts = async () => {
   return axios.post('/graphql', graphqlQuery);
 };
 
-export { myProductCategories, myProducts };
+// eslint-disable-next-line object-curly-newline
+const addMyProduct = async ({ name, note, imageUrl, category }) => {
+  const graphqlQuery = {
+    query: `
+      mutation addMyShoppingifyProduct($name: String!, $note: String, $imageUrl: String, $category: String!) {
+        addMyShoppingifyProduct(productInput: {name: $name, note: $note, imageUrl: $imageUrl, category: $category}) {
+          _id
+          name
+          category {
+            _id
+            name
+          }
+        }
+      }
+    `,
+    variables: {
+      name,
+      note,
+      imageUrl,
+      category,
+    },
+  };
+
+  return axios.post('/graphql', graphqlQuery);
+};
+
+export { myProductCategories, myProducts, addMyProduct };

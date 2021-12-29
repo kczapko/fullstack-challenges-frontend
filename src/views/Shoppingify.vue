@@ -46,6 +46,11 @@ export default {
     SingleHistory,
     ShoppingStatistics,
   },
+  provide() {
+    return {
+      openAddProduct: this.openAddProduct,
+    };
+  },
   props: {
     action: {
       type: String,

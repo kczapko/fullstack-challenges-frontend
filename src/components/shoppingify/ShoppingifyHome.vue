@@ -9,16 +9,24 @@ section.shoppingify-home
       vee-form.form__form(@submit="search")
         .form__row
           base-input(name="search" icon="search" placeholder="Search product")
-  products-list.shoppingify-home__products-list
+  products-list.shoppingify-home__products-list(:products="products" :categories="categories")
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import ProductsList from '@/components/shoppingify/ProductsList.vue';
 
 export default {
   name: 'ShoppingifyHome',
   components: {
     ProductsList,
+  },
+  computed: {
+    ...mapState('shoppingify', ['products', 'categories']),
+  },
+  methods: {
+    search() {},
   },
 };
 </script>
