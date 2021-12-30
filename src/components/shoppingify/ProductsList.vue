@@ -4,11 +4,11 @@ section.products-list
     p.products-list__empty-text You don't have any products to add to the list
     base-button.products-list__empty-button(color="primary" @click="openAddProduct") Start adding them
   .products-list__body(v-else)
-    template(v-for="(categories, categoryName) in categorizedProducts")
+    template(v-for="(products, categoryName) in categorizedProducts")
       h2.products-list__category.font-500 {{ categoryName }}
       ul.products-list__list
-        li.products-list__list-item(v-for="product in categories")
-          a.products-list__product-name(href="#") {{ product.name }}
+        li.products-list__list-item(v-for="product in products")
+          a.products-list__product-name(href="#" @click="viewProduct(product._id)") {{ product.name }}
           button.products-list__add-to-list(v-if="mode === 'add'" title="Add to list")
             span.material-icons add
           span.products-list__quantity(v-if="mode === 'history'") 2 pcs
@@ -17,7 +17,7 @@ section.products-list
 <script>
 export default {
   name: 'ProductsList',
-  inject: ['openAddProduct'],
+  inject: ['openAddProduct', 'viewProduct'],
   props: {
     products: {
       type: Array,

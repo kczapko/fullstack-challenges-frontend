@@ -10,16 +10,18 @@ svg-page-loader(v-if="!loaded")
   aside
     shopping-list(:class="{ 'shopping-list--open': shoppingListOpen }" @add-item-click="openAddProduct")
     new-product-form(ref="newProductForm")
-    product-view
+    product-view(ref="productView")
 </template>
 
 <script>
-import { useStore } from 'vuex';
+import { useStore, mapActions } from 'vuex';
 import { ref, onUnmounted } from 'vue';
 
 import useBodyClass from '@/hooks/useBodyClass';
 
 import shoppingifyStore from '@/store/modules/shoppingify';
+
+import Message from '@/utils/Message';
 
 import SvgPageLoader from '@/components/svg/PageLoader.vue';
 import ShoppingifyHeader from '@/components/shoppingify/ShoppingifyHeader.vue';
@@ -49,6 +51,7 @@ export default {
   provide() {
     return {
       openAddProduct: this.openAddProduct,
+      viewProduct: this.viewProduct,
     };
   },
   props: {
@@ -84,11 +87,23 @@ export default {
     };
   },
   methods: {
+    ...mapActions('shoppingify', ['loadMyProduct']),
+    ...mapActions(['addMessage']),
     toggleShoppingList() {
       this.shoppingListOpen = !this.shoppingListOpen;
     },
     openAddProduct() {
       this.$refs.newProductForm.open();
+    },
+    async viewProduct(id) {
+      try {
+        await this.loadMyProduct(id);
+        this.$refs.productView.open();
+      } catch (err) {
+        this.addMessage(
+          new Message(err.message || 'Unexpected error during loading product.', 'error'),
+        );
+      }
     },
   },
 };

@@ -78,6 +78,7 @@ export default {
     },
     open() {
       this.$refs.form.resetForm();
+      this.selectedCategory = null;
       this.isOpen = true;
     },
     close() {

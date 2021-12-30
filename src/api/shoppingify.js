@@ -33,6 +33,29 @@ const myProducts = async () => {
   return axios.post('/graphql', graphqlQuery);
 };
 
+const myProduct = async (id) => {
+  const graphqlQuery = {
+    query: `
+      query myShoppingifyProduct($id: ID!) {
+        myShoppingifyProduct(id: $id) {
+          _id
+          name
+          note
+          image
+          category {
+            name
+          }
+        }
+      }
+    `,
+    variables: {
+      id,
+    },
+  };
+
+  return axios.post('/graphql', graphqlQuery);
+};
+
 // eslint-disable-next-line object-curly-newline
 const addMyProduct = async ({ name, note, imageUrl, category }) => {
   const graphqlQuery = {
@@ -59,4 +82,28 @@ const addMyProduct = async ({ name, note, imageUrl, category }) => {
   return axios.post('/graphql', graphqlQuery);
 };
 
-export { myProductCategories, myProducts, addMyProduct };
+const deleteMyProduct = async (id) => {
+  const graphqlQuery = {
+    query: `
+      mutation deleteMyShoppingifyProduct($id: ID!) {
+        deleteMyShoppingifyProduct(id: $id) {
+          _id
+        }
+      }
+    `,
+    variables: {
+      id,
+    },
+  };
+
+  return axios.post('/graphql', graphqlQuery);
+};
+
+// prettier-ignore
+export {
+  myProductCategories,
+  myProducts,
+  addMyProduct,
+  myProduct,
+  deleteMyProduct,
+};
