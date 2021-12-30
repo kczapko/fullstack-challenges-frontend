@@ -17,7 +17,7 @@ section.product-view(:class="{ 'product-view--open' : isOpen }" v-if="product")
     dd.product-view__description-value(v-if="product.note") {{ product.note }}
   footer.product-view__footer
     base-button(@click="deleteProduct(product._id)") Delete
-    base-button(color="primary") Add to list
+    base-button(color="primary" @click="addProductToShoppingList(product._id)") Add to list
 </template>
 
 <script>
@@ -38,7 +38,7 @@ export default {
     }),
   },
   methods: {
-    ...mapActions('shoppingify', ['deleteMyProduct']),
+    ...mapActions('shoppingify', ['deleteMyProduct', 'addProductToShoppingList']),
     ...mapActions(['addMessage']),
     open() {
       this.isOpen = true;

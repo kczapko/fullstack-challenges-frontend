@@ -9,12 +9,14 @@ section.products-list
       ul.products-list__list
         li.products-list__list-item(v-for="product in products")
           a.products-list__product-name(href="#" @click="viewProduct(product._id)") {{ product.name }}
-          button.products-list__add-to-list(v-if="mode === 'add'" title="Add to list")
+          button.products-list__add-to-list(v-if="mode === 'add'" title="Add to list" @click="addProductToShoppingList(product._id)")
             span.material-icons add
           span.products-list__quantity(v-if="mode === 'history'") 2 pcs
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'ProductsList',
   inject: ['openAddProduct', 'viewProduct'],
@@ -56,6 +58,9 @@ export default {
 
       return products;
     },
+  },
+  methods: {
+    ...mapActions('shoppingify', ['addProductToShoppingList']),
   },
 };
 </script>

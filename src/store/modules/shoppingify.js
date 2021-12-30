@@ -7,6 +7,12 @@ export default {
       categories: [],
       products: [],
       activeProduct: null,
+      shoppingList: {
+        products: [],
+        mode: 'editing',
+        name: '',
+        _id: null,
+      },
     };
   },
   mutations: {
@@ -31,6 +37,23 @@ export default {
     },
     setActiveProduct(state, payload) {
       state.activeProduct = payload;
+    },
+    addProductToShoppingList(state, payload) {
+      const { products } = state.shoppingList;
+      // eslint-disable-next-line no-underscore-dangle
+      const shoppingListProduct = products.find((p) => p.product._id === payload);
+
+      if (shoppingListProduct) {
+        shoppingListProduct.quantity += 1;
+      } else {
+        // eslint-disable-next-line no-underscore-dangle
+        const product = state.products.find((p) => p._id === payload);
+        products.push({
+          product,
+          quantity: 1,
+          completed: false,
+        });
+      }
     },
   },
   actions: {
@@ -66,6 +89,44 @@ export default {
 
       commit('setActiveProduct', null);
       commit('removeProduct', res.data.data.deleteMyShoppingifyProduct);
+    },
+    addProductToShoppingList({ commit }, payload) {
+      commit('addProductToShoppingList', payload);
+    },
+  },
+  getters: {
+    shoppingListIsEmpty(state) {
+      return state.shoppingList.products.length === 0;
+    },
+    shoppingListProductsCount(state) {
+      return state.shoppingList.products.length;
+    },
+    shoppingListSaved(state) {
+      // eslint-disable-next-line no-underscore-dangle
+      return Boolean(state.shoppingList._id);
+    },
+    shoppingListMode(state) {
+      return state.shoppingList.mode;
+    },
+    shoppingListProducts(state) {
+      const products = {};
+      const categories = {};
+
+      for (let i = 0; i < state.categories.length; i += 1) {
+        // eslint-disable-next-line no-underscore-dangle
+        categories[state.categories[i]._id] = state.categories[i].name;
+      }
+
+      for (let i = 0; i < state.shoppingList.products.length; i += 1) {
+        const product = state.shoppingList.products[i];
+        // eslint-disable-next-line no-underscore-dangle
+        const category = categories[product.product.category._id];
+
+        if (!products[category]) products[category] = [];
+        products[category].push(product);
+      }
+
+      return products;
     },
   },
 };

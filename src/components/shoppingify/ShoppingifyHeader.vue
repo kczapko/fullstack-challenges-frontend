@@ -20,10 +20,12 @@ base-header
             span.header__nav-link-text statistics
     .header__cart(@click="$emit('cart-clicked')")
       span.header__cart-icon.material-icons-outlined shopping_cart
-      span.header__cart-count 4
+      span.header__cart-count(v-if="shoppingListProductsCount") {{ shoppingListProductsCount }}
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 import SvgLogoShoppingify from '@/components/svg/LogoShoppingify.vue';
 
 export default {
@@ -32,5 +34,8 @@ export default {
     SvgLogoShoppingify,
   },
   emits: ['cart-clicked'],
+  computed: {
+    ...mapGetters('shoppingify', ['shoppingListProductsCount']),
+  },
 };
 </script>
