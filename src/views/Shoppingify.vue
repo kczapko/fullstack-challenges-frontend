@@ -75,9 +75,11 @@ export default {
     Promise.all([
       store.dispatch('shoppingify/getMyProductCategories'),
       store.dispatch('shoppingify/getMyProducts'),
-    ]).then(() => {
-      loaded.value = true;
-    });
+    ])
+      .then(() => store.dispatch('shoppingify/getMyShoppingList'))
+      .then(() => {
+        loaded.value = true;
+      });
 
     return { loaded };
   },

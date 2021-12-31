@@ -17,7 +17,7 @@ section.product-view(:class="{ 'product-view--open' : isOpen }" v-if="product")
     dd.product-view__description-value(v-if="product.note") {{ product.note }}
   footer.product-view__footer
     base-button(@click="deleteProduct(product._id)") Delete
-    base-button(color="primary" @click="addProductToShoppingList(product._id)") Add to list
+    base-button(color="primary" @click="addProductToShoppingList(product._id); close()") Add to list
 </template>
 
 <script>

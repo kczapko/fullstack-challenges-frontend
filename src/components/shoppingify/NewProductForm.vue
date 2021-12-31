@@ -14,7 +14,7 @@ section.new-product(:class="{ 'new-product--open' : isOpen }")
         base-button(
           icon="close"
           circle
-          title="Remove selected category"
+          title="Remove category selection"
           v-if="selectedCategory"
           @click="removeSelectedCategory")
         .form__suggestions(v-if="categories.length")

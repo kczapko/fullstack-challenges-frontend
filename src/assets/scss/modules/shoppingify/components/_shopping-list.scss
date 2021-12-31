@@ -163,6 +163,7 @@
     text-align: center;
     margin-left: auto;
     flex: 0 0 auto;
+    cursor: pointer;
   }
 
   &__product-complete {
@@ -257,6 +258,14 @@
     display: flex;
     justify-content: center;
     gap: 1.5rem;
+  }
+
+  &__modal {
+    .base-modal__body {
+      display: flex;
+      justify-content: flex-end;
+      gap: 2rem;
+    }
   }
 }
 

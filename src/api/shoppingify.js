@@ -99,11 +99,115 @@ const deleteMyProduct = async (id) => {
   return axios.post('/graphql', graphqlQuery);
 };
 
-// prettier-ignore
+const myShoppingList = async () => {
+  const graphqlQuery = {
+    query: `
+      query myShoppingList {
+        myShoppingList {
+          _id
+          name
+          products {
+            product {
+              _id
+            }
+            quantity
+            completed
+          }
+        }
+      }
+    `,
+  };
+
+  return axios.post('/graphql', graphqlQuery);
+};
+
+const saveMyShoppingList = async ({ name, products }) => {
+  const graphqlQuery = {
+    query: `
+      mutation saveMyShoppingList($name: String!, $products: [ShoppingListProductsInputData!]!) {
+        saveMyShoppingList(shoppingListInput: {name: $name, products: $products}) {
+          _id
+          name
+        }
+      }
+    `,
+    variables: {
+      name,
+      products,
+    },
+  };
+
+  return axios.post('/graphql', graphqlQuery);
+};
+
+const updateMyShoppingList = async ({ name, products }) => {
+  const graphqlQuery = {
+    query: `
+      mutation updateMyShoppingList($name: String!, $products: [ShoppingListProductsInputData!]!) {
+        updateMyShoppingList(shoppingListInput: {name: $name, products: $products}) {
+          name
+        }
+      }
+    `,
+    variables: {
+      name,
+      products,
+    },
+  };
+
+  return axios.post('/graphql', graphqlQuery);
+};
+
+const toggleProductCompletion = async ({ id, completed }) => {
+  const graphqlQuery = {
+    query: `
+      mutation toggleShoppingifyProductCompletion($id: ID!, $completed: Boolean!) {
+        toggleShoppingifyProductCompletion(id: $id, completed: $completed)
+      }
+    `,
+    variables: {
+      id,
+      completed,
+    },
+  };
+
+  return axios.post('/graphql', graphqlQuery);
+};
+
+const completeMyShoppingList = async () => {
+  const graphqlQuery = {
+    query: `
+      mutation completeMyShoppingList {
+        completeMyShoppingList
+      }
+    `,
+  };
+
+  return axios.post('/graphql', graphqlQuery);
+};
+
+const cancelMyShoppingList = async () => {
+  const graphqlQuery = {
+    query: `
+      mutation cancelMyShoppingList {
+        cancelMyShoppingList
+      }
+    `,
+  };
+
+  return axios.post('/graphql', graphqlQuery);
+};
+
 export {
   myProductCategories,
   myProducts,
   addMyProduct,
   myProduct,
   deleteMyProduct,
+  myShoppingList,
+  saveMyShoppingList,
+  updateMyShoppingList,
+  toggleProductCompletion,
+  completeMyShoppingList,
+  cancelMyShoppingList,
 };
