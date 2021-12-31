@@ -198,6 +198,55 @@ const cancelMyShoppingList = async () => {
   return axios.post('/graphql', graphqlQuery);
 };
 
+const myShoppingHistory = async () => {
+  const graphqlQuery = {
+    query: `
+      query myShoppingHistory {
+        myShoppingHistory {
+          _id
+          name
+          state
+          updatedAt
+        }
+      }
+    `,
+  };
+
+  return axios.post('/graphql', graphqlQuery);
+};
+
+const mySingleShoppingHistory = async (id) => {
+  const graphqlQuery = {
+    query: `
+      query mySingleShoppingHistory($id: ID!) {
+        mySingleShoppingHistory(id: $id) {
+          _id
+          name
+          updatedAt
+          state
+          products {
+            product {
+              _id
+              name
+              category {
+                _id
+                name
+              }
+            }
+            completed
+            quantity
+          }
+        }
+      }
+    `,
+    variables: {
+      id,
+    },
+  };
+
+  return axios.post('/graphql', graphqlQuery);
+};
+
 export {
   myProductCategories,
   myProducts,
@@ -210,4 +259,6 @@ export {
   toggleProductCompletion,
   completeMyShoppingList,
   cancelMyShoppingList,
+  myShoppingHistory,
+  mySingleShoppingHistory,
 };

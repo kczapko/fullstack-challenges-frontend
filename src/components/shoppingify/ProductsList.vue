@@ -8,10 +8,17 @@ section.products-list
       h2.products-list__category.font-500 {{ categoryName }}
       ul.products-list__list
         li.products-list__list-item(v-for="product in products")
-          a.products-list__product-name(href="#" @click="viewProduct(product._id)") {{ product.name }}
-          button.products-list__add-to-list(v-if="mode === 'add'" title="Add to list" @click="addProductToShoppingList(product._id)")
+          button.products-list__product-name(
+            :class="{ 'products-list__product-name--not-completed' : mode === 'history' && !product.completed }"
+            @click="viewProduct(product._id)") {{ product.name }}
+          button.products-list__add-to-list(
+            v-if="mode === 'add'"
+            title="Add to list"
+            @click="addProductToShoppingList(product._id)")
             span.material-icons add
-          span.products-list__quantity(v-if="mode === 'history'") 2 pcs
+          span.products-list__quantity(
+            :class="{ 'products-list__quantity--not-completed' : !product.completed }"
+            v-if="mode === 'history'") {{ product.quantity }} {{ product.quantity === 1 ? 'pc' : 'pcs' }}
 </template>
 
 <script>
@@ -48,12 +55,20 @@ export default {
       }
 
       for (let i = 0; i < this.products.length; i += 1) {
-        const product = this.products[i];
+        const product = this.mode === 'history' ? this.products[i].product : this.products[i];
         // eslint-disable-next-line no-underscore-dangle
         const category = categories[product.category._id];
 
         if (!products[category]) products[category] = [];
-        products[category].push(product);
+        if (this.mode === 'history') {
+          products[category].push({
+            ...product,
+            quantity: this.products[i].quantity,
+            completed: this.products[i].completed,
+          });
+        } else {
+          products[category].push(product);
+        }
       }
 
       return products;

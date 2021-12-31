@@ -121,6 +121,17 @@ export default [
     },
   },
   {
+    path: '/shoppingify/history/:id',
+    name: 'shoppingify-single-history',
+    component: Shoppingify,
+    props: { action: 'single-history' },
+    meta: {
+      title: 'Shoppingify - History',
+      requireAuth: true,
+      requireConfirm: true,
+    },
+  },
+  {
     path: '/shoppingify/statistics',
     name: 'shoppingify-statistics',
     component: Shoppingify,

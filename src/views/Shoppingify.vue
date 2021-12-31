@@ -3,10 +3,8 @@ svg-page-loader(v-if="!loaded")
 .shoppingify(v-if="loaded")
   shoppingify-header(@cart-clicked="toggleShoppingList")
   main
-    shoppingify-home
-    //- shopping-history
-    //- single-history
-    //- shopping-statistics
+    transition(name="fade" mode="out-in")
+      component(:is="pageComponent")
   aside
     shopping-list(:class="{ 'shopping-list--open': shoppingListOpen }" @add-item-click="openAddProduct")
     new-product-form(ref="newProductForm")
@@ -79,6 +77,9 @@ export default {
       .then(() => store.dispatch('shoppingify/getMyShoppingList'))
       .then(() => {
         loaded.value = true;
+      })
+      .catch((err) => {
+        store.dispatch('addMessage', new Message(err.message, 'error'));
       });
 
     return { loaded };
@@ -87,6 +88,14 @@ export default {
     return {
       shoppingListOpen: false,
     };
+  },
+  computed: {
+    pageComponent() {
+      if (this.action === 'history') return ShoppingHistory;
+      if (this.action === 'single-history') return SingleHistory;
+      if (this.action === 'statistics') return ShoppingStatistics;
+      return ShoppingifyHome;
+    },
   },
   methods: {
     ...mapActions('shoppingify', ['loadMyProduct']),

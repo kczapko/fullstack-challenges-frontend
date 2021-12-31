@@ -37,11 +37,18 @@
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align: left;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
 
     &:hover,
     &:focus {
-      text-decoration: none;
       background-color: var(--color-light-gray2);
+    }
+
+    &--not-completed {
+      text-decoration: line-through;
     }
   }
 
@@ -71,6 +78,10 @@
     line-height: normal;
     flex: 0 0 auto;
     padding: 1.5rem 1.5rem 0 1rem;
+
+    &--not-completed {
+      text-decoration: line-through;
+    }
   }
 }
 

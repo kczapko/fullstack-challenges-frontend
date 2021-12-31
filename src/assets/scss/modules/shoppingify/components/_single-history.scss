@@ -23,6 +23,31 @@
     font-size: 2rem;
     line-height: normal;
     margin: 0 0 1rem;
+
+    span:first-child {
+      margin-right: 2rem;
+    }
+  }
+
+  &__status {
+    display: inline-block;
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: normal;
+    padding: 0.3rem 0.8rem 0.4rem;
+    border: 1px solid var(--color-primary);
+    border-radius: 0.8rem;
+    vertical-align: middle;
+
+    &--completed {
+      color: var(--color-secondary);
+      border-color: var(--color-secondary);
+    }
+
+    &--cancelled {
+      color: var(--color-danger);
+      border-color: var(--color-danger);
+    }
   }
 
   &__time {
