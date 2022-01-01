@@ -24,6 +24,8 @@ section.products-list
 <script>
 import { mapActions } from 'vuex';
 
+import Message from '@/utils/Message';
+
 export default {
   name: 'ProductsList',
   inject: ['openAddProduct', 'viewProduct'],
@@ -43,6 +45,10 @@ export default {
       },
       default: 'add',
     },
+    search: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     categorizedProducts() {
@@ -56,6 +62,18 @@ export default {
 
       for (let i = 0; i < this.products.length; i += 1) {
         const product = this.mode === 'history' ? this.products[i].product : this.products[i];
+
+        if (this.search) {
+          try {
+            const regExp = new RegExp(this.search, 'gi');
+            // eslint-disable-next-line no-continue
+            if (!product.name.match(regExp)) continue;
+          } catch (err) {
+            this.addMessage(new Message('Invalid search value', 'error'));
+            break;
+          }
+        }
+
         // eslint-disable-next-line no-underscore-dangle
         const category = categories[product.category._id];
 
@@ -87,6 +105,7 @@ export default {
   },
   methods: {
     ...mapActions('shoppingify', ['addProductToShoppingList']),
+    ...mapActions(['addMessage']),
   },
 };
 </script>

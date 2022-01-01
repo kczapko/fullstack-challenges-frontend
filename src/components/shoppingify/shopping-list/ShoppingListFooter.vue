@@ -83,7 +83,7 @@ export default {
     async complete() {
       try {
         await this.completeMyShoppingList();
-        this.addMessage(new Message('Sgopping list was successfully completed.'));
+        this.addMessage(new Message('Shopping list was successfully completed.'));
       } catch (err) {
         this.addMessage(new Message(err.message, 'error'));
       }
@@ -92,7 +92,7 @@ export default {
       try {
         this.$refs.modal.close();
         await this.cancelMyShoppingList();
-        this.addMessage(new Message('Sgopping list was successfully cancelled.'));
+        this.addMessage(new Message('Shopping list was successfully cancelled.'));
       } catch (err) {
         this.addMessage(new Message(err.message, 'error'));
       }

@@ -16,8 +16,14 @@ section.product-view(:class="{ 'product-view--open' : isOpen }" v-if="product")
     dt.product-view__description-title(v-if="product.note") note
     dd.product-view__description-value(v-if="product.note") {{ product.note }}
   footer.product-view__footer
-    base-button(@click="deleteProduct(product._id)") Delete
+    base-button(@click="openDeleteModal") Delete
     base-button(color="primary" @click="addProductToShoppingList(product._id); close()") Add to list
+    base-modal.product-view__modal.base-modal--delete-product(
+      modal-title="Are you sure that you want to delete this product? It will be removed form all shopping lists, history and statistics."
+      ref="modal")
+      template(#default="{ close }")
+        base-button(@click="close") Cancel
+        base-button(color="danger" @click="deleteProduct(product._id)") Yes
 </template>
 
 <script>
@@ -46,7 +52,11 @@ export default {
     close() {
       this.isOpen = false;
     },
+    openDeleteModal() {
+      this.$refs.modal.open();
+    },
     async deleteProduct(id) {
+      this.$refs.modal.close();
       this.close();
 
       try {

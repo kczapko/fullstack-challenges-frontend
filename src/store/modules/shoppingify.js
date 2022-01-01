@@ -141,14 +141,16 @@ export default {
 
       commit('setActiveProduct', res.data.data.myShoppingifyProduct);
     },
-    async deleteMyProduct({ commit, dispatch, state }, payload) {
+    async deleteMyProduct({ commit, dispatch, getters }, payload) {
       const res = await api.shoppingify.deleteMyProduct(payload);
 
       commit('setActiveProduct', null);
       commit('removeProduct', res.data.data.deleteMyShoppingifyProduct);
       dispatch('removeProductFromShoppingList', res.data.data.deleteMyShoppingifyProduct._id);
 
-      if (state.shoppingList.changed) dispatch('updateMyShoppingList');
+      if (getters.shoppingListChanged && getters.shoppingListSaved) {
+        dispatch('updateMyShoppingList');
+      }
     },
     addProductToShoppingList({ commit }, payload) {
       commit('addProductToShoppingList', payload);

@@ -1,7 +1,7 @@
 <template lang="pug">
 section.statistics(v-if="statistics")
   header.statistics__header
-    h1.statistics__title Statistics for {{ statistics[0].stats.currentYear }}
+    h1.statistics__title Statistics {{ statistics.length ? `for ${statistics[0].stats.currentYear}` : '' }}
   p.statistics__empty(v-if="statistics.length === 0") Yout don't have any shopping history to generate statistics.
   .statistics__body(v-else)
     top-chart.statistics__top-chart.statistics__top-chart--products(
