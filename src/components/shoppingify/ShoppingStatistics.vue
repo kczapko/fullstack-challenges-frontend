@@ -84,7 +84,7 @@ export default {
       .then((res) => {
         const data = JSON.parse(res.data.data.myShoppingStatistics);
 
-        if (data && data.stats.length) {
+        if (data && data.stats?.length) {
           const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
           const currentDate = new Date(data.currentDate);
           const { currentMonth, currentYear } = data;
