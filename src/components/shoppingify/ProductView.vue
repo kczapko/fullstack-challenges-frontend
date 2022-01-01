@@ -1,7 +1,7 @@
 <template lang="pug">
 section.product-view(:class="{ 'product-view--open' : isOpen }" v-if="product")
   .product-view__back
-   a.product-view__back-link(href="#" @click="close")
+   a.product-view__back-link(href="#" @click.prevent="close")
     span.material-icons keyboard_backspace
     |
     | Back
