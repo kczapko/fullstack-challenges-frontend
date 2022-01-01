@@ -85,7 +85,6 @@ export default {
         await this.completeMyShoppingList();
         this.addMessage(new Message('Sgopping list was successfully completed.'));
       } catch (err) {
-        this.error = err.message;
         this.addMessage(new Message(err.message, 'error'));
       }
     },
@@ -95,7 +94,6 @@ export default {
         await this.cancelMyShoppingList();
         this.addMessage(new Message('Sgopping list was successfully cancelled.'));
       } catch (err) {
-        this.error = err.message;
         this.addMessage(new Message(err.message, 'error'));
       }
     },

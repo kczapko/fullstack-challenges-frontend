@@ -247,6 +247,18 @@ const mySingleShoppingHistory = async (id) => {
   return axios.post('/graphql', graphqlQuery);
 };
 
+const myShoppingStatistics = async () => {
+  const graphqlQuery = {
+    query: `
+      query myShoppingStatistics {
+        myShoppingStatistics
+      }
+    `,
+  };
+
+  return axios.post('/graphql', graphqlQuery);
+};
+
 export {
   myProductCategories,
   myProducts,
@@ -261,4 +273,5 @@ export {
   cancelMyShoppingList,
   myShoppingHistory,
   mySingleShoppingHistory,
+  myShoppingStatistics,
 };

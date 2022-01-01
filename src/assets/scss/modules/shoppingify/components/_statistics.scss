@@ -1,0 +1,157 @@
+.statistics {
+  &__title {
+    font-size: 2rem;
+    line-height: normal;
+    margin: 0 0 4rem;
+  }
+
+  .top-chart {
+    margin-bottom: 3rem;
+
+    &__title {
+      font-size: 1.8rem;
+      line-height: normal;
+      margin: 0 0 2rem;
+    }
+
+    &__stats {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    &__stat:not(:first-child) {
+      margin-top: 2rem;
+    }
+
+    &__info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    &__name {
+      margin: 0;
+    }
+
+    &__share {
+      font-size: 1.6rem;
+    }
+
+    &__chart {
+      height: 0.6rem;
+      position: relative;
+    }
+
+    &__progress {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: var(--color-light-gray2);
+      border: 0;
+      border-radius: 100vw;
+      -webkit-appearance: none;
+
+      &::-moz-progress-bar {
+        background-color: var(--color-primary);
+        border-radius: 100vw;
+      }
+
+      &::-webkit-progress-bar {
+        background-color: var(--color-light-gray2);
+        border: 0;
+        border-radius: 100vw;
+      }
+
+      &::-webkit-progress-value {
+        background-color: var(--color-primary);
+        border-radius: 100vw;
+      }
+    }
+  }
+
+  .line-chart {
+    margin-bottom: 3rem;
+
+    &__title {
+      font-size: 1.8rem;
+      line-height: normal;
+      margin: 0 0 2rem;
+    }
+
+    &__chart {
+      position: relative;
+      width: 100%;
+      height: 30rem;
+    }
+  }
+
+  &__top-chart {
+    &--categories {
+      .top-chart__progress {
+        &::-moz-progress-bar {
+          background-color: var(--color-secondary);
+        }
+
+        &::-webkit-progress-value {
+          background-color: var(--color-secondary);
+        }
+      }
+    }
+  }
+}
+
+.dark .statistics {
+  .top-chart {
+    &__progress {
+      background-color: var(--color-dark-gray2);
+
+      &::-webkit-progress-bar {
+        background-color: var(--color-dark-gray2);
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $breakpoint-big) {
+  .statistics {
+    &__title {
+      font-size: 2.6rem;
+    }
+
+    &__body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+    }
+
+    .top-chart {
+      margin: 0;
+
+      &__title {
+        font-size: 2.2rem;
+      }
+
+      &__stat:not(:first-child) {
+        margin-top: 3rem;
+      }
+
+      &__name {
+        font-size: 1.6rem;
+      }
+
+      &__share {
+        font-size: 1.8rem;
+      }
+    }
+
+    .line-chart {
+      margin: 0;
+      grid-column: span 2;
+
+      &__title {
+        font-size: 2.2rem;
+      }
+    }
+  }
+}

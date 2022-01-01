@@ -10,6 +10,7 @@
   "dependencies": {
     "@vee-validate/rules": "^4.5.5",
     "axios": "^0.24.0",
+    "chart.js": "^3.7.0",
     "core-js": "^3.6.5",
     "lodash": "^4.17.21",
     "nprogress": "^0.2.0",

@@ -1,16 +1,18 @@
 <template lang="pug">
 section.history(v-if="history")
   header.history__header
-    h1.history__title Shopping history
-  section.history__section(v-for="entries in history")
-    h2.history__section-title.font-500
-      time.history__section-time(:datetime="entries[1].datetime") {{ entries[0] }}
-    ul.history__list
-      li.history__list-item(v-for="item in entries[1].items")
-        router-link.history__entry(:to="{ name: 'shoppingify-single-history', params: { id: item.id } }")
-          span.history__entry-name {{ item.name }}
-          time.history__entry-date(:datetime="item.datetime") {{ item.date }}
-          span.history__entry-status(:class="`history__entry-status--${item.status}`") {{ item.status }}
+    h1.history__title Shopping History
+  p.history__empty(v-if="history.size === 0") Yout don't have any shopping history yet.
+  template(v-else)
+    section.history__section(v-for="entries in history")
+      h2.history__section-title.font-500
+        time.history__section-time(:datetime="entries[1].datetime") {{ entries[0] }}
+      ul.history__list
+        li.history__list-item(v-for="item in entries[1].items")
+          router-link.history__entry(:to="{ name: 'shoppingify-single-history', params: { id: item.id } }")
+            span.history__entry-name {{ item.name }}
+            time.history__entry-date(:datetime="item.datetime") {{ item.date }}
+            span.history__entry-status(:class="`history__entry-status--${item.status}`") {{ item.status }}
 </template>
 
 <script>

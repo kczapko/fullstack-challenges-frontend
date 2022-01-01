@@ -1,7 +1,7 @@
 <template lang="pug">
 section.products-list
   .products-list__empty(v-if="!products.length")
-    p.products-list__empty-text You don't have any products to add to the list
+    p.products-list__empty-text You don't have any products to add to the list.
     base-button.products-list__empty-button(color="primary" @click="openAddProduct") Start adding them
   .products-list__body(v-else)
     template(v-for="(products, categoryName) in categorizedProducts")
@@ -71,7 +71,18 @@ export default {
         }
       }
 
-      return products;
+      Object.values(products).forEach((prods) => {
+        prods.sort((a, b) => a.name.localeCompare(b.name));
+      });
+
+      const sorted = {};
+      Object.keys(products)
+        .sort((a, b) => a.localeCompare(b))
+        .forEach((cat) => {
+          sorted[cat] = products[cat];
+        });
+
+      return sorted;
     },
   },
   methods: {
