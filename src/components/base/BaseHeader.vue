@@ -32,6 +32,9 @@ header.header
             base-button.header__user-dropdown-link(icon="group" variant="link" size="small" disabled) Group Chat
           li.header__user-dropdown-listitem.header__user-dropdown-listitem--line
           li.header__user-dropdown-listitem
+            base-switch(:config="[{name: 'light_mode', icon: true, value: 'light', title: 'Set Light Mode'}, {name: 'AUTO', icon: false, value: 'auto', title: 'Set Auto Mode'}, {name: 'dark_mode', icon: true, value: 'dark', title: 'Set Dark Mode'}]" initial-value="auto")
+          li.header__user-dropdown-listitem.header__user-dropdown-listitem--line
+          li.header__user-dropdown-listitem
             base-button.header__user-dropdown-link(@click="logoutUser" icon="logout" color="danger" variant="link" size="small") Logout
   slot
 </template>

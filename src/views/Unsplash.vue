@@ -1,5 +1,6 @@
 <template lang="pug">
-.unsplash
+svg-page-loader(v-if="!pageLoaded")
+.unsplash(v-if="pageLoaded")
   unsplash-header
   main
     p.unsplash__error(v-if="error") {{ error }}
@@ -19,6 +20,8 @@ import api from '@/api';
 
 import useBodyClass from '@/hooks/useBodyClass';
 
+import SvgPageLoader from '@/components/svg/PageLoader.vue';
+
 import UnsplashHeader from '@/components/unsplash/UnsplashHeader.vue';
 import UnsplashPhotoGrid from '@/components/unsplash/UnsplashPhotoGrid.vue';
 
@@ -31,6 +34,7 @@ import '@/assets/scss/modules/unsplash/main.scss';
 export default {
   name: 'Unsplash',
   components: {
+    SvgPageLoader,
     UnsplashHeader,
     UnsplashPhotoGrid,
     AddPhotoModal,
@@ -62,6 +66,7 @@ export default {
       perPage: 20,
       total: null,
       loadThreshold: 1000,
+      pageLoaded: false,
     };
   },
   computed: {
@@ -112,6 +117,7 @@ export default {
       } catch (err) {
         this.error = err;
       }
+      if (!this.pageLoaded) this.pageLoaded = true;
     },
     handleScroll() {
       const scroll = Math.round(window.innerHeight + window.scrollY);
