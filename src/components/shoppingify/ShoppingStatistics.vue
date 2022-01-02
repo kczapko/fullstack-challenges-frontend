@@ -131,6 +131,9 @@ export default {
             state.total += s.products.quantity;
           });
 
+          state.products.sort((a, b) => b.count - a.count);
+          state.categories.sort((a, b) => b.count - a.count);
+
           for (let i = 0; i < state.daily.length; i += 1) {
             dayLabels.value.push(i + 1);
           }
