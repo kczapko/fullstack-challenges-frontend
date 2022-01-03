@@ -13,7 +13,7 @@ svg-page-loader(v-if="!loaded")
 
 <script>
 import { useStore, mapActions } from 'vuex';
-import { ref, onUnmounted } from 'vue';
+import { ref, onUnmounted, defineAsyncComponent } from 'vue';
 
 import useBodyClass from '@/hooks/useBodyClass';
 
@@ -26,12 +26,22 @@ import ShoppingifyHeader from '@/components/shoppingify/ShoppingifyHeader.vue';
 import ShoppingList from '@/components/shoppingify/shopping-list/ShoppingList.vue';
 import NewProductForm from '@/components/shoppingify/NewProductForm.vue';
 import ProductView from '@/components/shoppingify/ProductView.vue';
-import ShoppingifyHome from '@/components/shoppingify/ShoppingifyHome.vue';
-import ShoppingHistory from '@/components/shoppingify/ShoppingHistory.vue';
-import SingleHistory from '@/components/shoppingify/SingleHistory.vue';
-import ShoppingStatistics from '@/components/shoppingify/ShoppingStatistics.vue';
 
 import '@/assets/scss/modules/shoppingify/main.scss';
+
+// prettier-ignore
+const ShoppingifyHome = defineAsyncComponent(() => import(/* webpackChunkName: "shoppingify-home" */ '@/components/shoppingify/ShoppingifyHome.vue'));
+// prettier-ignore
+const ShoppingHistory = defineAsyncComponent(() => import(/* webpackChunkName: "shoppingify-history" */ '@/components/shoppingify/ShoppingHistory.vue'));
+// prettier-ignore
+const SingleHistory = defineAsyncComponent(() => import(/* webpackChunkName: "shoppingify-single-history" */ '@/components/shoppingify/SingleHistory.vue'));
+// prettier-ignore
+const ShoppingStatistics = defineAsyncComponent(() => import(/* webpackChunkName: "shoppingify-statistics" */ '@/components/shoppingify/ShoppingStatistics.vue'));
+
+// import ShoppingifyHome from '@/components/shoppingify/ShoppingifyHome.vue';
+// import ShoppingHistory from '@/components/shoppingify/ShoppingHistory.vue';
+// import SingleHistory from '@/components/shoppingify/SingleHistory.vue';
+// import ShoppingStatistics from '@/components/shoppingify/ShoppingStatistics.vue';
 
 export default {
   name: 'Shoppingify',
