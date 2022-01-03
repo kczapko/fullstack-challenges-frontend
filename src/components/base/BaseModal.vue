@@ -60,6 +60,9 @@ export default {
   created() {
     this.isOpen = this.$props.opened;
   },
+  unmounted() {
+    document.getElementById('modals').classList.remove('modal-open');
+  },
   methods: {
     open() {
       this.isOpen = true;

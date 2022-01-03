@@ -7,7 +7,7 @@ export default {
     state.pageTitle = payload;
   },
   addBodyClass(state, payload) {
-    state.bodyClasses.push(payload);
+    if (!state.bodyClasses.includes(payload)) state.bodyClasses.push(payload);
   },
   removeBodyClass(state, payload) {
     const index = state.bodyClasses.indexOf(payload);
@@ -65,5 +65,9 @@ export default {
     const index = state.messages.findIndex((m) => m.id === payload);
 
     if (index >= 0) state.messages.splice(index, 1);
+  },
+  setColorSchema(state, payload) {
+    state.colorSchema = payload;
+    localStorage.setItem('colorSchema', payload);
   },
 };

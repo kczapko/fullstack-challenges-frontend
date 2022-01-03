@@ -18,6 +18,7 @@ const store = createStore({
       loggedIn: false,
       user: {},
       messages: [],
+      colorSchema: 'auto',
     };
   },
   mutations,

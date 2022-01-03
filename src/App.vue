@@ -10,11 +10,13 @@ base-cookie-message
 import { mapState, mapActions } from 'vuex';
 
 import useAppMeta from '@/hooks/useAppMeta';
+import useColorSchema from '@/hooks/useColorSchema';
 
 export default {
   name: 'App',
   setup() {
     useAppMeta();
+    useColorSchema();
   },
   computed: {
     ...mapState(['loading']),

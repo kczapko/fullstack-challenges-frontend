@@ -25,12 +25,4 @@ export default () => {
   watch(bodyClass, (val) => {
     meta.bodyAttrs.class = val;
   });
-
-  const setColorSchemeClass = (e) => {
-    if (e.matches) store.dispatch('addBodyClass', 'dark');
-    else store.dispatch('removeBodyClass', 'dark');
-  };
-
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setColorSchemeClass);
-  setColorSchemeClass(window.matchMedia('(prefers-color-scheme: dark)'));
 };

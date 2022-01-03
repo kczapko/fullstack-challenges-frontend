@@ -32,7 +32,7 @@ header.header
             base-button.header__user-dropdown-link(icon="group" variant="link" size="small" disabled) Group Chat
           li.header__user-dropdown-listitem.header__user-dropdown-listitem--line
           li.header__user-dropdown-listitem
-            base-switch(:config="[{name: 'light_mode', icon: true, value: 'light', title: 'Set Light Mode'}, {name: 'AUTO', icon: false, value: 'auto', title: 'Set Auto Mode'}, {name: 'dark_mode', icon: true, value: 'dark', title: 'Set Dark Mode'}]" initial-value="auto")
+            base-switch.header__user-dropdown-switch.header__user-dropdown-switch--color-schema(:config="colorSchemaConfig" :initial-value="colorSchema" @value-change="setColorSchema")
           li.header__user-dropdown-listitem.header__user-dropdown-listitem--line
           li.header__user-dropdown-listitem
             base-button.header__user-dropdown-link(@click="logoutUser" icon="logout" color="danger" variant="link" size="small") Logout
@@ -53,10 +53,30 @@ export default {
   data() {
     return {
       dropdownOpen: false,
+      colorSchemaConfig: [
+        {
+          name: 'light_mode',
+          icon: true,
+          value: 'light',
+          title: 'Set Light Mode',
+        },
+        {
+          name: 'AUTO',
+          icon: false,
+          value: 'auto',
+          title: 'Set Auto Mode',
+        },
+        {
+          name: 'dark_mode',
+          icon: true,
+          value: 'dark',
+          title: 'Set Dark Mode',
+        },
+      ],
     };
   },
   computed: {
-    ...mapState(['user']),
+    ...mapState(['user', 'colorSchema']),
     ...mapGetters(['username']),
   },
   mounted() {
@@ -66,7 +86,7 @@ export default {
     document.body.removeEventListener('click', this.hideDropdown);
   },
   methods: {
-    ...mapActions(['addMessage']),
+    ...mapActions(['addMessage', 'setColorSchema']),
     logoutUser() {
       this.$logoutUser();
       this.addMessage(new Message('You were successfully logged out'));

@@ -16,7 +16,7 @@
     base-modal.shopping-list__modal.base-modal--cancel-shopping-list(modal-title="Are you sure that you want to cancel this list?" ref="modal")
       template(#default="{ close }")
         base-button(@click="close") Cancel
-        base-button(color="danger" @click="cancel") Yes
+        base-button(color="danger" @click="close(); cancel()") Yes
 </template>
 
 <script>
@@ -56,6 +56,7 @@ export default {
       'updateMyShoppingList',
       'completeMyShoppingList',
       'cancelMyShoppingList',
+      'editShoppingList',
     ]),
     ...mapActions(['addMessage']),
     async submit(values) {
@@ -81,6 +82,12 @@ export default {
       this.$refs.modal.open();
     },
     async complete() {
+      if (this.empty) {
+        this.addMessage(new Message("You can't complete empty shopping list!", 'error'));
+        this.editShoppingList();
+        return;
+      }
+
       try {
         await this.completeMyShoppingList();
         this.addMessage(new Message('Shopping list was successfully completed.'));
@@ -89,8 +96,13 @@ export default {
       }
     },
     async cancel() {
+      if (this.empty) {
+        this.addMessage(new Message("You can't cancel empty shopping list!", 'error'));
+        this.editShoppingList();
+        return;
+      }
+
       try {
-        this.$refs.modal.close();
         await this.cancelMyShoppingList();
         this.addMessage(new Message('Shopping list was successfully cancelled.'));
       } catch (err) {

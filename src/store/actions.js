@@ -18,4 +18,21 @@ export default {
       commit('removeMessage', payload.id);
     }, 5000);
   },
+  setColorSchema({ commit, dispatch }, payload) {
+    let colorSchema = payload;
+
+    if (colorSchema === 'dark') {
+      dispatch('addBodyClass', 'dark');
+    } else if (colorSchema === 'light') {
+      dispatch('removeBodyClass', 'dark');
+    } else {
+      colorSchema = 'auto';
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        dispatch('addBodyClass', 'dark');
+      } else {
+        dispatch('removeBodyClass', 'dark');
+      }
+    }
+    commit('setColorSchema', colorSchema);
+  },
 };

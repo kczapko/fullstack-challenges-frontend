@@ -1,12 +1,12 @@
 <template lang="pug">
 .base-switch
   .base-switch__header
-    .base-switch__header-cell(v-for="(item, i) in config" :class="{'base-switch__header-cell--active': active === i}" :title="item.title")
-      .base-switch__header-cell-name(@click="setValue(item.value)")
+    button.base-switch__header-cell(v-for="(item, i) in config" @click="setValue(item.value)" :class="{'base-switch__header-cell--active': active === i}" :title="item.title")
+      .base-switch__header-cell-name
         span.base-switch__header-cell-icon.material-icons(v-if="item.icon") {{item.name}}
         span.base-switch__header-cell-text(v-else) {{item.name}}
   .base-switch__body
-    .base-switch__body-cell(v-for="(item, i) in config" @click="setValue(item.value)" :title="item.title")
+    button.base-switch__body-cell(v-for="(item, i) in config" @click="setValue(item.value)" :class="{'base-switch__body-cell--active': active === i}" :title="item.title")
   .base-switch__indicator(:style="indicatorStyles")
 </template>
 
