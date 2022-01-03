@@ -1,3 +1,4 @@
+@import '../../variables';
 @import 'variables';
 
 @import 'components/dashboard';
@@ -51,7 +52,7 @@
   }
 }
 
-@media screen and (min-width: $brakpoint-large) {
+@media screen and (min-width: $breakpoint-large) {
   .home {
     .footer {
       font-size: 1.4rem;

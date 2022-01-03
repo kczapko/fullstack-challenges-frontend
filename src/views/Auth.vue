@@ -24,6 +24,8 @@ import LoginForm from '@/components/auth/LoginForm.vue';
 import FrogotPasswordForm from '@/components/auth/FrogotPasswordForm.vue';
 import ChangePasswordForm from '@/components/auth/ChangePasswordForm.vue';
 
+import '@/assets/scss/modules/auth/main.scss';
+
 export default {
   name: 'Auth',
   components: {

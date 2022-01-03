@@ -14,6 +14,8 @@ import ConfirmEmailForm from '@/components/home/ConfirmEmailForm.vue';
 
 import useBodyClass from '@/hooks/useBodyClass';
 
+import '@/assets/scss/modules/home/main.scss';
+
 export default {
   name: 'Home',
   components: {

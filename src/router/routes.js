@@ -1,7 +1,15 @@
-import Home from '@/views/Home.vue';
-import Auth from '@/views/Auth.vue';
+// import Home from '@/views/Home.vue';
+// import Auth from '@/views/Auth.vue';
 
-import HomeDashboard from '@/components/home/HomeDashboard.vue';
+// import HomeDashboard from '@/components/home/HomeDashboard.vue';
+
+// prettier-ignore
+const Home = () => import(/* webpackChunkName: "home" */ '@/views/Home.vue');
+// prettier-ignore
+const HomeDashboard = () => import(/* webpackChunkName: "home" */ '@/components/home/HomeDashboard.vue');
+
+// prettier-ignore
+const Auth = () => import(/* webpackChunkName: "auth" */ '@/views/Auth.vue');
 
 // prettier-ignore
 const UserProfile = () => import(/* webpackChunkName: "profile" */ '@/components/home/profile/UserProfile.vue');
