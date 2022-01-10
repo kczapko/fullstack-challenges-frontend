@@ -28,8 +28,6 @@ header.header
               icon="account_circle"
               variant="link"
               size="small") My Profile
-          li.header__user-dropdown-listitem
-            base-button.header__user-dropdown-link(icon="group" variant="link" size="small" disabled) Group Chat
           li.header__user-dropdown-listitem.header__user-dropdown-listitem--line
           li.header__user-dropdown-listitem
             base-switch.header__user-dropdown-switch.header__user-dropdown-switch--color-schema(:config="colorSchemaConfig" :initial-value="colorSchema" @value-change="setColorSchema")

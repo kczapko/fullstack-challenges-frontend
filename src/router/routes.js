@@ -22,6 +22,9 @@ const Unsplash = () => import(/* webpackChunkName: "unsplash" */ '@/views/Unspla
 // prettier-ignore
 const Shoppingify = () => import(/* webpackChunkName: "shoppingify" */ '@/views/Shoppingify.vue');
 
+// prettier-ignore
+const Chat = () => import(/* webpackChunkName: "chat" */ '@/views/Chat.vue');
+
 export default [
   {
     path: '/',
@@ -146,6 +149,16 @@ export default [
     props: { action: 'statistics' },
     meta: {
       title: 'Shoppingify - Statistics',
+      requireAuth: true,
+      requireConfirm: true,
+    },
+  },
+  {
+    path: '/chat',
+    name: 'chat',
+    component: Chat,
+    meta: {
+      title: 'Chat',
       requireAuth: true,
       requireConfirm: true,
     },

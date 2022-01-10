@@ -6,7 +6,7 @@
     home-dashboard-item(:to="{ name: 'unsplash' }")
       template(#logo)
         SvgLogoMyUnsplash
-    home-dashboard-item(coming-soon name="Group Chat")
+    home-dashboard-item(:to="{ name: 'chat' }" name="Group Chat")
       template(#logo)
         SvgLogoChat
     home-dashboard-item(:to="{ name: 'shoppingify' }" name="Shoppingify")
