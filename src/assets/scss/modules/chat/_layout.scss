@@ -1,0 +1,122 @@
+.chat {
+  font-size: 1.8rem;
+
+  &__main {
+  }
+
+  &__sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 5;
+    width: calc(100vw - 6rem);
+    max-width: 32rem;
+    padding-bottom: 7.6rem;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease-in-out;
+    background: var(--color-light-gray2);
+
+    &--open {
+      transform: translateX(0);
+
+      .chat__sidebar-close {
+        display: inline-flex;
+      }
+    }
+
+    &--channel {
+      .current-channel {
+        transform: translateX(0);
+      }
+    }
+  }
+
+  &__sidebar-close {
+    border: 0;
+    position: absolute;
+    right: -5rem;
+    top: 1rem;
+    box-shadow: 0 0.4rem 0.4rem rgba($color-black, 0.25);
+    background-color: var(--color-light-gray2);
+    display: none;
+
+    .material-icons {
+      color: var(--color-black);
+    }
+  }
+
+  &__sidebar-header {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1.7rem 2rem;
+    background-color: var(--color-light-gray);
+
+    .header__logo {
+      display: none;
+    }
+
+    .header__user {
+      width: 100%;
+    }
+
+    .header__user-image {
+      width: 4.2rem;
+      flex: 0 0 auto;
+    }
+
+    .header__user-name {
+      display: block;
+      font-size: 1.6rem;
+    }
+
+    .header__user-dropdown-arrow {
+      display: block;
+      margin-left: auto;
+    }
+
+    .header__user-dropdown {
+      top: auto;
+      right: -1rem;
+      bottom: 110%;
+    }
+  }
+}
+
+.dark .chat {
+  &__sidebar {
+    background-color: var(--color-black1);
+  }
+
+  &__sidebar-close {
+    background-color: var(--color-black1);
+
+    .material-icons {
+      color: var(--color-white);
+    }
+  }
+
+  &__sidebar-header {
+    background-color: var(--color-black2);
+  }
+}
+
+@media screen and (min-width: $breakpoint-big) {
+  .chat {
+    &__main {
+      padding-left: 32rem;
+    }
+
+    &__sidebar {
+      transform: translateX(0);
+
+      &--open {
+        .chat__sidebar-close {
+          display: none;
+        }
+      }
+    }
+  }
+}

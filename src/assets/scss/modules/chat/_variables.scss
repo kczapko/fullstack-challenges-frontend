@@ -1,0 +1,10 @@
+.module-chat {
+  --color-black1: #120f13;
+  --color-black2: #0b090c;
+
+  --text-color: var(--color-black);
+  --dark-text-color: var(--color-white);
+}
+
+$breakpoint-medium: 48em;
+$breakpoint-big: 64em;

@@ -1,0 +1,15 @@
+.chat {
+  .base-btn {
+    padding: 1rem;
+
+    &__icon {
+      font-size: 2rem;
+    }
+  }
+
+  .base-input {
+    &__input {
+      font-size: 1.4rem;
+    }
+  }
+}

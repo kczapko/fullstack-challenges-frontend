@@ -1,0 +1,22 @@
+.base-svg-icon {
+  rect {
+    fill: var(--color-black);
+  }
+
+  text {
+    fill: var(--color-white);
+    font-size: 2.2rem;
+    font-family: sans-serif;
+    font-weight: 700;
+  }
+
+  .dark & {
+    rect {
+      fill: var(--color-light-gray2);
+    }
+
+    text {
+      fill: var(--color-dark-gray2);
+    }
+  }
+}

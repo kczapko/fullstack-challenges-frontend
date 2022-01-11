@@ -1,0 +1,141 @@
+.all-channels {
+  display: grid;
+  grid-template-rows: 6rem 1fr;
+  height: 100%;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+  }
+
+  &__header-title {
+    font-size: 1.8rem;
+    margin: 0;
+  }
+
+  &__add-channel {
+    border: 0;
+    transform: translateX(0.5rem);
+
+    .material-icons {
+      color: var(--color-black);
+    }
+  }
+
+  &__body {
+    padding: 2rem;
+    overflow-y: auto;
+    box-shadow: inset 0 0.8rem 0.4rem -0.4rem rgba($color-black, 0.25);
+  }
+
+  &__channels {
+    list-style: none;
+    padding: 0;
+    margin: 3.5rem 0 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  &__channel {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+  }
+
+  &__channel-image {
+    flex: 0 0 auto;
+    width: 4.2rem;
+    aspect-ratio: 1;
+    border-radius: 0.8rem;
+    overflow: hidden;
+  }
+
+  &__channel-img {
+    display: block;
+  }
+
+  &__channel-name {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: -0.035em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__modal {
+    .base-modal__header-title {
+      text-transform: uppercase;
+    }
+
+    .base-input__input {
+      font-size: 1.4rem;
+    }
+
+    .form {
+      &__error {
+        margin: 0 0 1.5rem;
+        padding: 1rem;
+        background-color: var(--color-danger);
+        border-radius: 0.4rem;
+        color: var(--color-white);
+        font-size: 1.4rem;
+        line-height: normal;
+      }
+
+      &__row {
+        &:not(:first-child) {
+          margin-top: 2rem;
+        }
+
+        &--submit {
+          text-align: right;
+        }
+      }
+    }
+  }
+}
+
+.dark .all-channels {
+  &__add-channel {
+    .material-icons {
+      color: var(--color-white);
+    }
+  }
+
+  &__search {
+    .base-input__input {
+      &:not(:focus) {
+        border-color: var(--color-dark-gray2);
+      }
+      background-color: var(--color-dark-gray2);
+      color: var(--color-light-gray);
+    }
+  }
+
+  &__channel-img {
+    rect {
+      fill: var(--color-dark-gray2);
+    }
+
+    text {
+      fill: var(--color-white);
+    }
+  }
+
+  &__modal {
+    .base-input__input {
+      &:not(:focus) {
+        border-color: var(--color-dark-gray2);
+      }
+      background-color: var(--color-dark-gray2);
+      color: var(--color-light-gray);
+    }
+  }
+}
+
+@media screen and (min-width: $breakpoint-big) {
+}
