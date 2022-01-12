@@ -83,6 +83,10 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
+import Message from '@/utils/Message';
+
 export default {
   name: 'ChatWindow',
   inject: ['openSidebar'],
@@ -92,13 +96,26 @@ export default {
     };
   },
   setup() {
-    const schema = {};
+    const schema = {
+      message: 'required|max:5000',
+    };
 
     return { schema };
   },
   methods: {
-    submit(values) {
-      console.log(values);
+    ...mapActions('chat', ['addChatMessage']),
+    ...mapActions(['addMessage']),
+    async submit(values) {
+      this.submitting = true;
+
+      try {
+        await this.addChatMessage(values);
+        this.addMessage(new Message('New message added.'));
+      } catch (err) {
+        this.addMessage(new Message(err.message, 'error'));
+      }
+
+      this.submitting = false;
     },
   },
 };

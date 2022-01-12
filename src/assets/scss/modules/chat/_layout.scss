@@ -1,9 +1,6 @@
 .chat {
   font-size: 1.8rem;
 
-  &__main {
-  }
-
   &__sidebar {
     position: fixed;
     left: 0;
@@ -116,6 +113,12 @@
         .chat__sidebar-close {
           display: none;
         }
+      }
+    }
+
+    &__sidebar-header {
+      .header__user-name {
+        max-width: 20rem;
       }
     }
   }

@@ -17,6 +17,7 @@ const store = createStore({
       loading: false,
       loggedIn: false,
       user: {},
+      token: null,
       messages: [],
       colorSchema: 'auto',
     };

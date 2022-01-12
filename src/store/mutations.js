@@ -19,6 +19,7 @@ export default {
   loginUser(state, payload) {
     state.loggedIn = true;
     state.user = payload.user;
+    state.token = payload.token;
 
     localStorage.setItem('token', payload.token);
     axios.defaults.headers.common.Authorization = `Bearer ${payload.token}`;
@@ -43,6 +44,7 @@ export default {
   logoutUser(state) {
     state.loggedIn = false;
     state.user = {};
+    state.token = null;
 
     localStorage.removeItem('token');
     delete axios.defaults.headers.common.Authorization;

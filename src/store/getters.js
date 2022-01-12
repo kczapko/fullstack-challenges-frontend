@@ -7,4 +7,7 @@ export default {
   initials(state, getters) {
     return getters.username && initials(getters.username);
   },
+  token(state) {
+    return state.token;
+  },
 };
