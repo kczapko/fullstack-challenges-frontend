@@ -15,13 +15,25 @@ export default {
       state.channels = payload;
     },
     addChannel(state, payload) {
-      state.channels.push(payload);
+      // eslint-disable-next-line no-underscore-dangle
+      state.channels.push({ _id: payload._id, name: payload.name });
     },
     addMessage(state, payload) {
       state.messages.push(payload);
     },
     setUnsubscribe(state, payload) {
       state.unsubscribe = payload;
+    },
+    setChannel(state, payload) {
+      state.activeChannel = payload;
+    },
+    leaveChannel(state) {
+      state.activeChannel = null;
+      state.messages = [];
+      state.unsubscribe = null;
+    },
+    addChannelMember(state, payload) {
+      state.activeChannel.members.push(payload);
     },
   },
   actions: {
@@ -35,14 +47,23 @@ export default {
 
       commit('addChannel', res.data.data.addChannel);
     },
-    async addChatMessage({ commit }, payload) {
+    async addChatMessage({ commit, state }, payload) {
+      if (!state.activeChannel) throw new Error('You must select channel to send a message.');
+
       const res = await api.chat.addMessage({
         msg: payload.message,
+        // eslint-disable-next-line no-underscore-dangle
+        channelId: state.activeChannel._id,
       });
 
       commit('addMessage', res.data.data.addMessage);
     },
-    async joinChannel({ commit, rootGetters }, payload) {
+    async joinChannel({ commit, rootGetters, state }, payload) {
+      if (state.activeChannel) {
+        state.unsubscribe();
+        commit('leaveChannel');
+      }
+
       try {
         await api.chat.joinChannel(
           {
@@ -50,9 +71,32 @@ export default {
             token: rootGetters.token,
           },
           (data) => {
-            console.log('socket data');
-            console.log(data);
+            // prettier-ignore
+            const {
+              type,
+              member,
+              channel,
+              message,
+            } = data.data.joinChannel;
+
             if (data.errors) throw data.errors;
+
+            switch (type) {
+              case 'JOIN_CHANNEL':
+                commit('setChannel', channel);
+                break;
+              case 'NEW_MEMBER':
+                commit('addChannelMember', member);
+                break;
+              case 'NEW_CHANNEL':
+                commit('addChannel', channel);
+                break;
+              case 'NEW_MESSAGE':
+                commit('addMessage', message);
+                break;
+              default:
+                break;
+            }
           },
           (unsubscribe) => {
             commit('setUnsubscribe', unsubscribe);

@@ -11,7 +11,7 @@ svg-page-loader(v-if="!pageLoaded")
 </template>
 
 <script>
-import { useStore } from 'vuex';
+import { useStore, mapState } from 'vuex';
 import { ref, onUnmounted } from 'vue';
 
 import useBodyClass from '@/hooks/useBodyClass';
@@ -36,6 +36,8 @@ export default {
   provide() {
     return {
       openSidebar: this.openSidebar,
+      openCurrentChatSidebar: this.openCurrentChatSidebar,
+      closeCurrentChatSidebar: this.closeCurrentChatSidebar,
     };
   },
   setup() {
@@ -62,12 +64,26 @@ export default {
       currentChatSidebarOpen: false,
     };
   },
+  computed: {
+    ...mapState('chat', ['activeChannel']),
+  },
+  watch: {
+    activeChannel(val, oldVal) {
+      if (val && val !== oldVal) this.currentChatSidebarOpen = true;
+    },
+  },
   methods: {
     openSidebar() {
       this.sidebarOpen = true;
     },
     closeSidebar() {
       this.sidebarOpen = false;
+    },
+    openCurrentChatSidebar() {
+      this.currentChatSidebarOpen = true;
+    },
+    closeCurrentChatSidebar() {
+      this.currentChatSidebarOpen = false;
     },
   },
 };

@@ -72,6 +72,11 @@
     text-overflow: ellipsis;
   }
 
+  &__no-channels {
+    text-align: center;
+    line-height: normal;
+  }
+
   &__modal {
     .base-modal__header-title {
       text-transform: uppercase;

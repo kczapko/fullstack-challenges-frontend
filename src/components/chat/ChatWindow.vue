@@ -2,93 +2,34 @@
 .chat-window
   header.chat-window__header
     base-button.chat-window__open-sidebar(icon="menu" @click="openSidebar" title="Open Menu")
-    h1.chat-window__channel-name Channel Name
+    h1.chat-window__channel-name(v-if="activeChannel") {{ activeChannel.name }}
   .chat-window__body
-    ul.chat-window__messages
-      li.chat-window__message
-        .chat-window__message-head
-          base-user-image.chat-window__message-userimage(:user="{ name: 'Demo Demo' }")
-          p.chat-window__message-username.text-gray.font-700 Demo Demo
-          time.chat-window__message-time.text-gray(datetime="2011-11-18T14:54:39.929") today at 1:23
-        .chat-window__message-body Morbi eget turpis ut massa luctus cursus. Sed sit amet risus quis neque condimentum aliquet. Phasellus consequat et justo eu accumsan 🙌. Proin pretium id nunc eu molestie. Nam consectetur, ligula vel mattis facilisis, ex mauris venenatis nulla, eget tempor enim neque eget massa 🤣
-      li.chat-window__message.chat-window__message--day
-        time.chat-window__message-day.text-gray(datetime="2011-11-28")
-          span August 3, 2020
-      li.chat-window__message
-        .chat-window__message-head
-          base-user-image.chat-window__message-userimage(:user="{ name: 'Demo Demo' }")
-          p.chat-window__message-username.text-gray.font-700 Demo Demo
-          time.chat-window__message-time.text-gray(datetime="2011-11-18T14:54:39.929") today at 1:23
-        .chat-window__message-body Morbi eget turpis ut massa luctus cursus. Sed sit amet risus quis neque condimentum aliquet. Phasellus consequat et justo eu accumsan 🙌. Proin pretium id nunc eu molestie. Nam consectetur, ligula vel mattis facilisis, ex mauris venenatis nulla, eget tempor enim neque eget massa 🤣
-      li.chat-window__message
-        .chat-window__message-head
-          base-user-image.chat-window__message-userimage(:user="{ name: 'Demo Demo' }")
-          p.chat-window__message-username.text-gray.font-700 Demo Demo
-          time.chat-window__message-time.text-gray(datetime="2011-11-18T14:54:39.929") today at 1:23
-        .chat-window__message-body Morbi eget turpis ut massa luctus cursus. Sed sit amet risus quis neque condimentum aliquet. Phasellus consequat et justo eu accumsan 🙌. Proin pretium id nunc eu molestie. Nam consectetur, ligula vel mattis facilisis, ex mauris venenatis nulla, eget tempor enim neque eget massa 🤣
-      li.chat-window__message
-        .chat-window__message-head
-          base-user-image.chat-window__message-userimage(:user="{ name: 'Demo Demo' }")
-          p.chat-window__message-username.text-gray.font-700 Demo Demo
-          time.chat-window__message-time.text-gray(datetime="2011-11-18T14:54:39.929") today at 1:23
-        .chat-window__message-body Morbi eget turpis ut massa luctus cursus. Sed sit amet risus quis neque condimentum aliquet. Phasellus consequat et justo eu accumsan 🙌. Proin pretium id nunc eu molestie. Nam consectetur, ligula vel mattis facilisis, ex mauris venenatis nulla, eget tempor enim neque eget massa 🤣
-      li.chat-window__message
-        .chat-window__message-head
-          base-user-image.chat-window__message-userimage(:user="{ name: 'Demo Demo' }")
-          p.chat-window__message-username.text-gray.font-700 Demo Demo
-          time.chat-window__message-time.text-gray(datetime="2011-11-18T14:54:39.929") today at 1:23
-        .chat-window__message-body Morbi eget turpis ut massa luctus cursus. Sed sit amet risus quis neque condimentum aliquet. Phasellus consequat et justo eu accumsan 🙌. Proin pretium id nunc eu molestie. Nam consectetur, ligula vel mattis facilisis, ex mauris venenatis nulla, eget tempor enim neque eget massa 🤣
-      li.chat-window__message
-        .chat-window__message-head
-          base-user-image.chat-window__message-userimage(:user="{ name: 'Demo Demo' }")
-          p.chat-window__message-username.text-gray.font-700 Demo Demo
-          time.chat-window__message-time.text-gray(datetime="2011-11-18T14:54:39.929") today at 1:23
-        .chat-window__message-body Morbi eget turpis ut massa luctus cursus. Sed sit amet risus quis neque condimentum aliquet. Phasellus consequat et justo eu accumsan 🙌. Proin pretium id nunc eu molestie. Nam consectetur, ligula vel mattis facilisis, ex mauris venenatis nulla, eget tempor enim neque eget massa 🤣
-      li.chat-window__message
-        .chat-window__message-head
-          base-user-image.chat-window__message-userimage(:user="{ name: 'Demo Demo' }")
-          p.chat-window__message-username.text-gray.font-700 Demo Demo
-          time.chat-window__message-time.text-gray(datetime="2011-11-18T14:54:39.929") today at 1:23
-        .chat-window__message-body Morbi eget turpis ut massa luctus cursus. Sed sit amet risus quis neque condimentum aliquet. Phasellus consequat et justo eu accumsan 🙌. Proin pretium id nunc eu molestie. Nam consectetur, ligula vel mattis facilisis, ex mauris venenatis nulla, eget tempor enim neque eget massa 🤣
-      li.chat-window__message
-        .chat-window__message-head
-          base-user-image.chat-window__message-userimage(:user="{ name: 'Demo Demo' }")
-          p.chat-window__message-username.text-gray.font-700 Demo Demo
-          time.chat-window__message-time.text-gray(datetime="2011-11-18T14:54:39.929") today at 1:23
-        .chat-window__message-body Morbi eget turpis ut massa luctus cursus. Sed sit amet risus quis neque condimentum aliquet. Phasellus consequat et justo eu accumsan 🙌. Proin pretium id nunc eu molestie. Nam consectetur, ligula vel mattis facilisis, ex mauris venenatis nulla, eget tempor enim neque eget massa 🤣
-      li.chat-window__message
-        .chat-window__message-head
-          base-user-image.chat-window__message-userimage(:user="{ name: 'Demo Demo' }")
-          p.chat-window__message-username.text-gray.font-700 Demo Demo
-          time.chat-window__message-time.text-gray(datetime="2011-11-18T14:54:39.929") today at 1:23
-        .chat-window__message-body Morbi eget turpis ut massa luctus cursus. Sed sit amet risus quis neque condimentum aliquet. Phasellus consequat et justo eu accumsan 🙌. Proin pretium id nunc eu molestie. Nam consectetur, ligula vel mattis facilisis, ex mauris venenatis nulla, eget tempor enim neque eget massa 🤣
-      li.chat-window__message
-        .chat-window__message-head
-          base-user-image.chat-window__message-userimage(:user="{ name: 'Demo Demo' }")
-          p.chat-window__message-username.text-gray.font-700 Demo Demo
-          time.chat-window__message-time.text-gray(datetime="2011-11-18T14:54:39.929") today at 1:23
-        .chat-window__message-body Morbi eget turpis ut massa luctus cursus. Sed sit amet risus quis neque condimentum aliquet. Phasellus consequat et justo eu accumsan 🙌. Proin pretium id nunc eu molestie. Nam consectetur, ligula vel mattis facilisis, ex mauris venenatis nulla, eget tempor enim neque eget massa 🤣
-      li.chat-window__message
-        .chat-window__message-head
-          base-user-image.chat-window__message-userimage(:user="{ name: 'Demo Demo' }")
-          p.chat-window__message-username.text-gray.font-700 Demo Demo
-          time.chat-window__message-time.text-gray(datetime="2011-11-18T14:54:39.929") yesterday at 22:29
-        .chat-window__message-body Morbi eget turpis ut massa luctus cursus. Sed sit amet risus quis neque condimentum aliquet. Phasellus consequat et justo eu accumsan 🙌. Proin pretium id nunc eu molestie. Nam consectetur, ligula vel mattis facilisis, ex mauris venenatis nulla, eget tempor enim neque eget massa 🤣
+    p.chat-window__no-channels.font-700(v-if="channels.length === 0")
+      span No channels here yet!
+      br
+      span Create a one.
+    ul.chat-window__messages(v-if="messages.length")
+      chat-message(v-for="message in messages" :key="message._id" :message="message")
     .chat-window__form.form
-      vee-form.form__form(:validation-schema="schema" @submit="submit")
+      vee-form.form__form(:validation-schema="schema" @submit="submit" ref="form")
         .form__row
-          base-input(name="message" placeholder="Type a message here")
+          base-input(name="message" placeholder="Type a message here" :validateOnBlur="false" :validateOnChange="false")
         .form__row.form__row--submit
-          base-button(type="submit" color="primary" :disabled="submitting" icon="send")
+          base-button(type="submit" color="primary" :disabled="submitting || !activeChannel" icon="send")
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
+
+import ChatMessage from '@/components/chat/ChatMessage.vue';
 
 import Message from '@/utils/Message';
 
 export default {
   name: 'ChatWindow',
+  components: {
+    ChatMessage,
+  },
   inject: ['openSidebar'],
   data() {
     return {
@@ -102,6 +43,9 @@ export default {
 
     return { schema };
   },
+  computed: {
+    ...mapState('chat', ['channels', 'activeChannel', 'messages']),
+  },
   methods: {
     ...mapActions('chat', ['addChatMessage']),
     ...mapActions(['addMessage']),
@@ -111,6 +55,7 @@ export default {
       try {
         await this.addChatMessage(values);
         this.addMessage(new Message('New message added.'));
+        this.$refs.form.resetForm();
       } catch (err) {
         this.addMessage(new Message(err.message, 'error'));
       }

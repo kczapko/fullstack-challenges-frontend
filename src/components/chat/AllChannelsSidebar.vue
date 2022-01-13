@@ -14,7 +14,11 @@ section.all-channels
           .form__row.form__row--submit
             base-button(type="submit" color="primary" :disabled="submitting") Save
   .all-channels__body
-    template(v-if="channels.length > 0")
+    p.all-channels__no-channels.font-700(v-if="channels.length === 0")
+      span No channels here yet!
+      br
+      span Create a one.
+    template(v-else)
       .all-channels__search.form.form--search
         vee-form.form__form(@submit="search" v-slot="{ values }")
           .form__row
@@ -25,7 +29,6 @@ section.all-channels
             .all-channels__channel-image
               base-svg-icon.all-channels__channel-img(:text="channel.name")
             p.all-channels__channel-name.font-700 {{ channel.name }}
-    p.all-channels__no-channels(v-else) No channels here yet! Create one.
 </template>
 
 <script>
@@ -35,6 +38,7 @@ import Message from '@/utils/Message';
 
 export default {
   name: 'AllChannelsSidebar',
+  inject: ['openCurrentChatSidebar'],
   setup() {
     const schema = {
       name: 'required|min:5|max:100',
@@ -51,7 +55,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('chat', ['channels']),
+    ...mapState('chat', ['channels', 'activeChannel']),
   },
   methods: {
     ...mapActions('chat', ['addChannel', 'joinChannel']),
@@ -64,6 +68,8 @@ export default {
       try {
         await this.addChannel(values);
         this.addMessage(new Message('New channel added.'));
+        this.$refs.form.resetForm();
+        this.$refs.modal.close();
       } catch (err) {
         this.error = err.message;
       }
@@ -74,7 +80,11 @@ export default {
       this.$refs.modal.open();
     },
     changeChannel(name) {
-      this.joinChannel(name);
+      if (name === this.activeChannel?.name) {
+        this.openCurrentChatSidebar();
+      } else {
+        this.joinChannel(name);
+      }
     },
   },
 };
