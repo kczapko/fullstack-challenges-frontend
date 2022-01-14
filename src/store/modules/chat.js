@@ -8,6 +8,7 @@ export default {
       activeChannel: null,
       messages: [],
       unsubscribe: null,
+      messageAudio: null,
     };
   },
   mutations: {
@@ -37,6 +38,9 @@ export default {
     },
     addChannelMember(state, payload) {
       state.activeChannel.members.push(payload);
+    },
+    setMessageAudio(state, payload) {
+      state.messageAudio = payload;
     },
   },
   actions: {
@@ -107,6 +111,7 @@ export default {
                 break;
               case 'NEW_MESSAGE':
                 commit('addMessage', message);
+                dispatch('playMessageAudio');
                 break;
               default:
                 break;
@@ -119,6 +124,15 @@ export default {
       } catch (err) {
         console.log('socket error');
         console.log(err);
+      }
+    },
+    setMessageAudio({ commit }, payload) {
+      commit('setMessageAudio', payload);
+    },
+    playMessageAudio({ state }) {
+      if (state.messageAudio) {
+        state.messageAudio.currentTime = 0;
+        state.messageAudio.play();
       }
     },
   },

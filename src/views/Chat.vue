@@ -27,6 +27,7 @@ import CurrentChannelSidebar from '@/components/chat/CurrentChannelSidebar.vue';
 import NewChannelModal from '@/components/chat/NewChannelModal.vue';
 
 import '@/assets/scss/modules/chat/main.scss';
+import chatMessageAudio from '@/assets/sounds/chat-message.mp3';
 
 export default {
   name: 'Chat',
@@ -55,6 +56,9 @@ export default {
       store.unregisterModule('chat');
     });
 
+    const messageAudio = new Audio(chatMessageAudio);
+    store.dispatch('chat/setMessageAudio', messageAudio);
+
     const pageLoaded = ref(false);
 
     store.dispatch('chat/getChannels').then(() => {
@@ -77,6 +81,7 @@ export default {
       if (val && val !== oldVal) this.currentChatSidebarOpen = true;
     },
   },
+  mounted() {},
   methods: {
     openSidebar() {
       this.sidebarOpen = true;
