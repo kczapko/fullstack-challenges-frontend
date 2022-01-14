@@ -4,7 +4,9 @@ section.current-channel
     .current-channel__header
       base-button.current-channel__all-channels.font-700(icon="arrow_back_ios" @click="closeCurrentChatSidebar") All channels
     .current-channel__body
-      h2.current-channel__title.current-channel__title--name.font-700 {{ activeChannel.name }}
+      h2.current-channel__title.current-channel__title--name.font-700
+        ws-client-connection-status
+        span {{ activeChannel.name }}
       p.current-channel__description.text-pre-line {{ activeChannel.description }}
       h2.current-channel__title.current-channel__title--members.font-700 Members
       ul.current-channel__members
@@ -16,8 +18,13 @@ section.current-channel
 <script>
 import { mapState } from 'vuex';
 
+import WsClientConnectionStatus from '@/components/chat/WsClientConnectionStatus.vue';
+
 export default {
   namw: 'CurrentChannelSidebar',
+  components: {
+    WsClientConnectionStatus,
+  },
   inject: ['closeCurrentChatSidebar'],
   computed: {
     ...mapState('chat', ['activeChannel']),

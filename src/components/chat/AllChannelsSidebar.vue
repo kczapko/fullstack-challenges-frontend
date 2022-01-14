@@ -17,16 +17,23 @@ section.all-channels
           button.all-channels__channel-button(:title="`Join ${channel.name} Channel`" @click="changeChannel(channel.name)")
             .all-channels__channel-image
               base-svg-icon.all-channels__channel-img(:text="channel.name")
-            p.all-channels__channel-name.font-700 {{ channel.name }}
+            p.all-channels__channel-name.font-700
+              ws-client-connection-status(v-if="channel._id === activeChannel._id")
+              span {{ channel.name }}
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
 
+import WsClientConnectionStatus from '@/components/chat/WsClientConnectionStatus.vue';
+
 import Message from '@/utils/Message';
 
 export default {
   name: 'AllChannelsSidebar',
+  components: {
+    WsClientConnectionStatus,
+  },
   inject: ['openCurrentChatSidebar', 'openNewChannelModal'],
   data() {
     return {

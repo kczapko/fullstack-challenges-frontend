@@ -2,7 +2,9 @@
 .chat-window
   header.chat-window__header
     base-button.chat-window__open-sidebar(icon="menu" @click="openSidebar" title="Open Menu")
-    h1.chat-window__channel-name(v-if="activeChannel") {{ activeChannel.name }}
+    h1.chat-window__channel-name(v-if="activeChannel")
+      ws-client-connection-status
+      span {{ activeChannel.name }}
   .chat-window__body
     p.chat-window__no-channels.font-700(v-if="channels.length === 0")
       span No channels here yet!
@@ -21,6 +23,7 @@
 import { mapActions, mapState } from 'vuex';
 
 import ChatMessage from '@/components/chat/ChatMessage.vue';
+import WsClientConnectionStatus from '@/components/chat/WsClientConnectionStatus.vue';
 
 import Message from '@/utils/Message';
 
@@ -28,6 +31,7 @@ export default {
   name: 'ChatWindow',
   components: {
     ChatMessage,
+    WsClientConnectionStatus,
   },
   inject: ['openSidebar', 'openNewChannelModal'],
   data() {

@@ -35,6 +35,10 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    .ws-connection-status {
+      margin-right: 0.5rem;
+    }
   }
 
   &__body {

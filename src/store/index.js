@@ -1,6 +1,9 @@
 import { createStore } from 'vuex';
 
 import axios from '@/api/axios';
+import wsClient from '@/api/wsClient';
+
+import Message from '@/utils/Message';
 
 import actions from './actions';
 import mutations from './mutations';
@@ -53,5 +56,28 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+
+/* wsclient status */
+wsClient.on('connecting', () => {
+  if (store.hasModule('chat')) {
+    store.dispatch('chat/setClientConntionStatus', 'connecting');
+  }
+});
+
+wsClient.on('connected', () => {
+  if (store.hasModule('chat')) {
+    store.dispatch('chat/setClientConntionStatus', 'connected');
+  }
+});
+
+wsClient.on('closed', (err) => {
+  if (store.hasModule('chat')) {
+    store.dispatch('chat/setClientConntionStatus', 'closed');
+  }
+  store.dispatch(
+    'addMessage',
+    new Message(`Connection lost. ${err.reason ? `Reason: ${err.reason}` : ''}`, 'error'),
+  );
+});
 
 export default store;

@@ -1,5 +1,4 @@
 import api from '@/api';
-// import wsClient from '@/api/wsClient';
 
 import Message from '@/utils/Message';
 
@@ -12,6 +11,7 @@ export default {
       messages: [],
       unsubscribe: null,
       messageAudio: null,
+      clientConntionStatus: '',
     };
   },
   mutations: {
@@ -44,6 +44,9 @@ export default {
     },
     setMessageAudio(state, payload) {
       state.messageAudio = payload;
+    },
+    setClientConntionStatus(state, payload) {
+      state.clientConntionStatus = payload;
     },
   },
   actions: {
@@ -127,8 +130,6 @@ export default {
           },
         );
       } catch (err) {
-        console.log('socket error');
-        console.log(err);
         if (Array.isArray(err)) {
           const error = err[0];
           const { message } = error;
@@ -157,6 +158,9 @@ export default {
         state.messageAudio.currentTime = 0;
         state.messageAudio.play();
       }
+    },
+    setClientConntionStatus({ commit }, payload) {
+      commit('setClientConntionStatus', payload);
     },
   },
   getters: {},

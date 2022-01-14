@@ -1,0 +1,16 @@
+.ws-connection-status {
+  display: inline-block;
+  width: 1.2rem;
+  aspect-ratio: 1;
+  background-color: var(--color-gray);
+  border-radius: 50%;
+}
+
+.ws-connection-status--connecting,
+.ws-connection-status--connected {
+  background-color: var(--color-success);
+}
+
+.ws-connection-status--closed {
+  background-color: var(--color-danger);
+}
