@@ -13,7 +13,7 @@ section.all-channels
           .form__row
             base-input(name="search" icon="search" placeholder="Search" @input="searchQuery = values.search.trim()")
       ul.all-channels__channels
-        li.all-channels__channel(v-for="channel in channels" :key="channel._id")
+        li.all-channels__channel(v-for="channel in filteredChannels" :key="channel._id")
           button.all-channels__channel-button(:title="`Join ${channel.name} Channel`" @click="changeChannel(channel.name)")
             .all-channels__channel-image
               base-svg-icon.all-channels__channel-img(:text="channel.name")
@@ -23,7 +23,7 @@ section.all-channels
 <script>
 import { mapActions, mapState } from 'vuex';
 
-// import Message from '@/utils/Message';
+import Message from '@/utils/Message';
 
 export default {
   name: 'AllChannelsSidebar',
@@ -35,10 +35,29 @@ export default {
   },
   computed: {
     ...mapState('chat', ['channels', 'activeChannel']),
+    filteredChannels() {
+      const channels = [];
+
+      if (this.searchQuery) {
+        for (let i = 0; i < this.channels.length; i += 1) {
+          const channel = this.channels[i];
+          try {
+            const regExp = new RegExp(this.searchQuery, 'gi');
+            if (channel.name.match(regExp)) channels.push(channel);
+          } catch (err) {
+            this.addMessage(new Message('Invalid search value', 'error'));
+            break;
+          }
+        }
+        return channels;
+      }
+
+      return this.channels;
+    },
   },
   methods: {
     ...mapActions('chat', ['joinChannel']),
-    // ...mapActions(['addMessage']),
+    ...mapActions(['addMessage']),
     search() {},
     changeChannel(name) {
       if (name === this.activeChannel?.name) {
