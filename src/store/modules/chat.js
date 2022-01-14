@@ -1,4 +1,7 @@
 import api from '@/api';
+// import wsClient from '@/api/wsClient';
+
+import Message from '@/utils/Message';
 
 export default {
   namespaced: true,
@@ -22,7 +25,7 @@ export default {
     setMessages(state, payload) {
       state.messages = payload;
     },
-    addMessage(state, payload) {
+    addChatMessage(state, payload) {
       state.messages.push(payload);
     },
     setUnsubscribe(state, payload) {
@@ -72,7 +75,7 @@ export default {
         channelId: state.activeChannel._id,
       });
 
-      commit('addMessage', res.data.data.addMessage);
+      commit('addChatMessage', res.data.data.addMessage);
     },
     // eslint-disable-next-line object-curly-newline
     async joinChannel({ commit, rootGetters, state, dispatch }, payload) {
@@ -88,6 +91,7 @@ export default {
             token: rootGetters.token,
           },
           (data) => {
+            if (data.errors) throw data.errors;
             // prettier-ignore
             const {
               type,
@@ -96,12 +100,13 @@ export default {
               message,
             } = data.data.joinChannel;
 
-            if (data.errors) throw data.errors;
-
             switch (type) {
               case 'JOIN_CHANNEL':
                 commit('setChannel', channel);
                 dispatch('getChannelMessages');
+                dispatch('addMessage', new Message(`Joined ${channel.name} channel`), {
+                  root: true,
+                });
                 break;
               case 'NEW_MEMBER':
                 commit('addChannelMember', member);
@@ -110,7 +115,7 @@ export default {
                 commit('addChannel', channel);
                 break;
               case 'NEW_MESSAGE':
-                commit('addMessage', message);
+                commit('addChatMessage', message);
                 dispatch('playMessageAudio');
                 break;
               default:
@@ -124,6 +129,24 @@ export default {
       } catch (err) {
         console.log('socket error');
         console.log(err);
+        if (Array.isArray(err)) {
+          const error = err[0];
+          const { message } = error;
+
+          // prettier-ignore
+          if (
+            message === 'Wrong token'
+            || message === 'Token expired'
+            || message === 'Your account has been blocked.'
+            || message === 'User does not exist or was deleted.'
+            || message === 'You recently changed password. Please login again.'
+          ) {
+            dispatch('auth/setAuthError', error, { root: true });
+            await this.$logoutUser();
+          } else {
+            dispatch('addMessage', new Message(message, 'error'), { root: true });
+          }
+        }
       }
     },
     setMessageAudio({ commit }, payload) {

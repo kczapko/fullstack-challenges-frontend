@@ -45,8 +45,11 @@ export default {
   computed: {
     ...mapState('chat', ['channels', 'activeChannel', 'messages']),
   },
+  mounted() {
+    if (this.channels.length) this.joinChannel('Welcome');
+  },
   methods: {
-    ...mapActions('chat', ['addChatMessage']),
+    ...mapActions('chat', ['addChatMessage', 'joinChannel']),
     ...mapActions(['addMessage']),
     async submit(values) {
       this.submitting = true;
