@@ -35,4 +35,7 @@ export default {
     }
     commit('setColorSchema', colorSchema);
   },
+  setPageVisibility({ commit }, payload) {
+    commit('setPageVisibility', payload);
+  },
 };

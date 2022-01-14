@@ -20,6 +20,7 @@ const store = createStore({
       token: null,
       messages: [],
       colorSchema: 'auto',
+      pageVisible: null,
     };
   },
   mutations,

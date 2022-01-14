@@ -72,4 +72,7 @@ export default {
     state.colorSchema = payload;
     localStorage.setItem('colorSchema', payload);
   },
+  setPageVisibility(state, payload) {
+    state.pageVisible = payload;
+  },
 };
