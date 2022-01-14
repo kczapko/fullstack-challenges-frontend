@@ -18,6 +18,9 @@ export default {
       // eslint-disable-next-line no-underscore-dangle
       state.channels.push({ _id: payload._id, name: payload.name });
     },
+    setMessages(state, payload) {
+      state.messages = payload;
+    },
     addMessage(state, payload) {
       state.messages.push(payload);
     },
@@ -47,6 +50,15 @@ export default {
 
       commit('addChannel', res.data.data.addChannel);
     },
+    async getChannelMessages({ commit, state }) {
+      if (!state.activeChannel) throw new Error('You must select channel to get messages.');
+
+      const res = await api.chat.getMessages({
+        // eslint-disable-next-line no-underscore-dangle
+        channelId: state.activeChannel._id,
+      });
+      commit('setMessages', res.data.data.getMessages);
+    },
     async addChatMessage({ commit, state }, payload) {
       if (!state.activeChannel) throw new Error('You must select channel to send a message.');
 
@@ -58,7 +70,8 @@ export default {
 
       commit('addMessage', res.data.data.addMessage);
     },
-    async joinChannel({ commit, rootGetters, state }, payload) {
+    // eslint-disable-next-line object-curly-newline
+    async joinChannel({ commit, rootGetters, state, dispatch }, payload) {
       if (state.activeChannel) {
         state.unsubscribe();
         commit('leaveChannel');
@@ -84,6 +97,7 @@ export default {
             switch (type) {
               case 'JOIN_CHANNEL':
                 commit('setChannel', channel);
+                dispatch('getChannelMessages');
                 break;
               case 'NEW_MEMBER':
                 commit('addChannelMember', member);

@@ -29,6 +29,7 @@
 
   &__channel-name {
     font-size: 1.8rem;
+    line-height: normal;
     text-transform: uppercase;
     margin: 0;
     white-space: nowrap;
@@ -150,8 +151,10 @@
   }
 
   &__no-channels {
-    text-align: center;
-    line-height: normal;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
   }
 }
 

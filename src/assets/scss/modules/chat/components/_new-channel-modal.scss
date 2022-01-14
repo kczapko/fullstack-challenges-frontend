@@ -1,0 +1,41 @@
+.new-channel-modal {
+  .base-modal__header-title {
+    text-transform: uppercase;
+  }
+
+  .base-input__input {
+    font-size: 1.4rem;
+  }
+
+  .form {
+    &__error {
+      margin: 0 0 1.5rem;
+      padding: 1rem;
+      background-color: var(--color-danger);
+      border-radius: 0.4rem;
+      color: var(--color-white);
+      font-size: 1.4rem;
+      line-height: normal;
+    }
+
+    &__row {
+      &:not(:first-child) {
+        margin-top: 2rem;
+      }
+
+      &--submit {
+        text-align: right;
+      }
+    }
+  }
+}
+
+.dark .new-channel-modal {
+  .base-input__input {
+    &:not(:focus) {
+      border-color: var(--color-dark-gray2);
+    }
+    background-color: var(--color-dark-gray2);
+    color: var(--color-light-gray);
+  }
+}

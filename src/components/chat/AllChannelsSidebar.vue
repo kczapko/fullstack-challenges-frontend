@@ -2,22 +2,11 @@
 section.all-channels
   .all-channels__header
     h2.all-channels__header-title Channels
-    base-button.all-channels__add-channel(icon="add" @click="openModal" title="Add Channel")
-    base-modal.all-channels__modal.base-modal--new-channel(modal-title="New Channel" ref="modal")
-      .all-channels__new-channel.form.form--new-channel
-        p.form__error(v-if="error") {{ error }}
-        vee-form.form__form(:validation-schema="schema" @submit="submit" ref="form")
-          .form__row
-            base-input(name="name" placeholder="Channel name")
-          .form__row
-            base-input(tag="textarea" name="description" placeholder="Channel description")
-          .form__row.form__row--submit
-            base-button(type="submit" color="primary" :disabled="submitting") Save
+    base-button.all-channels__add-channel(icon="add" @click="openNewChannelModal" title="Add Channel")
   .all-channels__body
     p.all-channels__no-channels.font-700(v-if="channels.length === 0")
       span No channels here yet!
-      br
-      span Create a one.
+      base-button(color="primary" @click="openNewChannelModal") Create a one
     template(v-else)
       .all-channels__search.form.form--search
         vee-form.form__form(@submit="search" v-slot="{ values }")
@@ -34,51 +23,23 @@ section.all-channels
 <script>
 import { mapActions, mapState } from 'vuex';
 
-import Message from '@/utils/Message';
+// import Message from '@/utils/Message';
 
 export default {
   name: 'AllChannelsSidebar',
-  inject: ['openCurrentChatSidebar'],
-  setup() {
-    const schema = {
-      name: 'required|min:5|max:100',
-      description: 'required|min:10|max:500',
-    };
-
-    return { schema };
-  },
+  inject: ['openCurrentChatSidebar', 'openNewChannelModal'],
   data() {
     return {
       searchQuery: '',
-      submitting: false,
-      error: '',
     };
   },
   computed: {
     ...mapState('chat', ['channels', 'activeChannel']),
   },
   methods: {
-    ...mapActions('chat', ['addChannel', 'joinChannel']),
-    ...mapActions(['addMessage']),
+    ...mapActions('chat', ['joinChannel']),
+    // ...mapActions(['addMessage']),
     search() {},
-    async submit(values) {
-      this.submitting = true;
-      this.error = '';
-
-      try {
-        await this.addChannel(values);
-        this.addMessage(new Message('New channel added.'));
-        this.$refs.form.resetForm();
-        this.$refs.modal.close();
-      } catch (err) {
-        this.error = err.message;
-      }
-
-      this.submitting = false;
-    },
-    openModal() {
-      this.$refs.modal.open();
-    },
     changeChannel(name) {
       if (name === this.activeChannel?.name) {
         this.openCurrentChatSidebar();

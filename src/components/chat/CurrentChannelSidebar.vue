@@ -5,7 +5,7 @@ section.current-channel
       base-button.current-channel__all-channels.font-700(icon="arrow_back_ios" @click="closeCurrentChatSidebar") All channels
     .current-channel__body
       h2.current-channel__title.current-channel__title--name.font-700 {{ activeChannel.name }}
-      p.current-channel__description {{ activeChannel.description }}
+      p.current-channel__description.text-pre-line {{ activeChannel.description }}
       h2.current-channel__title.current-channel__title--members.font-700 Members
       ul.current-channel__members
         li.current-channel__member(v-for="member in activeChannel.members" :key="`${member.username}-${member.photo}`")

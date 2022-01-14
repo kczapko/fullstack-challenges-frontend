@@ -44,6 +44,8 @@
     margin: 0;
     line-height: normal;
     letter-spacing: -0.035em;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__members {

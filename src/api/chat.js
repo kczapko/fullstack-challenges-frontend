@@ -35,6 +35,29 @@ const addChannel = async ({ name, description }) => {
   return axios.post('/graphql', graphqlQuery);
 };
 
+const getMessages = async ({ channelId }) => {
+  const graphqlQuery = {
+    query: `
+      query getMessages($channelId: ID!) {
+        getMessages(channelId: $channelId) {
+          _id
+          message
+          createdAt
+          user {
+            username
+            photo
+          }
+        }
+      }
+    `,
+    variables: {
+      channelId,
+    },
+  };
+
+  return axios.post('/graphql', graphqlQuery);
+};
+
 const addMessage = async ({ msg, channelId }) => {
   const graphqlQuery = {
     query: `
@@ -42,13 +65,10 @@ const addMessage = async ({ msg, channelId }) => {
         addMessage(msg: $msg, channelId: $channelId) {
           _id
           message
+          createdAt
           user {
             username
             photo
-          }
-          channel {
-            _id
-            name
           }
         }
       }
@@ -62,7 +82,7 @@ const addMessage = async ({ msg, channelId }) => {
   return axios.post('/graphql', graphqlQuery);
 };
 
-const joinChannel = async ({ name, token }, callback, subscribeCallback) => {
+const joinChannel = async ({ name, token }, dataCallback, subscribeCallback) => {
   const graphqlQuery = {
     query: `
       subscription joinChannel($name: String!) {
@@ -84,13 +104,10 @@ const joinChannel = async ({ name, token }, callback, subscribeCallback) => {
           message {
             _id
             message
+            createdAt
             user {
               username
               photo
-            }
-            channel {
-              _id
-              name
             }
           }
         }
@@ -105,7 +122,7 @@ const joinChannel = async ({ name, token }, callback, subscribeCallback) => {
   await new Promise((resolve, reject) => {
     // eslint-disable-next-line no-param-reassign
     const unsubscribe = client.subscribe(graphqlQuery, {
-      next: callback,
+      next: dataCallback,
       error: reject,
       complete: resolve,
     });
@@ -118,6 +135,7 @@ const joinChannel = async ({ name, token }, callback, subscribeCallback) => {
 export {
   getChannels,
   addChannel,
+  getMessages,
   addMessage,
   joinChannel,
 };

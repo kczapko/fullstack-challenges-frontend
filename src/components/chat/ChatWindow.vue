@@ -6,8 +6,7 @@
   .chat-window__body
     p.chat-window__no-channels.font-700(v-if="channels.length === 0")
       span No channels here yet!
-      br
-      span Create a one.
+      base-button(color="primary" @click="openNewChannelModal") Create a one
     ul.chat-window__messages(v-if="messages.length")
       chat-message(v-for="message in messages" :key="message._id" :message="message")
     .chat-window__form.form
@@ -30,7 +29,7 @@ export default {
   components: {
     ChatMessage,
   },
-  inject: ['openSidebar'],
+  inject: ['openSidebar', 'openNewChannelModal'],
   data() {
     return {
       submitting: false,

@@ -8,6 +8,8 @@ svg-page-loader(v-if="!pageLoaded")
     all-channels-sidebar
     current-channel-sidebar
     base-header.chat__sidebar-header
+  //- modals
+  new-channel-modal(ref="newChannelmodal")
 </template>
 
 <script>
@@ -22,6 +24,7 @@ import SvgPageLoader from '@/components/svg/PageLoader.vue';
 import ChatWindow from '@/components/chat/ChatWindow.vue';
 import AllChannelsSidebar from '@/components/chat/AllChannelsSidebar.vue';
 import CurrentChannelSidebar from '@/components/chat/CurrentChannelSidebar.vue';
+import NewChannelModal from '@/components/chat/NewChannelModal.vue';
 
 import '@/assets/scss/modules/chat/main.scss';
 
@@ -32,12 +35,14 @@ export default {
     ChatWindow,
     AllChannelsSidebar,
     CurrentChannelSidebar,
+    NewChannelModal,
   },
   provide() {
     return {
       openSidebar: this.openSidebar,
       openCurrentChatSidebar: this.openCurrentChatSidebar,
       closeCurrentChatSidebar: this.closeCurrentChatSidebar,
+      openNewChannelModal: this.openNewChannelModal,
     };
   },
   setup() {
@@ -84,6 +89,9 @@ export default {
     },
     closeCurrentChatSidebar() {
       this.currentChatSidebarOpen = false;
+    },
+    openNewChannelModal() {
+      this.$refs.newChannelmodal.open();
     },
   },
 };
