@@ -38,4 +38,7 @@ export default {
   setPageVisibility({ commit }, payload) {
     commit('setPageVisibility', payload);
   },
+  setNotificationsPermission({ commit }, payload) {
+    commit('setNotificationsPermission', payload);
+  },
 };

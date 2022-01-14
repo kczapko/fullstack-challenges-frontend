@@ -24,6 +24,7 @@ const store = createStore({
       messages: [],
       colorSchema: 'auto',
       pageVisible: null,
+      notificationsPermission: false,
     };
   },
   mutations,

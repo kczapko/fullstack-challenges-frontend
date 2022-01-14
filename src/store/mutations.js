@@ -75,4 +75,7 @@ export default {
   setPageVisibility(state, payload) {
     state.pageVisible = payload;
   },
+  setNotificationsPermission(state, payload) {
+    state.notificationsPermission = payload;
+  },
 };

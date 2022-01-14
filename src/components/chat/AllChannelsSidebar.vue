@@ -18,7 +18,7 @@ section.all-channels
             .all-channels__channel-image
               base-svg-icon.all-channels__channel-img(:text="channel.name")
             p.all-channels__channel-name.font-700
-              ws-client-connection-status(v-if="channel._id === activeChannel._id")
+              ws-client-connection-status(v-if="activeChannel && channel._id === activeChannel._id")
               span {{ channel.name }}
 </template>
 

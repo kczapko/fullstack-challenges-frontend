@@ -12,6 +12,7 @@ import { mapState, mapActions } from 'vuex';
 import useAppMeta from '@/hooks/useAppMeta';
 import useColorSchema from '@/hooks/useColorSchema';
 import usePageVisibility from '@/hooks/usePageVisibility';
+import useNotifications from '@/hooks/useNotifications';
 
 export default {
   name: 'App',
@@ -19,6 +20,7 @@ export default {
     useAppMeta();
     useColorSchema();
     usePageVisibility();
+    useNotifications();
   },
   computed: {
     ...mapState(['loading']),
