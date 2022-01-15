@@ -8,6 +8,7 @@ section.current-channel
         base-button.current-channel__enable-notifications-button(color="primary" @click="requsetNotificationsPermission") Enable Notifications
       h2.current-channel__title.current-channel__title--name.font-700
         ws-client-connection-status
+        base-button(color="primary" icon="sync" title="Reconnect" v-if="clientConntionStatus === 'closed'" @click="joinChannel(activeChannel.name)")
         span {{ activeChannel.name }}
       p.current-channel__description.text-pre-line {{ activeChannel.description }}
       h2.current-channel__title.current-channel__title--members.font-700 Members
@@ -29,11 +30,12 @@ export default {
   },
   inject: ['closeCurrentChatSidebar'],
   computed: {
-    ...mapState('chat', ['activeChannel']),
+    ...mapState('chat', ['activeChannel', 'clientConntionStatus']),
     ...mapState(['notificationsPermission']),
   },
   methods: {
     ...mapActions(['requsetNotificationsPermission']),
+    ...mapActions('chat', ['joinChannel']),
   },
 };
 </script>

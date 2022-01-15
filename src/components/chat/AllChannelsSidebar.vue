@@ -41,7 +41,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('chat', ['channels', 'activeChannel']),
+    ...mapState('chat', ['channels', 'activeChannel', 'clientConntionStatus']),
     filteredChannels() {
       const channels = [];
 
@@ -68,6 +68,9 @@ export default {
     search() {},
     changeChannel(name) {
       if (name === this.activeChannel?.name) {
+        if (this.clientConntionStatus === 'closed') {
+          this.joinChannel(name);
+        }
         this.openCurrentChatSidebar();
       } else {
         this.joinChannel(name);
