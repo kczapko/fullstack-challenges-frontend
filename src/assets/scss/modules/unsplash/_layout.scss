@@ -116,6 +116,13 @@
       }
     }
   }
+
+  &__observer {
+    position: relative;
+    padding: 0 0 150vh;
+    margin-top: -150vh;
+    pointer-events: none;
+  }
 }
 
 .dark .unsplash {

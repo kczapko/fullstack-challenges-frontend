@@ -5,6 +5,7 @@ svg-page-loader(v-if="!pageLoaded")
   main
     p.unsplash__error(v-if="error") {{ error }}
     unsplash-photo-grid(:photos="photos" :search-query="searchQuery")
+    .unsplash__observer(ref="unsplashObserver")
   base-footer
   //- Modals
   add-photo-modal.unsplash__modal(ref="addPhotoModal" @add-photo="addPhoto")
@@ -14,7 +15,6 @@ svg-page-loader(v-if="!pageLoaded")
 
 <script>
 import { mapState } from 'vuex';
-import debounce from 'lodash/debounce';
 
 import api from '@/api';
 
@@ -51,10 +51,10 @@ export default {
   setup() {
     useBodyClass('module-unsplash');
 
-    const debouncedHandleScroll = null;
+    const observer = null;
 
     return {
-      debouncedHandleScroll,
+      observer,
     };
   },
   data() {
@@ -62,10 +62,9 @@ export default {
       photos: [],
       searchQuery: '',
       error: '',
-      page: 1,
+      skip: 0,
       perPage: 20,
       total: null,
-      loadThreshold: 1000,
       pageLoaded: false,
     };
   },
@@ -74,69 +73,76 @@ export default {
   },
   watch: {
     searchQuery() {
+      this.skip = 0;
+      this.total = null;
       this.getPhotos();
     },
     '$route.query.q': {
       handler(val) {
-        this.page = 1;
+        this.skip = 0;
         this.total = null;
         this.searchQuery = (val && val.trim()) || '';
       },
       immediate: true,
     },
+    pageLoaded: {
+      handler(val) {
+        if (val) {
+          this.observer.observe(this.$refs.unsplashObserver);
+        }
+      },
+      flush: 'post',
+    },
   },
   async created() {
-    this.debouncedHandleScroll = debounce(this.handleScroll, 200);
     if (!this.$route.query.q) await this.getPhotos();
   },
   mounted() {
-    window.addEventListener('scroll', this.debouncedHandleScroll);
-  },
-  unmounted() {
-    window.removeEventListener('scroll', this.debouncedHandleScroll);
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0,
+    };
+
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          this.getPhotos();
+        }
+      });
+    };
+
+    this.observer = new IntersectionObserver(observerCallback, observerOptions);
   },
   methods: {
     async getPhotos() {
       this.error = '';
 
-      if (this.loading || this.photos.length === this.total) return;
+      if (this.loading || this.skip === this.total) return;
 
       try {
         const res = await api.unsplash.myPhotos({
           search: this.searchQuery,
-          page: this.page,
+          skip: this.skip,
           perPage: this.perPage,
         });
 
-        if (this.page === 1) {
-          this.total = res.data.data.myUnsplashImages.total;
+        if (this.skip === 0) {
           this.photos = res.data.data.myUnsplashImages.images;
         } else {
           this.photos.push(...res.data.data.myUnsplashImages.images);
         }
+        this.total = res.data.data.myUnsplashImages.total;
+        this.skip += res.data.data.myUnsplashImages.images.length;
       } catch (err) {
         this.error = err;
       }
       if (!this.pageLoaded) this.pageLoaded = true;
     },
-    handleScroll() {
-      const scroll = Math.round(window.innerHeight + window.scrollY);
-      const bodyHeight = document.body.offsetHeight;
-
-      if (scroll > bodyHeight - this.loadThreshold) {
-        if (this.loading) return;
-
-        const nextPage = this.page + 1;
-        const morePhotos = this.total + this.perPage > nextPage * this.perPage;
-
-        if (morePhotos) {
-          this.page += 1;
-          this.getPhotos();
-        }
-      }
-    },
     addPhoto(photo) {
       this.photos.unshift(photo);
+      this.skip += 1;
+      this.total += 1;
     },
     updatePhoto(updatedPhoto) {
       // eslint-disable-next-line no-underscore-dangle
@@ -146,7 +152,11 @@ export default {
     deletePhoto(deletedPhoto) {
       // eslint-disable-next-line no-underscore-dangle
       const index = this.photos.findIndex((p) => p._id === deletedPhoto._id);
-      if (index >= 0) this.photos.splice(index, 1);
+      if (index >= 0) {
+        this.photos.splice(index, 1);
+        this.total -= 1;
+        this.skip -= 1;
+      }
     },
     openAddPhotoModal() {
       this.$refs.addPhotoModal.open();
