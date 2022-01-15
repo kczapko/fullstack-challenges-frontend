@@ -6,7 +6,7 @@ svg-page-loader(v-if="!loaded")
     transition(name="fade" mode="out-in")
       component(:is="pageComponent")
   aside
-    shopping-list(:class="{ 'shopping-list--open': shoppingListOpen }" @add-item-click="openAddProduct")
+    shopping-list(:class="{ 'shopping-list--open': shoppingListOpen }")
     new-product-form(ref="newProductForm")
     product-view(ref="productView")
 </template>

@@ -18,6 +18,7 @@ section.history(v-if="history")
 <script>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
+import { DateTime } from 'luxon';
 
 import Message from '@/utils/Message';
 
@@ -36,28 +37,21 @@ export default {
         const data = new Map();
 
         items.forEach((item) => {
-          const date = new Date(Number(item.updatedAt));
-          const dateText = date.toLocaleString('en-GB', { month: 'long', year: 'numeric' });
+          const date = DateTime.fromMillis(Number(item.updatedAt)).setLocale('en-GB');
+          const dateText = date.toFormat('LLLL yyyy');
 
           let entry = data.get(dateText);
           if (!entry) {
             data.set(dateText, {
-              datetime: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, 0)}`,
+              datetime: date.toFormat('yyyy-LL'),
               items: [],
             });
             entry = data.get(dateText);
           }
 
           entry.items.push({
-            date: date.toLocaleString('en-GB', {
-              weekday: 'short',
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-            }),
-            datetime: `${date.getFullYear()}-${(date.getMonth() + 1)
-              .toString()
-              .padStart(2, 0)}-${date.getDate().toString().padStart(2, 0)}`,
+            date: date.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY),
+            datetime: date.toFormat('yyyy-LL-dd'),
             status: item.state,
             name: item.name,
             // eslint-disable-next-line no-underscore-dangle

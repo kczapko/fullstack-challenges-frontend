@@ -57,6 +57,7 @@ export default {
     store.registerModule('chat', chatStore);
 
     onUnmounted(() => {
+      store.dispatch('chat/unsubscribe');
       store.unregisterModule('chat');
     });
 

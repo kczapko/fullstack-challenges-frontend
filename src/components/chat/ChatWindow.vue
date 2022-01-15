@@ -147,6 +147,9 @@ export default {
 
     this.observer = new IntersectionObserver(observerCallback, observerOptions);
   },
+  beforeUnmount() {
+    this.observer.disconnect();
+  },
   methods: {
     ...mapActions('chat', ['addChatMessage', 'joinChannel', 'getChannelMessages']),
     ...mapActions(['addMessage']),

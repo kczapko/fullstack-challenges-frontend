@@ -3,7 +3,7 @@ section.shopping-list(:class="{ 'shopping-list--empty' : empty }")
   .shopping-list__container
     .shopping-list__add-item
       p.shopping-list__add-item-text.font-700 Didn’t find what you need?
-      base-button.shopping-list__add-item-button.font-700(@click="$emit('add-item-click')") Add item
+      base-button.shopping-list__add-item-button.font-700(@click="openAddProduct") Add item
     .shopping-list__empty(v-if="empty")
       p.shopping-list__empty-text.font-700 No items
     shopping-list-body(v-else)
@@ -22,7 +22,7 @@ export default {
     ShoppingListFooter,
     ShoppingListBody,
   },
-  emits: ['add-item-click'],
+  inject: ['openAddProduct'],
   computed: {
     ...mapGetters('shoppingify', {
       empty: 'shoppingListIsEmpty',

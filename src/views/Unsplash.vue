@@ -114,6 +114,9 @@ export default {
 
     this.observer = new IntersectionObserver(observerCallback, observerOptions);
   },
+  beforeUnmount() {
+    this.observer.disconnect();
+  },
   methods: {
     async getPhotos() {
       this.error = '';

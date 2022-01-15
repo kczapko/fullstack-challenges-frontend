@@ -57,6 +57,7 @@ export default {
       'completeMyShoppingList',
       'cancelMyShoppingList',
       'editShoppingList',
+      'completeShoppingList',
     ]),
     ...mapActions(['addMessage']),
     async submit(values) {
@@ -71,6 +72,7 @@ export default {
           await this.saveMyShoppingList(values);
           this.addMessage(new Message('Shopping list was successfully saved.'));
         }
+        this.completeShoppingList();
       } catch (err) {
         this.error = err.message;
         this.addMessage(new Message(err.message, 'error'));

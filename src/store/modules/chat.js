@@ -109,7 +109,7 @@ export default {
       dispatch('setLoading', true, { root: true });
 
       if (state.activeChannel) {
-        state.unsubscribe();
+        dispatch('unsubscribe');
         commit('leaveChannel');
       }
 
@@ -214,6 +214,9 @@ export default {
           { root: true },
         );
       }
+    },
+    unsubscribe({ state }) {
+      if (state.unsubscribe) state.unsubscribe();
     },
   },
   getters: {},
