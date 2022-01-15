@@ -1,4 +1,4 @@
-.new-channel-modal {
+.chat__modal {
   .base-modal__header-title {
     text-transform: uppercase;
   }
@@ -24,13 +24,15 @@
       }
 
       &--submit {
-        text-align: right;
+        display: flex;
+        justify-content: flex-end;
+        gap: 2rem;
       }
     }
   }
 }
 
-.dark .new-channel-modal {
+.dark .chat__modal {
   .base-input__input {
     &:not(:focus) {
       border-color: var(--color-dark-gray2);

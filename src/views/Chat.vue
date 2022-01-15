@@ -9,7 +9,8 @@ svg-page-loader(v-if="!pageLoaded")
     current-channel-sidebar
     base-header.chat__sidebar-header
   //- modals
-  new-channel-modal(ref="newChannelmodal")
+  new-channel-modal.chat__modal(ref="newChannelModal")
+  channel-password-modal.chat__modal(ref="channelPasswordModal")
 </template>
 
 <script>
@@ -25,6 +26,7 @@ import ChatWindow from '@/components/chat/ChatWindow.vue';
 import AllChannelsSidebar from '@/components/chat/AllChannelsSidebar.vue';
 import CurrentChannelSidebar from '@/components/chat/CurrentChannelSidebar.vue';
 import NewChannelModal from '@/components/chat/NewChannelModal.vue';
+import ChannelPasswordModal from '@/components/chat/ChannelPasswordModal.vue';
 
 import '@/assets/scss/modules/chat/main.scss';
 import chatMessageAudio from '@/assets/sounds/chat-message.mp3';
@@ -37,6 +39,7 @@ export default {
     AllChannelsSidebar,
     CurrentChannelSidebar,
     NewChannelModal,
+    ChannelPasswordModal,
   },
   provide() {
     return {
@@ -44,6 +47,7 @@ export default {
       openCurrentChatSidebar: this.openCurrentChatSidebar,
       closeCurrentChatSidebar: this.closeCurrentChatSidebar,
       openNewChannelModal: this.openNewChannelModal,
+      openChannelPasswordModal: this.openChannelPasswordModal,
     };
   },
   setup() {
@@ -79,6 +83,7 @@ export default {
   watch: {
     activeChannel(val, oldVal) {
       if (val && val !== oldVal) this.currentChatSidebarOpen = true;
+      if (!val) this.currentChatSidebarOpen = false;
     },
   },
   mounted() {},
@@ -96,7 +101,10 @@ export default {
       this.currentChatSidebarOpen = false;
     },
     openNewChannelModal() {
-      this.$refs.newChannelmodal.open();
+      this.$refs.newChannelModal.open();
+    },
+    openChannelPasswordModal(channel) {
+      this.$refs.channelPasswordModal.open(channel);
     },
   },
 };

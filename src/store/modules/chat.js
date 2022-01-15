@@ -25,7 +25,7 @@ export default {
     },
     addChannel(state, payload) {
       // eslint-disable-next-line no-underscore-dangle
-      state.channels.push({ _id: payload._id, name: payload.name });
+      state.channels.push({ _id: payload._id, name: payload.name, isPrivate: payload.isPrivate });
     },
     setMessages(state, payload) {
       state.skip += state.perPage;
@@ -114,9 +114,18 @@ export default {
       }
 
       try {
+        const params = {};
+
+        if (typeof payload === 'string') {
+          params.name = payload;
+        } else {
+          params.name = payload.name;
+          params.password = payload.password;
+        }
+
         await api.chat.joinChannel(
           {
-            name: payload,
+            ...params,
             token: rootGetters.token,
           },
           (data) => {

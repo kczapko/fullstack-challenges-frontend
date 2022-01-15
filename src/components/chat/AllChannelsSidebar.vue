@@ -14,9 +14,10 @@ section.all-channels
             base-input(name="search" icon="search" placeholder="Search" @input="searchQuery = values.search.trim()")
       ul.all-channels__channels
         li.all-channels__channel(v-for="channel in filteredChannels" :key="channel._id")
-          button.all-channels__channel-button(:title="`Join ${channel.name} Channel`" @click="changeChannel(channel.name)")
+          button.all-channels__channel-button(:title="`Join ${channel.name} Channel`" @click="changeChannel(channel)")
             .all-channels__channel-image
               base-svg-icon.all-channels__channel-img(:text="channel.name")
+              span.all-channels__channel-private.material-icons(v-if="channel.isPrivate") lock
             p.all-channels__channel-name.font-700
               ws-client-connection-status(v-if="activeChannel && channel._id === activeChannel._id")
               span {{ channel.name }}
@@ -34,7 +35,7 @@ export default {
   components: {
     WsClientConnectionStatus,
   },
-  inject: ['openCurrentChatSidebar', 'openNewChannelModal'],
+  inject: ['openCurrentChatSidebar', 'openNewChannelModal', 'openChannelPasswordModal'],
   data() {
     return {
       searchQuery: '',
@@ -66,14 +67,18 @@ export default {
     ...mapActions('chat', ['joinChannel']),
     ...mapActions(['addMessage']),
     search() {},
-    changeChannel(name) {
-      if (name === this.activeChannel?.name) {
+    changeChannel(channel) {
+      if (channel.name === this.activeChannel?.name) {
         if (this.clientConntionStatus === 'closed') {
-          this.joinChannel(name);
+          // eslint-disable-next-line no-unused-expressions
+          channel.isPrivate
+            ? this.openChannelPasswordModal(channel)
+            : this.joinChannel(channel.name);
         }
         this.openCurrentChatSidebar();
       } else {
-        this.joinChannel(name);
+        // eslint-disable-next-line no-unused-expressions
+        channel.isPrivate ? this.openChannelPasswordModal(channel) : this.joinChannel(channel.name);
       }
     },
   },

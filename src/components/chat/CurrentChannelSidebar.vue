@@ -8,7 +8,7 @@ section.current-channel
         base-button.current-channel__enable-notifications-button(color="primary" @click="requsetNotificationsPermission") Enable Notifications
       h2.current-channel__title.current-channel__title--name.font-700
         ws-client-connection-status
-        base-button(color="primary" icon="sync" title="Reconnect" v-if="clientConntionStatus === 'closed'" @click="joinChannel(activeChannel.name)")
+        base-button(color="primary" icon="sync" title="Reconnect" v-if="clientConntionStatus === 'closed'" @click="recconectChannel(activeChannel)")
         span {{ activeChannel.name }}
       p.current-channel__description.text-pre-line {{ activeChannel.description }}
       h2.current-channel__title.current-channel__title--members.font-700 Members
@@ -28,7 +28,7 @@ export default {
   components: {
     WsClientConnectionStatus,
   },
-  inject: ['closeCurrentChatSidebar'],
+  inject: ['closeCurrentChatSidebar', 'openChannelPasswordModal'],
   computed: {
     ...mapState('chat', ['activeChannel', 'clientConntionStatus']),
     ...mapState(['notificationsPermission']),
@@ -36,6 +36,10 @@ export default {
   methods: {
     ...mapActions(['requsetNotificationsPermission']),
     ...mapActions('chat', ['joinChannel']),
+    recconectChannel(channel) {
+      // eslint-disable-next-line no-unused-expressions
+      channel.isPrivate ? this.openChannelPasswordModal(channel) : this.joinChannel(channel.name);
+    },
   },
 };
 </script>

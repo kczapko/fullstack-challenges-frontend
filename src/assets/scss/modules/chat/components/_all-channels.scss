@@ -54,12 +54,20 @@
     flex: 0 0 auto;
     width: 4.2rem;
     aspect-ratio: 1;
-    border-radius: 0.8rem;
-    overflow: hidden;
+    position: relative;
   }
 
   &__channel-img {
     display: block;
+    border-radius: 0.8rem;
+    overflow: hidden;
+  }
+
+  &__channel-private {
+    position: absolute;
+    top: -1rem;
+    right: -1rem;
+    color: var(--color-danger);
   }
 
   &__channel-name {

@@ -8,6 +8,7 @@ const getChannels = async () => {
         getChannels {
           _id
           name
+          isPrivate
         }
       }
     `,
@@ -16,19 +17,23 @@ const getChannels = async () => {
   return axios.post('/graphql', graphqlQuery);
 };
 
-const addChannel = async ({ name, description }) => {
+// eslint-disable-next-line object-curly-newline
+const addChannel = async ({ name, description, isPrivate, password }) => {
   const graphqlQuery = {
     query: `
-      mutation addChannel($name: String!, $description: String!) {
-        addChannel(name: $name, description: $description) {
+      mutation addChannel($name: String!, $description: String!, $isPrivate: Boolean, $password: String) {
+        addChannel(name: $name, description: $description, isPrivate: $isPrivate, password: $password) {
           _id
           name
+          isPrivate
         }
       }
     `,
     variables: {
       name,
       description,
+      isPrivate,
+      password,
     },
   };
 
@@ -87,11 +92,11 @@ const addMessage = async ({ msg, channelId }) => {
   return axios.post('/graphql', graphqlQuery);
 };
 
-const joinChannel = async ({ name, token }, dataCallback, subscribeCallback) => {
+const joinChannel = async ({ name, token, password = '' }, dataCallback, subscribeCallback) => {
   const graphqlQuery = {
     query: `
-      subscription joinChannel($name: String!) {
-        joinChannel(name: $name) {
+      subscription joinChannel($name: String!, $password: String) {
+        joinChannel(name: $name, password: $password) {
           type
           member {
             username
@@ -101,6 +106,7 @@ const joinChannel = async ({ name, token }, dataCallback, subscribeCallback) => 
             _id
             name
             description
+            isPrivate
             members {
               username
               photo
@@ -121,6 +127,7 @@ const joinChannel = async ({ name, token }, dataCallback, subscribeCallback) => 
     variables: {
       name,
       token,
+      password,
     },
   };
 

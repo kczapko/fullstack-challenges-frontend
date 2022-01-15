@@ -27,6 +27,16 @@ export default {
     defineRule('url', url);
     defineRule('photoUrl', url);
 
+    defineRule('requiredConditionally', (value, [target], ctx) => {
+      const targetValue = ctx.form[target];
+      if (!targetValue) return true;
+      if (targetValue && value && value.length) {
+        return true;
+      }
+
+      return `The field ${ctx.field} is required.`;
+    });
+
     configure({
       // generateMessage: (ctx) => {
       generateMessage: ({ field, value, rule }) => {

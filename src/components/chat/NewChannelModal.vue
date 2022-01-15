@@ -2,11 +2,22 @@
 base-modal.new-channel-modal.base-modal--new-channel(modal-title="New Channel" ref="modal")
   .new-channel-modal__form.form.form--new-channel
     p.form__error(v-if="error") {{ error }}
-    vee-form.form__form(:validation-schema="schema" @submit="submit" ref="form")
+    vee-form.form__form(:validation-schema="schema" :initial-values="initialValues" @submit="submit" ref="form")
       .form__row
         base-input(name="name" placeholder="Channel name")
       .form__row
         base-input(tag="textarea" name="description" placeholder="Channel description")
+      .form__row.form__row--checkbox
+        vee-field(
+          id="isPrivate"
+          name="isPrivate"
+          as="input"
+          type="checkbox"
+          :unchecked-value="false"
+          :value="true")
+        label(for="isPrivate") Private
+      .form__row
+        base-input(name="password" type="password" placeholder="Password" icon="lock")
       .form__row.form__row--submit
         base-button(type="submit" color="primary" :disabled="submitting") Save
 </template>
@@ -22,9 +33,15 @@ export default {
     const schema = {
       name: 'required|alpha_spaces|min:5|max:100',
       description: 'required|min:10|max:300',
+      isPrivate: '',
+      password: 'requiredConditionally:isPrivate|alpha_num|min:8|max:32',
     };
 
-    return { schema };
+    const initialValues = {
+      isPrivate: false,
+    };
+
+    return { schema, initialValues };
   },
   data() {
     return {
