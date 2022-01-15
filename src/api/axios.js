@@ -1,9 +1,11 @@
 import axios from 'axios';
 import nProgress from 'nprogress';
 
-const instance = axios.create({
-  baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:3333' : '',
-});
+const options = {
+  baseURL: process.env.NODE_ENV === 'development' ? 'https://localhost:3443' : '',
+};
+const instance = axios.create(options);
+
 instance.interceptors.request.use(
   (config) => {
     nProgress.start();

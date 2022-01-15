@@ -9,8 +9,9 @@
     p.chat-window__no-channels.font-700(v-if="channels.length === 0")
       span No channels here yet!
       base-button(color="primary" @click="openNewChannelModal") Create a one
-    ul.chat-window__messages(v-if="parsedMessages.length")
-      chat-message(v-for="message in parsedMessages" :key="message._id" :message="message")
+    ul.chat-window__messages(v-if="parsedMessages.length" ref="messagesList")
+        chat-message(v-for="message in parsedMessages" :key="message._id" :message="message")
+        li.chat-window__messages-observer(ref="messagesObserver")
     .chat-window__form.form
       vee-form.form__form(:validation-schema="schema" @submit="submit" ref="form")
         .form__row
@@ -35,20 +36,23 @@ export default {
     WsClientConnectionStatus,
   },
   inject: ['openSidebar', 'openNewChannelModal'],
-  data() {
-    return {
-      submitting: false,
-    };
-  },
   setup() {
     const schema = {
       message: 'required|max:5000',
     };
+    const observer = null;
 
-    return { schema };
+    return { schema, observer };
+  },
+  data() {
+    return {
+      submitting: false,
+      atBottom: false,
+    };
   },
   computed: {
     ...mapState('chat', ['channels', 'activeChannel', 'messages']),
+    ...mapState(['pageVisible']),
     parsedMessages() {
       const messages = [];
 
@@ -92,10 +96,43 @@ export default {
       return this.messages;
     },
   },
+  watch: {
+    'messages.length': {
+      handler(val, oldVal) {
+        if (oldVal === 0) {
+          // initial messages load, first message
+          this.observer.observe(this.$refs.messagesObserver);
+          this.scrollMessageList('bottom');
+        } else if (val > oldVal && this.atBottom && this.pageVisible === 'visible') {
+          // new message
+          this.scrollMessageList('bottom');
+        }
+      },
+      flush: 'post',
+    },
+  },
   mounted() {
     if (this.channels.length && this.channels.find((c) => c.name === 'Welcome')) {
       this.joinChannel('Welcome');
     }
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0,
+    };
+
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          this.atBottom = true;
+        } else {
+          this.atBottom = false;
+        }
+      });
+    };
+
+    this.observer = new IntersectionObserver(observerCallback, observerOptions);
   },
   methods: {
     ...mapActions('chat', ['addChatMessage', 'joinChannel']),
@@ -112,6 +149,11 @@ export default {
       }
 
       this.submitting = false;
+    },
+    scrollMessageList(amount) {
+      const y = amount === 'bottom' ? this.$refs.messagesList.scrollHeight : amount;
+      console.log(y);
+      this.$refs.messagesList.scrollTo(0, y);
     },
   },
 };

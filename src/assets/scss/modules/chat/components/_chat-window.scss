@@ -125,6 +125,13 @@
     }
   }
 
+  &__messages-observer {
+    position: relative;
+    padding: 0 0 40vh;
+    margin-top: -40vh;
+    pointer-events: none;
+  }
+
   &__form {
     height: 8.2rem;
     position: absolute;
