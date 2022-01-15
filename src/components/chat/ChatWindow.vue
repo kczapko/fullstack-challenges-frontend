@@ -10,6 +10,8 @@
       span No channels here yet!
       base-button(color="primary" @click="openNewChannelModal") Create a one
     ul.chat-window__messages(v-if="parsedMessages.length" ref="messagesList")
+        li.chat-window__load-more(v-if="messages.length < total")
+          base-button(color="primary" size="small" @click="getChannelMessages") Load previous messages
         chat-message(v-for="message in parsedMessages" :key="message._id" :message="message")
         li.chat-window__messages-observer(ref="messagesObserver")
     .chat-window__form.form
@@ -38,7 +40,7 @@ export default {
   inject: ['openSidebar', 'openNewChannelModal'],
   setup() {
     const schema = {
-      message: 'required|max:5000',
+      message: 'required|max:2000',
     };
     const observer = null;
 
@@ -48,10 +50,11 @@ export default {
     return {
       submitting: false,
       atBottom: false,
+      savedListHeight: 0,
     };
   },
   computed: {
-    ...mapState('chat', ['channels', 'activeChannel', 'messages']),
+    ...mapState('chat', ['channels', 'activeChannel', 'messages', 'total']),
     ...mapState(['pageVisible']),
     parsedMessages() {
       const messages = [];
@@ -103,9 +106,19 @@ export default {
           // initial messages load, first message
           this.observer.observe(this.$refs.messagesObserver);
           this.scrollMessageList('bottom');
-        } else if (val > oldVal && this.atBottom && this.pageVisible === 'visible') {
-          // new message
-          this.scrollMessageList('bottom');
+          this.savedListHeight = this.$refs.messagesList.scrollHeight;
+        } else if (val > oldVal) {
+          if (val - oldVal === 1) {
+            if (this.atBottom && this.pageVisible === 'visible') {
+              // new message
+              this.scrollMessageList('bottom');
+              this.savedListHeight = this.$refs.messagesList.scrollHeight;
+            }
+          } else {
+            // loading more messages
+            this.scrollMessageList(this.$refs.messagesList.scrollHeight - this.savedListHeight);
+            this.savedListHeight = this.$refs.messagesList.scrollHeight;
+          }
         }
       },
       flush: 'post',
@@ -135,7 +148,7 @@ export default {
     this.observer = new IntersectionObserver(observerCallback, observerOptions);
   },
   methods: {
-    ...mapActions('chat', ['addChatMessage', 'joinChannel']),
+    ...mapActions('chat', ['addChatMessage', 'joinChannel', 'getChannelMessages']),
     ...mapActions(['addMessage']),
     async submit(values) {
       this.submitting = true;
@@ -152,7 +165,6 @@ export default {
     },
     scrollMessageList(amount) {
       const y = amount === 'bottom' ? this.$refs.messagesList.scrollHeight : amount;
-      console.log(y);
       this.$refs.messagesList.scrollTo(0, y);
     },
   },

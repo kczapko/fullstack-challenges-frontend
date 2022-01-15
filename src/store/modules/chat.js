@@ -2,6 +2,8 @@ import api from '@/api';
 
 import Message from '@/utils/Message';
 
+const PER_PAGE = 50;
+
 export default {
   namespaced: true,
   state() {
@@ -12,6 +14,9 @@ export default {
       unsubscribe: null,
       messageAudio: null,
       clientConntionStatus: '',
+      skip: 0,
+      perPage: PER_PAGE,
+      total: 0,
     };
   },
   mutations: {
@@ -23,9 +28,18 @@ export default {
       state.channels.push({ _id: payload._id, name: payload.name });
     },
     setMessages(state, payload) {
-      state.messages = payload;
+      state.skip += state.perPage;
+      state.total = payload.total;
+      state.messages = payload.messages.reverse();
+    },
+    addMessages(state, payload) {
+      state.skip += state.perPage;
+      state.total = payload.total;
+      state.messages.unshift(...payload.messages.reverse());
     },
     addChatMessage(state, payload) {
+      state.skip += 1;
+      state.total += 1;
       state.messages.push(payload);
     },
     setUnsubscribe(state, payload) {
@@ -38,6 +52,9 @@ export default {
       state.activeChannel = null;
       state.messages = [];
       state.unsubscribe = null;
+      state.skip = 0;
+      state.perPage = PER_PAGE;
+      state.total = 0;
     },
     addChannelMember(state, payload) {
       state.activeChannel.members.push(payload);
@@ -66,8 +83,15 @@ export default {
       const res = await api.chat.getMessages({
         // eslint-disable-next-line no-underscore-dangle
         channelId: state.activeChannel._id,
+        skip: state.skip,
+        perPage: state.perPage,
       });
-      commit('setMessages', res.data.data.getMessages);
+
+      if (state.skip === 0) {
+        commit('setMessages', res.data.data.getMessages);
+      } else {
+        commit('addMessages', res.data.data.getMessages);
+      }
     },
     async addChatMessage({ commit, state }, payload) {
       if (!state.activeChannel) throw new Error('You must select channel to send a message.');

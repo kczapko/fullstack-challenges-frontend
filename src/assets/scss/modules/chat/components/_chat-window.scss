@@ -132,6 +132,15 @@
     pointer-events: none;
   }
 
+  &__load-more {
+    text-align: center;
+    padding: 3rem 0 1.5rem;
+
+    .base-btn {
+      padding: 0.5rem 0.8rem;
+    }
+  }
+
   &__form {
     height: 8.2rem;
     position: absolute;

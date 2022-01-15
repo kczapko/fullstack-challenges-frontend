@@ -21,7 +21,7 @@ export default {
   setup() {
     const schema = {
       name: 'required|alpha_spaces|min:5|max:100',
-      description: 'required|min:10|max:500',
+      description: 'required|min:10|max:300',
     };
 
     return { schema };

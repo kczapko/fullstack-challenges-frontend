@@ -35,23 +35,28 @@ const addChannel = async ({ name, description }) => {
   return axios.post('/graphql', graphqlQuery);
 };
 
-const getMessages = async ({ channelId }) => {
+const getMessages = async ({ channelId, skip, perPage }) => {
   const graphqlQuery = {
     query: `
-      query getMessages($channelId: ID!) {
-        getMessages(channelId: $channelId) {
-          _id
-          message
-          createdAt
-          user {
-            username
-            photo
+      query getMessages($channelId: ID!, $skip: Int, $perPage: Int) {
+        getMessages(channelId: $channelId, skip: $skip, perPage: $perPage) {
+          total
+          messages {
+            _id
+            message
+            createdAt
+            user {
+              username
+              photo
+            }
           }
         }
       }
     `,
     variables: {
       channelId,
+      skip,
+      perPage,
     },
   };
 
