@@ -4,6 +4,8 @@ section.current-channel
     .current-channel__header
       base-button.current-channel__all-channels.font-700(icon="arrow_back_ios" @click="closeCurrentChatSidebar") All channels
     .current-channel__body
+      .current-channel__enable-notifications(v-if="notificationsPermission === 'default'")
+        base-button.current-channel__enable-notifications-button(color="primary" @click="requsetNotificationsPermission") Enable Notifications
       h2.current-channel__title.current-channel__title--name.font-700
         ws-client-connection-status
         span {{ activeChannel.name }}
@@ -16,7 +18,7 @@ section.current-channel
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 import WsClientConnectionStatus from '@/components/chat/WsClientConnectionStatus.vue';
 
@@ -28,6 +30,10 @@ export default {
   inject: ['closeCurrentChatSidebar'],
   computed: {
     ...mapState('chat', ['activeChannel']),
+    ...mapState(['notificationsPermission']),
+  },
+  methods: {
+    ...mapActions(['requsetNotificationsPermission']),
   },
 };
 </script>

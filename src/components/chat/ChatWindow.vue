@@ -52,7 +52,7 @@ export default {
     parsedMessages() {
       const messages = [];
 
-      if (this.messages.length > 1) {
+      if (this.messages.length) {
         for (let i = 0; i < this.messages.length; i += 1) {
           const message = this.messages[i];
           const nextMessage = this.messages[i + 1];

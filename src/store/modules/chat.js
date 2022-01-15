@@ -122,6 +122,7 @@ export default {
               case 'NEW_MESSAGE':
                 commit('addChatMessage', message);
                 dispatch('playMessageAudio');
+                dispatch('sendNewMessageNotification', message);
                 break;
               default:
                 break;
@@ -165,6 +166,21 @@ export default {
     },
     setClientConntionStatus({ commit }, payload) {
       commit('setClientConntionStatus', payload);
+    },
+    sendNewMessageNotification({ rootGetters, dispatch }, payload) {
+      if (rootGetters.pageVisible === 'hidden') {
+        const title = `${payload.user.username} wrote:`;
+        const options = { body: payload.message };
+        if (payload.user.photo) options.icon = payload.user.photo;
+        dispatch(
+          'sendNotification',
+          {
+            title,
+            options,
+          },
+          { root: true },
+        );
+      }
     },
   },
   getters: {},

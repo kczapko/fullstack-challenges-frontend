@@ -41,4 +41,34 @@ export default {
   setNotificationsPermission({ commit }, payload) {
     commit('setNotificationsPermission', payload);
   },
+  checkNotificationPromise() {
+    try {
+      Notification.requestPermission().then();
+    } catch (err) {
+      return false;
+    }
+
+    return true;
+  },
+  requsetNotificationsPermission({ commit, dispatch }) {
+    return new Promise((resolve) => {
+      const callback = (permission) => {
+        commit('setNotificationsPermission', permission);
+        resolve(permission);
+      };
+
+      if (!dispatch('checkNotificationPromise')) {
+        Notification.requestPermission(callback);
+      } else {
+        Notification.requestPermission().then(callback);
+      }
+    });
+  },
+  sendNotification({ state }, payload) {
+    if (state.notificationsPermission === 'granted') {
+      const { title, options } = payload;
+      // eslint-disable-next-line no-new
+      new Notification(title, options);
+    }
+  },
 };

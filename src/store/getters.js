@@ -10,4 +10,7 @@ export default {
   token(state) {
     return state.token;
   },
+  pageVisible(state) {
+    return state.pageVisible;
+  },
 };
