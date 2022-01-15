@@ -82,6 +82,8 @@ export default {
     },
     // eslint-disable-next-line object-curly-newline
     async joinChannel({ commit, rootGetters, state, dispatch }, payload) {
+      dispatch('setLoading', true, { root: true });
+
       if (state.activeChannel) {
         state.unsubscribe();
         commit('leaveChannel');
@@ -130,6 +132,8 @@ export default {
           },
         );
       } catch (err) {
+        dispatch('setLoading', false, { root: true });
+
         if (Array.isArray(err)) {
           const error = err[0];
           const { message } = error;

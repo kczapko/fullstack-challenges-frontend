@@ -6,7 +6,11 @@
   border-radius: 50%;
 }
 
-.ws-connection-status--connecting,
+.ws-connection-status--connecting {
+  background-color: yellow;
+  animation: pulse 400ms ease-in-out infinite;
+}
+
 .ws-connection-status--connected {
   background-color: var(--color-success);
 }

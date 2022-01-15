@@ -24,7 +24,7 @@ const store = createStore({
       messages: [],
       colorSchema: 'auto',
       pageVisible: null,
-      notificationsPermission: false,
+      notificationsPermission: null,
     };
   },
   mutations,
@@ -71,14 +71,11 @@ wsClient.on('connected', () => {
   }
 });
 
-wsClient.on('closed', (err) => {
+wsClient.on('closed', () => {
   if (store.hasModule('chat')) {
     store.dispatch('chat/setClientConntionStatus', 'closed');
+    store.dispatch('addMessage', new Message('Chat Connection lost.', 'error'));
   }
-  store.dispatch(
-    'addMessage',
-    new Message(`Connection lost. ${err.reason ? `Reason: ${err.reason}` : ''}`, 'error'),
-  );
 });
 
 export default store;
