@@ -4,6 +4,12 @@ import Message from '@/utils/Message';
 
 const PER_PAGE = 50;
 
+const ACTION_NEW_MEMBER = 'NEW_MEMBER';
+const ACTION_NEW_MESSAGE = 'NEW_MESSAGE';
+const ACTION_NEW_CHANNEL = 'NEW_CHANNEL';
+const ACTION_JOINED_CHANNEL = 'JOIN_CHANNEL';
+const ACTION_CHAT_ERROR = 'CHAT_ERROR';
+
 export default {
   namespaced: true,
   state() {
@@ -11,12 +17,14 @@ export default {
       channels: [],
       activeChannel: null,
       messages: [],
-      unsubscribe: null,
+      unsubscribe: [],
       messageAudio: null,
       clientConntionStatus: '',
+      wasClosed: false,
       skip: 0,
       perPage: PER_PAGE,
       total: 0,
+      password: '',
     };
   },
   mutations: {
@@ -26,6 +34,10 @@ export default {
     addChannel(state, payload) {
       // eslint-disable-next-line no-underscore-dangle
       state.channels.push({ _id: payload._id, name: payload.name, isPrivate: payload.isPrivate });
+    },
+    removeChannel(state, payload) {
+      const index = state.channels.findIndex((c) => c.name === payload);
+      if (index > -1) state.channels.splice(index, 1);
     },
     setMessages(state, payload) {
       state.skip += state.perPage;
@@ -45,13 +57,25 @@ export default {
     setUnsubscribe(state, payload) {
       state.unsubscribe = payload;
     },
+    addUnsubscribe(state, payload) {
+      state.unsubscribe.push(payload);
+    },
+    removeUnsubscribe(state, payload) {
+      let index = state.unsubscribe.findIndex((u) => u.name === payload);
+      while (index > -1) {
+        state.unsubscribe.splice(index, 1);
+        index = state.unsubscribe.findIndex((u) => u.name === payload);
+      }
+    },
     setChannel(state, payload) {
       state.activeChannel = payload;
     },
-    leaveChannel(state) {
-      state.activeChannel = null;
+    leaveChannel(state, payload) {
+      if (payload) {
+        state.activeChannel = null;
+        state.password = '';
+      }
       state.messages = [];
-      state.unsubscribe = null;
       state.skip = 0;
       state.perPage = PER_PAGE;
       state.total = 0;
@@ -65,6 +89,12 @@ export default {
     setClientConntionStatus(state, payload) {
       state.clientConntionStatus = payload;
     },
+    setWasClosed(state, payload) {
+      state.wasClosed = payload;
+    },
+    setPassword(state, payload) {
+      state.password = payload;
+    },
   },
   actions: {
     async getChannels({ commit }) {
@@ -77,24 +107,42 @@ export default {
 
       commit('addChannel', res.data.data.addChannel);
     },
-    async getChannelMessages({ commit, state }) {
+    removeChannel({ commit }, payload) {
+      commit('removeChannel', payload);
+    },
+    async reconnectChannel({ commit, dispatch }, payload) {
+      dispatch('setWasClosed', false);
+      commit('leaveChannel', false);
+      commit('setChannel', payload);
+      await dispatch('getChannelMessages');
+      dispatch('addMessage', new Message(`Joined ${payload.name} channel`), {
+        root: true,
+      });
+    },
+    async getChannelMessages({ commit, state, dispatch }) {
       if (!state.activeChannel) throw new Error('You must select channel to get messages.');
 
-      const res = await api.chat.getMessages({
-        // eslint-disable-next-line no-underscore-dangle
-        channelId: state.activeChannel._id,
-        skip: state.skip,
-        perPage: state.perPage,
-      });
+      try {
+        const res = await api.chat.getMessages({
+          // eslint-disable-next-line no-underscore-dangle
+          channelId: state.activeChannel._id,
+          skip: state.skip,
+          perPage: state.perPage,
+          password: state.password,
+        });
 
-      if (state.skip === 0) {
-        commit('setMessages', res.data.data.getMessages);
-      } else {
-        commit('addMessages', res.data.data.getMessages);
+        if (state.skip === 0) {
+          commit('setMessages', res.data.data.getMessages);
+        } else {
+          commit('addMessages', res.data.data.getMessages);
+        }
+      } catch (err) {
+        dispatch('addMessage', new Message(err.message, 'error'), { root: true });
       }
     },
     async addChatMessage({ commit, state }, payload) {
       if (!state.activeChannel) throw new Error('You must select channel to send a message.');
+      if (state.clientConntionStatus !== 'connected') throw new Error('You are not connected.');
 
       const res = await api.chat.addMessage({
         msg: payload.message,
@@ -107,11 +155,6 @@ export default {
     // eslint-disable-next-line object-curly-newline
     async joinChannel({ commit, rootGetters, state, dispatch }, payload) {
       dispatch('setLoading', true, { root: true });
-
-      if (state.activeChannel) {
-        dispatch('unsubscribe');
-        commit('leaveChannel');
-      }
 
       try {
         const params = {};
@@ -128,7 +171,7 @@ export default {
             ...params,
             token: rootGetters.token,
           },
-          (data) => {
+          async (data) => {
             if (data.errors) throw data.errors;
             // prettier-ignore
             const {
@@ -136,33 +179,65 @@ export default {
               member,
               channel,
               message,
+              error,
             } = data.data.joinChannel;
 
+            // console.log(data.data.joinChannel);
+
             switch (type) {
-              case 'JOIN_CHANNEL':
-                commit('setChannel', channel);
-                dispatch('getChannelMessages');
-                dispatch('addMessage', new Message(`Joined ${channel.name} channel`), {
-                  root: true,
-                });
+              case ACTION_CHAT_ERROR:
+                dispatch('setLoading', false, { root: true });
+                dispatch('addMessage', new Message(error, 'error'), { root: true });
+                dispatch('unsubscribe', params.name);
+                if (error === 'Channel not found!') {
+                  commit('removeChannel', params.name);
+                }
                 break;
-              case 'NEW_MEMBER':
+              case ACTION_JOINED_CHANNEL:
+                if (state.activeChannel) {
+                  if (state.wasClosed) {
+                    if (state.activeChannel.name === params.name) {
+                      if (params.password) dispatch('setPassword', params.password);
+                      await dispatch('reconnectChannel', state.activeChannel);
+                    } else {
+                      dispatch('setWasClosed', false);
+                      commit('leaveChannel', true);
+                      commit('setChannel', channel);
+                      if (params.password) dispatch('setPassword', params.password);
+                      await dispatch('getChannelMessages');
+                      dispatch('addMessage', new Message(`Joined ${channel.name} channel`), {
+                        root: true,
+                      });
+                    }
+                  } else {
+                    dispatch('unsubscribe', state.activeChannel.name);
+                    commit('leaveChannel', true);
+                  }
+                } else {
+                  commit('setChannel', channel);
+                  if (params.password) dispatch('setPassword', params.password);
+                  await dispatch('getChannelMessages');
+                  dispatch('addMessage', new Message(`Joined ${channel.name} channel`), {
+                    root: true,
+                  });
+                }
+                break;
+              case ACTION_NEW_MEMBER:
                 commit('addChannelMember', member);
                 break;
-              case 'NEW_CHANNEL':
+              case ACTION_NEW_CHANNEL:
                 commit('addChannel', channel);
                 break;
-              case 'NEW_MESSAGE':
+              case ACTION_NEW_MESSAGE:
                 commit('addChatMessage', message);
-                dispatch('playMessageAudio');
                 dispatch('sendNewMessageNotification', message);
                 break;
               default:
                 break;
             }
           },
-          (unsubscribe) => {
-            commit('setUnsubscribe', unsubscribe);
+          (name, unsubscribe) => {
+            commit('addUnsubscribe', { name, unsubscribe });
           },
         );
       } catch (err) {
@@ -183,6 +258,8 @@ export default {
             dispatch('auth/setAuthError', error, { root: true });
             await this.$logoutUser();
           } else {
+            dispatch('unsubscribeAll');
+            commit('leaveChannel', true);
             dispatch('addMessage', new Message(message, 'error'), { root: true });
           }
         }
@@ -214,10 +291,32 @@ export default {
           { root: true },
         );
       }
+
+      if (
+        // prettier-ignore
+        rootGetters.pageVisible === 'visible'
+        || rootGetters.notificationsPermission !== 'granted'
+      ) {
+        dispatch('playMessageAudio');
+      }
     },
-    unsubscribe({ state }) {
-      if (state.unsubscribe) state.unsubscribe();
+    unsubscribe({ state, commit }, payload) {
+      if (state.unsubscribe.length) {
+        state.unsubscribe.forEach((u) => u.name === payload && u.unsubscribe());
+        commit('removeUnsubscribe', payload);
+      }
+    },
+    unsubscribeAll({ state, commit }) {
+      if (state.unsubscribe.length) {
+        state.unsubscribe.forEach((u) => u.unsubscribe());
+        commit('setUnsubscribe', []);
+      }
+    },
+    setWasClosed({ commit }, payload) {
+      commit('setWasClosed', payload);
+    },
+    setPassword({ commit }, payload) {
+      commit('setPassword', payload);
     },
   },
-  getters: {},
 };

@@ -106,18 +106,15 @@ export default {
           // initial messages load, first message
           this.observer.observe(this.$refs.messagesObserver);
           this.scrollMessageList('bottom');
-          this.savedListHeight = this.$refs.messagesList.scrollHeight;
         } else if (val > oldVal) {
           if (val - oldVal === 1) {
             if (this.atBottom && this.pageVisible === 'visible') {
               // new message
               this.scrollMessageList('bottom');
-              this.savedListHeight = this.$refs.messagesList.scrollHeight;
             }
           } else {
             // loading more messages
             this.scrollMessageList(this.$refs.messagesList.scrollHeight - this.savedListHeight);
-            this.savedListHeight = this.$refs.messagesList.scrollHeight;
           }
         }
       },
@@ -169,6 +166,7 @@ export default {
     scrollMessageList(amount) {
       const y = amount === 'bottom' ? this.$refs.messagesList.scrollHeight : amount;
       this.$refs.messagesList.scrollTo(0, y);
+      this.savedListHeight = this.$refs.messagesList.scrollHeight;
     },
   },
 };

@@ -272,5 +272,12 @@ export default {
 
       return products;
     },
+    allProductsBought(state) {
+      return (
+        // prettier-ignore
+        !!state.shoppingList.products.length
+        && state.shoppingList.products.every((product) => product.completed === true)
+      );
+    },
   },
 };

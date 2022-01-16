@@ -11,12 +11,8 @@
       .form__row.form__row--submit
         base-button(type="submit" color="primary" :disabled="submitting || empty || !changed") {{ saved ? 'Update' : 'Save' }}
   .shopping-list__footer-actions(v-if="mode === 'completing'")
-    base-button(@click="openCancelModal") Cancel
+    base-button(@click="cancel") Cancel
     base-button(color="secondary" @click="complete") Complete
-    base-modal.shopping-list__modal.base-modal--cancel-shopping-list(modal-title="Are you sure that you want to cancel this list?" ref="modal")
-      template(#default="{ close }")
-        base-button(@click="close") Cancel
-        base-button(color="danger" @click="close(); cancel()") Yes
 </template>
 
 <script>
@@ -26,6 +22,7 @@ import Message from '@/utils/Message';
 
 export default {
   name: 'ShoppingListFooter',
+  inject: ['openCancelShoppingListModal', 'openCompleteShoppingListModal'],
   setup() {
     const schema = {
       listName: 'required|max:100',
@@ -48,6 +45,7 @@ export default {
       mode: 'shoppingListMode',
       changed: 'shoppingListChanged',
       name: 'shoppingListName',
+      allProductsBought: 'allProductsBought',
     }),
   },
   methods: {
@@ -55,7 +53,6 @@ export default {
       'saveMyShoppingList',
       'updateMyShoppingList',
       'completeMyShoppingList',
-      'cancelMyShoppingList',
       'editShoppingList',
       'completeShoppingList',
     ]),
@@ -80,13 +77,15 @@ export default {
 
       this.submitting = false;
     },
-    openCancelModal() {
-      this.$refs.modal.open();
-    },
     async complete() {
       if (this.empty) {
         this.addMessage(new Message("You can't complete empty shopping list!", 'error'));
         this.editShoppingList();
+        return;
+      }
+
+      if (!this.allProductsBought) {
+        this.openCompleteShoppingListModal();
         return;
       }
 
@@ -103,13 +102,7 @@ export default {
         this.editShoppingList();
         return;
       }
-
-      try {
-        await this.cancelMyShoppingList();
-        this.addMessage(new Message('Shopping list was successfully cancelled.'));
-      } catch (err) {
-        this.addMessage(new Message(err.message, 'error'));
-      }
+      this.openCancelShoppingListModal();
     },
   },
 };

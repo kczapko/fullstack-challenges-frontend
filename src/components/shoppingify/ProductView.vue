@@ -17,23 +17,16 @@ section.product-view(:class="{ 'product-view--open' : isOpen }")
       dt.product-view__description-title(v-if="product.note") note
       dd.product-view__description-value(v-if="product.note") {{ product.note }}
     footer.product-view__footer
-      base-button(@click="openDeleteModal") Delete
+      base-button(@click="openDeleteProductModal") Delete
       base-button(color="primary" @click="addProductToShoppingList(product._id); close()") Add to list
-      base-modal.product-view__modal.base-modal--delete-product(
-        modal-title="Are you sure that you want to delete this product? It will be removed form all shopping lists, history and statistics."
-        ref="modal")
-        template(#default="{ close }")
-          base-button(@click="close") Cancel
-          base-button(color="danger" @click="deleteProduct(product._id)") Yes
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
 
-import Message from '@/utils/Message';
-
 export default {
   name: 'ProductView',
+  inject: ['openDeleteProductModal'],
   data() {
     return {
       isOpen: false,
@@ -45,29 +38,12 @@ export default {
     }),
   },
   methods: {
-    ...mapActions('shoppingify', ['deleteMyProduct', 'addProductToShoppingList']),
-    ...mapActions(['addMessage']),
+    ...mapActions('shoppingify', ['addProductToShoppingList']),
     open() {
       this.isOpen = true;
     },
     close() {
       this.isOpen = false;
-    },
-    openDeleteModal() {
-      this.$refs.modal.open();
-    },
-    async deleteProduct(id) {
-      this.$refs.modal.close();
-      this.close();
-
-      try {
-        await this.deleteMyProduct(id);
-        this.addMessage(new Message('Product was successfully deleted.'));
-      } catch (err) {
-        this.addMessage(
-          new Message(err.message || 'Unexpected error during deleting product.', 'error'),
-        );
-      }
     },
   },
 };

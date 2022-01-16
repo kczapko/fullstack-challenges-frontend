@@ -28,7 +28,7 @@ export default {
     const route = useRoute();
     const schema = {
       token: 'required|min:64|max:64',
-      password: 'required|alpha_num|min:8|max:32',
+      password: 'required|min:8|max:32',
       passwordConfirm: 'passwords_mismatch:@password',
     };
     const initialVaues = {

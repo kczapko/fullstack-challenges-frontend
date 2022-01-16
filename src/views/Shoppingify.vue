@@ -9,10 +9,14 @@ svg-page-loader(v-if="!loaded")
     shopping-list(:class="{ 'shopping-list--open': shoppingListOpen }")
     new-product-form(ref="newProductForm")
     product-view(ref="productView")
+  //- modals
+  delete-product-modal.shoppingify__modal(ref="deleteProductModal")
+  complete-shopping-list-modal.shoppingify__modal(ref="completeShoppingListModal")
+  cancel-shopping-list-modal.shoppingify__modal(ref="cancelShoppingListModal")
 </template>
 
 <script>
-import { useStore, mapActions } from 'vuex';
+import { useStore, mapState, mapActions } from 'vuex';
 import { ref, onUnmounted, defineAsyncComponent } from 'vue';
 
 import useBodyClass from '@/hooks/useBodyClass';
@@ -26,6 +30,9 @@ import ShoppingifyHeader from '@/components/shoppingify/ShoppingifyHeader.vue';
 import ShoppingList from '@/components/shoppingify/shopping-list/ShoppingList.vue';
 import NewProductForm from '@/components/shoppingify/NewProductForm.vue';
 import ProductView from '@/components/shoppingify/ProductView.vue';
+import DeleteProductModal from '@/components/shoppingify/DeleteProductModal.vue';
+import CompleteShoppingListModal from '@/components/shoppingify/CompleteShoppingListModal.vue';
+import CancelShoppingListModal from '@/components/shoppingify/CancelShoppingListModal.vue';
 
 import '@/assets/scss/modules/shoppingify/main.scss';
 
@@ -37,11 +44,6 @@ const ShoppingHistory = defineAsyncComponent(() => import(/* webpackChunkName: "
 const SingleHistory = defineAsyncComponent(() => import(/* webpackChunkName: "shoppingify-single-history" */ '@/components/shoppingify/SingleHistory.vue'));
 // prettier-ignore
 const ShoppingStatistics = defineAsyncComponent(() => import(/* webpackChunkName: "shoppingify-statistics" */ '@/components/shoppingify/ShoppingStatistics.vue'));
-
-// import ShoppingifyHome from '@/components/shoppingify/ShoppingifyHome.vue';
-// import ShoppingHistory from '@/components/shoppingify/ShoppingHistory.vue';
-// import SingleHistory from '@/components/shoppingify/SingleHistory.vue';
-// import ShoppingStatistics from '@/components/shoppingify/ShoppingStatistics.vue';
 
 export default {
   name: 'Shoppingify',
@@ -55,11 +57,19 @@ export default {
     ShoppingHistory,
     SingleHistory,
     ShoppingStatistics,
+    DeleteProductModal,
+    CompleteShoppingListModal,
+    CancelShoppingListModal,
   },
   provide() {
     return {
       openAddProduct: this.openAddProduct,
       viewProduct: this.viewProduct,
+      openProductView: this.openProductView,
+      closeProductView: this.closeProductView,
+      openDeleteProductModal: this.openDeleteProductModal,
+      openCompleteShoppingListModal: this.openCompleteShoppingListModal,
+      openCancelShoppingListModal: this.openCancelShoppingListModal,
     };
   },
   props: {
@@ -100,6 +110,7 @@ export default {
     };
   },
   computed: {
+    ...mapState('shoppingify', ['activeProduct']),
     pageComponent() {
       if (this.action === 'history') return ShoppingHistory;
       if (this.action === 'single-history') return SingleHistory;
@@ -118,13 +129,29 @@ export default {
     },
     async viewProduct(id) {
       try {
-        await this.loadMyProduct(id);
-        this.$refs.productView.open();
+        // eslint-disable-next-line no-underscore-dangle
+        if (!this.activeProduct || !(this.activeProduct._id === id)) await this.loadMyProduct(id);
+        this.openProductView();
       } catch (err) {
         this.addMessage(
           new Message(err.message || 'Unexpected error during loading product.', 'error'),
         );
       }
+    },
+    openDeleteProductModal(product) {
+      this.$refs.deleteProductModal.open(product);
+    },
+    openProductView() {
+      this.$refs.productView.open();
+    },
+    closeProductView() {
+      this.$refs.productView.close();
+    },
+    openCompleteShoppingListModal() {
+      this.$refs.completeShoppingListModal.open();
+    },
+    openCancelShoppingListModal() {
+      this.$refs.cancelShoppingListModal.open();
     },
   },
 };

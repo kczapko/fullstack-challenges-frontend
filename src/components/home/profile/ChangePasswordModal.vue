@@ -24,7 +24,7 @@ export default {
   setup() {
     const schema = {
       currentPassword: 'required|max:32',
-      password: 'required|alpha_num|min:8|max:32',
+      password: 'required|min:8|max:32',
       passwordConfirm: 'passwords_mismatch:@password',
     };
 

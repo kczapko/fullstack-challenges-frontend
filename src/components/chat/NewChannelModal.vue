@@ -2,7 +2,7 @@
 base-modal.new-channel-modal.base-modal--new-channel(modal-title="New Channel" ref="modal")
   .new-channel-modal__form.form.form--new-channel
     p.form__error(v-if="error") {{ error }}
-    vee-form.form__form(:validation-schema="schema" :initial-values="initialValues" @submit="submit" ref="form")
+    vee-form.form__form(:validation-schema="schema" :initial-values="initialValues" @submit="submit" ref="form" v-slot="{ values }")
       .form__row
         base-input(name="name" placeholder="Channel name")
       .form__row
@@ -16,7 +16,7 @@ base-modal.new-channel-modal.base-modal--new-channel(modal-title="New Channel" r
           :unchecked-value="false"
           :value="true")
         label(for="isPrivate") Private
-      .form__row
+      .form__row(v-show="values.isPrivate")
         base-input(name="password" type="password" placeholder="Password" icon="lock")
       .form__row.form__row--submit
         base-button(type="submit" color="primary" :disabled="submitting") Save
@@ -34,7 +34,7 @@ export default {
       name: 'required|alpha_spaces|min:5|max:100',
       description: 'required|min:10|max:300',
       isPrivate: '',
-      password: 'requiredConditionally:isPrivate|alpha_num|min:8|max:32',
+      password: 'requiredConditionally:isPrivate|min:8|max:32',
     };
 
     const initialValues = {

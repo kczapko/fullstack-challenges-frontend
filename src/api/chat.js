@@ -1,5 +1,5 @@
 import axios from './axios';
-import client from './wsClient';
+import wsClient from './wsClient';
 
 const getChannels = async () => {
   const graphqlQuery = {
@@ -40,11 +40,12 @@ const addChannel = async ({ name, description, isPrivate, password }) => {
   return axios.post('/graphql', graphqlQuery);
 };
 
-const getMessages = async ({ channelId, skip, perPage }) => {
+// eslint-disable-next-line object-curly-newline
+const getMessages = async ({ channelId, skip, perPage, password }) => {
   const graphqlQuery = {
     query: `
-      query getMessages($channelId: ID!, $skip: Int, $perPage: Int) {
-        getMessages(channelId: $channelId, skip: $skip, perPage: $perPage) {
+      query getMessages($channelId: ID!, $skip: Int, $perPage: Int, $password: String) {
+        getMessages(channelId: $channelId, skip: $skip, perPage: $perPage, password: $password) {
           total
           messages {
             _id
@@ -62,6 +63,7 @@ const getMessages = async ({ channelId, skip, perPage }) => {
       channelId,
       skip,
       perPage,
+      password,
     },
   };
 
@@ -98,6 +100,7 @@ const joinChannel = async ({ name, token, password = '' }, dataCallback, subscri
       subscription joinChannel($name: String!, $password: String) {
         joinChannel(name: $name, password: $password) {
           type
+          error
           member {
             username
             photo
@@ -133,13 +136,13 @@ const joinChannel = async ({ name, token, password = '' }, dataCallback, subscri
 
   await new Promise((resolve, reject) => {
     // eslint-disable-next-line no-param-reassign
-    const unsubscribe = client.subscribe(graphqlQuery, {
+    const unsubscribe = wsClient.subscribe(graphqlQuery, {
       next: dataCallback,
       error: reject,
       complete: resolve,
     });
 
-    subscribeCallback(unsubscribe);
+    subscribeCallback(name, unsubscribe);
   });
 };
 

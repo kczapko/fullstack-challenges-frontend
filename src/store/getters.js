@@ -13,4 +13,7 @@ export default {
   pageVisible(state) {
     return state.pageVisible;
   },
+  notificationsPermission(state) {
+    return state.notificationsPermission;
+  },
 };

@@ -21,6 +21,8 @@ import useBodyClass from '@/hooks/useBodyClass';
 
 import chatStore from '@/store/modules/chat';
 
+import wsClient from '@/api/wsClient';
+
 import SvgPageLoader from '@/components/svg/PageLoader.vue';
 import ChatWindow from '@/components/chat/ChatWindow.vue';
 import AllChannelsSidebar from '@/components/chat/AllChannelsSidebar.vue';
@@ -57,8 +59,9 @@ export default {
     store.registerModule('chat', chatStore);
 
     onUnmounted(() => {
-      store.dispatch('chat/unsubscribe');
+      store.dispatch('chat/unsubscribeAll');
       store.unregisterModule('chat');
+      wsClient.dispose();
     });
 
     const messageAudio = new Audio(chatMessageAudio);

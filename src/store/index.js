@@ -73,8 +73,11 @@ wsClient.on('connected', () => {
 
 wsClient.on('closed', () => {
   if (store.hasModule('chat')) {
+    store.dispatch('chat/unsubscribeAll');
+    store.dispatch('chat/setWasClosed', true);
     store.dispatch('chat/setClientConntionStatus', 'closed');
     store.dispatch('addMessage', new Message('Chat Connection lost.', 'error'));
+    wsClient.dispose();
   }
 });
 

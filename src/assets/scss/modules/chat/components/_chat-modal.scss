@@ -28,6 +28,43 @@
         justify-content: flex-end;
         gap: 2rem;
       }
+
+      &--checkbox {
+        font-size: 1.4rem;
+
+        input {
+          display: none;
+
+          &:checked + label::after {
+            content: '\e876';
+            font-family: 'Material Icons';
+            position: absolute;
+            top: 1px;
+            left: 2px;
+            font-size: 1.4rem;
+            color: var(--color-primary);
+          }
+        }
+
+        label {
+          display: inline-block;
+          position: relative;
+          padding-left: 2.4rem;
+          line-height: normal;
+          cursor: pointer;
+
+          &::before {
+            content: '';
+            width: 1.8rem;
+            aspect-ratio: 1;
+            border: 2px solid var(--color-primary);
+            border-radius: 0.4rem;
+            position: absolute;
+            left: 0;
+            top: 0;
+          }
+        }
+      }
     }
   }
 }

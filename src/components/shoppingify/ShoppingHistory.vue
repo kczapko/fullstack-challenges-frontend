@@ -50,7 +50,7 @@ export default {
           }
 
           entry.items.push({
-            date: date.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY),
+            date: date.toFormat('ccc, dd/LL/yyyy'),
             datetime: date.toFormat('yyyy-LL-dd'),
             status: item.state,
             name: item.name,
