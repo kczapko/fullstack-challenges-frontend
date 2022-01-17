@@ -42,5 +42,16 @@ export default {
 
       return res.data.data.deleteMyPhoto;
     },
+    async changeMyOnlineStatus({ commit }, payload) {
+      try {
+        const res = await api.account.changeMyOnlineStatus(payload);
+
+        if (res.data.data.changeMyOnlineStatus) {
+          commit('changeOnlineStatus', payload, { root: true });
+        }
+      } catch (err) {
+        // console.log(err);
+      }
+    },
   },
 };

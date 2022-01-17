@@ -1,0 +1,19 @@
+.user-online-status {
+  display: inline-block;
+  width: 1.2rem;
+  aspect-ratio: 1;
+  background-color: var(--color-gray);
+  border-radius: 50%;
+}
+
+.user-online-status--offline {
+  display: none;
+}
+
+.user-online-status--away {
+  background-color: var(--color-yellow);
+}
+
+.user-online-status--online {
+  background-color: var(--color-success);
+}

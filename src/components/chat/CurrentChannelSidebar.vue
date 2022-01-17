@@ -15,6 +15,7 @@ section.current-channel
       ul.current-channel__members
         li.current-channel__member(v-for="member in activeChannel.members" :key="`${member.username}-${member.photo}`")
           base-user-image.current-channel__userimage(:user="{ name: member.username, photo: member.photo }")
+          user-online-status.current-channel__userstatus(:user="member")
           p.current-channel__username.font-700 {{ member.username }}
 </template>
 
@@ -22,11 +23,13 @@ section.current-channel
 import { mapState, mapActions } from 'vuex';
 
 import WsClientConnectionStatus from '@/components/chat/WsClientConnectionStatus.vue';
+import UserOnlineStatus from '@/components/chat/UserOnlineStatus.vue';
 
 export default {
   namw: 'CurrentChannelSidebar',
   components: {
     WsClientConnectionStatus,
+    UserOnlineStatus,
   },
   inject: ['closeCurrentChatSidebar', 'openChannelPasswordModal'],
   computed: {

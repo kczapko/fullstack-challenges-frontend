@@ -16,4 +16,7 @@ export default {
   notificationsPermission(state) {
     return state.notificationsPermission;
   },
+  online(state) {
+    return state.online;
+  },
 };

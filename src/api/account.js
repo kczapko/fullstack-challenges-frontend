@@ -171,6 +171,21 @@ const deleteMyAccount = async ({ password }) => {
   return axios.post('/graphql', graphqlQuery);
 };
 
+const changeMyOnlineStatus = async (status) => {
+  const graphqlQuery = {
+    query: `
+      mutation changeMyOnlineStatus( $status: String!) {
+        changeMyOnlineStatus(status: $status)
+      }
+    `,
+    variables: {
+      status,
+    },
+  };
+
+  return axios.post('/graphql', graphqlQuery);
+};
+
 export {
   confirmEmail,
   resendConfirmEmail,
@@ -183,4 +198,5 @@ export {
   changeMyPhoto,
   deleteMyPhoto,
   deleteMyAccount,
+  changeMyOnlineStatus,
 };

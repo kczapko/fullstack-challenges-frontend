@@ -9,6 +9,7 @@ const ACTION_NEW_MESSAGE = 'NEW_MESSAGE';
 const ACTION_NEW_CHANNEL = 'NEW_CHANNEL';
 const ACTION_JOINED_CHANNEL = 'JOIN_CHANNEL';
 const ACTION_CHAT_ERROR = 'CHAT_ERROR';
+const ACTION_STATUS_CHANGED = 'STATUS_CHANGE';
 
 export default {
   namespaced: true,
@@ -73,12 +74,12 @@ export default {
     leaveChannel(state, payload) {
       if (payload) {
         state.activeChannel = null;
-        state.password = '';
       }
       state.messages = [];
       state.skip = 0;
       state.perPage = PER_PAGE;
       state.total = 0;
+      state.password = '';
     },
     addChannelMember(state, payload) {
       state.activeChannel.members.push(payload);
@@ -95,6 +96,12 @@ export default {
     setPassword(state, payload) {
       state.password = payload;
     },
+    updateUserStatus(state, payload) {
+      if (state.activeChannel) {
+        const member = state.activeChannel.members.find((m) => m.username === payload.username);
+        if (member) member.online = payload.online;
+      }
+    },
   },
   actions: {
     async getChannels({ commit }) {
@@ -110,12 +117,11 @@ export default {
     removeChannel({ commit }, payload) {
       commit('removeChannel', payload);
     },
-    async reconnectChannel({ commit, dispatch }, payload) {
-      dispatch('setWasClosed', false);
-      commit('leaveChannel', false);
-      commit('setChannel', payload);
+    async connectChannel({ commit, dispatch }, payload) {
+      commit('setChannel', payload.channel);
+      if (payload.password) dispatch('setPassword', payload.password);
       await dispatch('getChannelMessages');
-      dispatch('addMessage', new Message(`Joined ${payload.name} channel`), {
+      dispatch('addMessage', new Message(`Joined ${payload.channel.name} channel`), {
         root: true,
       });
     },
@@ -161,6 +167,7 @@ export default {
 
         if (typeof payload === 'string') {
           params.name = payload;
+          params.password = '';
         } else {
           params.name = payload.name;
           params.password = payload.password;
@@ -182,13 +189,11 @@ export default {
               error,
             } = data.data.joinChannel;
 
-            // console.log(data.data.joinChannel);
-
             switch (type) {
               case ACTION_CHAT_ERROR:
                 dispatch('setLoading', false, { root: true });
                 dispatch('addMessage', new Message(error, 'error'), { root: true });
-                dispatch('unsubscribe', params.name);
+                dispatch('unsubscribeChannel', params.name);
                 if (error === 'Channel not found!') {
                   commit('removeChannel', params.name);
                 }
@@ -196,29 +201,29 @@ export default {
               case ACTION_JOINED_CHANNEL:
                 if (state.activeChannel) {
                   if (state.wasClosed) {
+                    dispatch('setWasClosed', false);
+
                     if (state.activeChannel.name === params.name) {
-                      if (params.password) dispatch('setPassword', params.password);
-                      await dispatch('reconnectChannel', state.activeChannel);
+                      commit('leaveChannel', false);
+                      await dispatch('connectChannel', {
+                        channel: state.activeChannel,
+                        password: params.password,
+                      });
                     } else {
-                      dispatch('setWasClosed', false);
                       commit('leaveChannel', true);
-                      commit('setChannel', channel);
-                      if (params.password) dispatch('setPassword', params.password);
-                      await dispatch('getChannelMessages');
-                      dispatch('addMessage', new Message(`Joined ${channel.name} channel`), {
-                        root: true,
+                      await dispatch('connectChannel', {
+                        channel,
+                        password: params.password,
                       });
                     }
                   } else {
-                    dispatch('unsubscribe', state.activeChannel.name);
+                    dispatch('unsubscribeChannel', state.activeChannel.name);
                     commit('leaveChannel', true);
                   }
                 } else {
-                  commit('setChannel', channel);
-                  if (params.password) dispatch('setPassword', params.password);
-                  await dispatch('getChannelMessages');
-                  dispatch('addMessage', new Message(`Joined ${channel.name} channel`), {
-                    root: true,
+                  await dispatch('connectChannel', {
+                    channel,
+                    password: params.password,
                   });
                 }
                 break;
@@ -231,6 +236,9 @@ export default {
               case ACTION_NEW_MESSAGE:
                 commit('addChatMessage', message);
                 dispatch('sendNewMessageNotification', message);
+                break;
+              case ACTION_STATUS_CHANGED:
+                dispatch('updateUserStatus', member);
                 break;
               default:
                 break;
@@ -258,7 +266,7 @@ export default {
             dispatch('auth/setAuthError', error, { root: true });
             await this.$logoutUser();
           } else {
-            dispatch('unsubscribeAll');
+            dispatch('unsubscribeAllChannels');
             commit('leaveChannel', true);
             dispatch('addMessage', new Message(message, 'error'), { root: true });
           }
@@ -300,13 +308,13 @@ export default {
         dispatch('playMessageAudio');
       }
     },
-    unsubscribe({ state, commit }, payload) {
+    unsubscribeChannel({ state, commit }, payload) {
       if (state.unsubscribe.length) {
         state.unsubscribe.forEach((u) => u.name === payload && u.unsubscribe());
         commit('removeUnsubscribe', payload);
       }
     },
-    unsubscribeAll({ state, commit }) {
+    unsubscribeAllChannels({ state, commit }) {
       if (state.unsubscribe.length) {
         state.unsubscribe.forEach((u) => u.unsubscribe());
         commit('setUnsubscribe', []);
@@ -317,6 +325,9 @@ export default {
     },
     setPassword({ commit }, payload) {
       commit('setPassword', payload);
+    },
+    updateUserStatus({ commit }, payload) {
+      commit('updateUserStatus', payload);
     },
   },
 };

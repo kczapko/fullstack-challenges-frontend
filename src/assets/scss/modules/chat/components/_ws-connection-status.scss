@@ -7,7 +7,7 @@
 }
 
 .ws-connection-status--connecting {
-  background-color: yellow;
+  background-color: var(--color-yellow);
   animation: pulse 400ms ease-in-out infinite;
 }
 

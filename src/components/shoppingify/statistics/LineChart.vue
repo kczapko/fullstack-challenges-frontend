@@ -65,7 +65,7 @@ export default {
     });
   },
   beforeUnmount() {
-    this.chart.destroy();
+    // this.chart.destroy();
   },
 };
 </script>

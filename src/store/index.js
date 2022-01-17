@@ -25,6 +25,7 @@ const store = createStore({
       colorSchema: 'auto',
       pageVisible: null,
       notificationsPermission: null,
+      online: 'offline',
     };
   },
   mutations,
@@ -66,17 +67,24 @@ wsClient.on('connecting', () => {
 });
 
 wsClient.on('connected', () => {
+  if (store.state.loggedIn) {
+    store.dispatch('account/changeMyOnlineStatus', 'online');
+  }
   if (store.hasModule('chat')) {
     store.dispatch('chat/setClientConntionStatus', 'connected');
   }
 });
 
 wsClient.on('closed', () => {
+  if (store.state.loggedIn) {
+    store.dispatch('account/changeMyOnlineStatus', 'offline');
+  }
   if (store.hasModule('chat')) {
-    store.dispatch('chat/unsubscribeAll');
+    store.dispatch('chat/unsubscribeAllChannels');
     store.dispatch('chat/setWasClosed', true);
     store.dispatch('chat/setClientConntionStatus', 'closed');
     store.dispatch('addMessage', new Message('Chat Connection lost.', 'error'));
+    store.dispatch('setLoading', false);
     wsClient.dispose();
   }
 });

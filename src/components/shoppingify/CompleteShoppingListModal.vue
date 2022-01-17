@@ -1,6 +1,6 @@
 <template lang="pug">
 base-modal.complete-shopping-list__modal.base-modal--complete-shopping-list(
-  modal-title="You didn't bua all products. Are you sure that you want to complete this list?"
+  modal-title="You didn't buy all products. Are you sure that you want to complete this list?"
   ref="modal"
 )
   template(#default="{ close }")

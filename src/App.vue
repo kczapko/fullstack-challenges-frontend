@@ -13,6 +13,7 @@ import useAppMeta from '@/hooks/useAppMeta';
 import useColorSchema from '@/hooks/useColorSchema';
 import usePageVisibility from '@/hooks/usePageVisibility';
 import useNotifications from '@/hooks/useNotifications';
+import useOnlineStatus from '@/hooks/useOnlineStatus';
 
 export default {
   name: 'App',
@@ -21,6 +22,7 @@ export default {
     useColorSchema();
     usePageVisibility();
     useNotifications();
+    useOnlineStatus();
   },
   computed: {
     ...mapState(['loading']),

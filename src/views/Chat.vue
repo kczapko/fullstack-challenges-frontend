@@ -59,7 +59,7 @@ export default {
     store.registerModule('chat', chatStore);
 
     onUnmounted(() => {
-      store.dispatch('chat/unsubscribeAll');
+      store.dispatch('chat/unsubscribeAllChannels');
       store.unregisterModule('chat');
       wsClient.dispose();
     });

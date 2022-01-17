@@ -78,4 +78,7 @@ export default {
   setNotificationsPermission(state, payload) {
     state.notificationsPermission = payload;
   },
+  changeOnlineStatus(state, payload) {
+    state.online = payload;
+  },
 };

@@ -104,6 +104,7 @@ const joinChannel = async ({ name, token, password = '' }, dataCallback, subscri
           member {
             username
             photo
+            online
           }
           channel {
             _id
@@ -113,6 +114,7 @@ const joinChannel = async ({ name, token, password = '' }, dataCallback, subscri
             members {
               username
               photo
+              online
             }
           }
           message {
