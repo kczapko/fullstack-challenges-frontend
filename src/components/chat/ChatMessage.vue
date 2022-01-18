@@ -22,7 +22,7 @@ li.chat-message(v-else)
           .chat-message__page-image(v-if="message.meta.image && !imageLoadError")
             img.chat-message__page-img(:src="message.meta.image" @error="imageLoadError = true")
           h3.chat-message__page-title
-            a.chat-message__page-url(:href="message.meta.url") {{ message.meta.title }}
+            a.chat-message__page-url(:href="message.meta.url" target="_blank") {{ message.meta.title }}
           .chat-message__page-description(v-if="message.meta.description") {{ message.meta.description }}
 </template>
 
