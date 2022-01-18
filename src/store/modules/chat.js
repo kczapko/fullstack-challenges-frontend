@@ -2,7 +2,7 @@ import api from '@/api';
 
 import Message from '@/utils/Message';
 
-const PER_PAGE = 50;
+const PER_PAGE = 30;
 
 const ACTION_NEW_MEMBER = 'NEW_MEMBER';
 const ACTION_NEW_MESSAGE = 'NEW_MESSAGE';
@@ -10,6 +10,7 @@ const ACTION_NEW_CHANNEL = 'NEW_CHANNEL';
 const ACTION_JOINED_CHANNEL = 'JOIN_CHANNEL';
 const ACTION_CHAT_ERROR = 'CHAT_ERROR';
 const ACTION_STATUS_CHANGED = 'STATUS_CHANGE';
+const ACTION_MESSAGE_UPDATED = 'UPDATE_MESSAGE';
 
 export default {
   namespaced: true,
@@ -54,6 +55,11 @@ export default {
       state.skip += 1;
       state.total += 1;
       state.messages.push(payload);
+    },
+    updateChatMessage(state, payload) {
+      // eslint-disable-next-line no-underscore-dangle
+      const message = state.messages.find((m) => m._id === payload._id);
+      if (message) message.meta = payload.meta;
     },
     setUnsubscribe(state, payload) {
       state.unsubscribe = payload;
@@ -239,6 +245,9 @@ export default {
                 break;
               case ACTION_STATUS_CHANGED:
                 dispatch('updateUserStatus', member);
+                break;
+              case ACTION_MESSAGE_UPDATED:
+                commit('updateChatMessage', message);
                 break;
               default:
                 break;

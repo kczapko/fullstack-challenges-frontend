@@ -7,7 +7,7 @@ base-modal.base-modal--change-email(modal-title="Change e-mail" ref="modal")
         transition(name="fade" @before-enter="beforeFormEnter" appear v-if="isOpen")
           vee-form.form__form(v-if="!newEmail" :validation-schema="emailSchema" @submit="changeMyEmail" ref="changeEmailForm")
             .form__row
-              base-input(name="email" type="email" id="newEmail" icon="email" label="New E-mail" placeholder="New E-mail")
+              base-input(name="email" type="email" autocomplete="off" id="newEmail" icon="email" label="New E-mail" placeholder="New E-mail")
             .form__row.form__row--submit
               base-button(type="submit" color="primary" @click="setHeight('submit')" :disabled="submitting") Change e-mail
           vee-form.form__form(v-else-if="newEmail" :validation-schema="tokenSchema" @submit="confirmChangeMyEmail" ref="confirmChangeEmailForm")
@@ -20,9 +20,9 @@ base-modal.base-modal--change-email(modal-title="Change e-mail" ref="modal")
               p.form__text
                 a(href="#" @click.prevent="cancelMyNewEmail") Cancel it
             .form__row
-              base-input(name="currentEmailToken" icon="tag" label="Token from current e-mail" placeholder="Current E-mail Token")
+              base-input(name="currentEmailToken" autocomplete="off" icon="tag" label="Token from current e-mail" placeholder="Current E-mail Token")
             .form__row
-              base-input(name="newEmailtoken" icon="tag" label="Token from new e-mail" placeholder="New E-mail Token")
+              base-input(name="newEmailtoken" autocomplete="off" icon="tag" label="Token from new e-mail" placeholder="New E-mail Token")
             .form__row.form__row--submit
               base-button(type="submit" color="primary" @click="setHeight('submit')" :disabled="submitting") Confirm change e-mail
 </template>

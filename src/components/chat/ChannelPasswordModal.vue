@@ -3,7 +3,7 @@ base-modal.channel-password-modal.base-modal--channel-password(:modal-title="`En
   .channel-password-modal__form.form.form--channel-password
     vee-form.form__form(:validation-schema="schema" @submit="submit" ref="form")
       .form__row
-        base-input(name="password" type="password" placeholder="Password" icon="lock")
+        base-input(name="password" type="password" autocomplete="off" placeholder="Password" icon="lock")
       .form__row.form__row--submit
         base-button(type="button" @click="close") Cancel
         base-button(type="submit" color="primary" :disabled="submitting") Submit

@@ -5,21 +5,27 @@
     h1.chat-window__channel-name(v-if="activeChannel")
       ws-client-connection-status
       span {{ activeChannel.name }}
-  .chat-window__body
+  .chat-window__body(@click="joinChannelMaybe")
     p.chat-window__no-channels.font-700(v-if="channels.length === 0")
       span No channels here yet!
       base-button(color="primary" @click="openNewChannelModal") Create a one
     ul.chat-window__messages(v-if="parsedMessages.length" ref="messagesList")
         li.chat-window__load-more(v-if="messages.length < total")
           base-button(color="primary" size="small" @click="getChannelMessages") Load previous messages
-        chat-message(v-for="message in parsedMessages" :key="message._id" :message="message")
+        chat-message.chat-window__message(
+          v-for="message in parsedMessages"
+          :key="message._id"
+          :message="message"
+          :search="search"
+          @updated="messageUpdated"
+        )
         li.chat-window__messages-observer(ref="messagesObserver")
     .chat-window__form.form
       vee-form.form__form(:validation-schema="schema" @submit="submit" ref="form")
         .form__row
-          base-input(name="message" placeholder="Type a message here" :validateOnBlur="false" :validateOnChange="false")
+          base-input(name="message" autocomplete="off" placeholder="Type a message here" :validateOnBlur="false" :validateOnChange="false")
         .form__row.form__row--submit
-          base-button(type="submit" color="primary" :disabled="submitting || !activeChannel" icon="send")
+          base-button(type="submit" color="primary" :disabled="!activeChannel" icon="send")
 </template>
 
 <script>
@@ -40,7 +46,7 @@ export default {
   inject: ['openSidebar', 'openNewChannelModal'],
   setup() {
     const schema = {
-      message: 'required|max:2000',
+      message: 'required|max:1000',
     };
     const observer = null;
 
@@ -88,6 +94,7 @@ export default {
                 _id: nextMessageDate.toLocaleString(DateTime.DATE_SHORT),
                 message: nextMessageDate.toFormat('dd LLLL, yyyy'),
                 datetime: nextMessageDate.toISODate(),
+                meta: {},
                 type: 'DAY_SEPARATOR',
               });
             }
@@ -97,6 +104,11 @@ export default {
       }
 
       return this.messages;
+    },
+    search() {
+      return this.channels
+        .map((c) => c.name)
+        .reduce((prev, current, i) => `${i === 1 ? '#' : ''}${prev}|#${current}`);
     },
   },
   watch: {
@@ -144,9 +156,6 @@ export default {
 
     this.observer = new IntersectionObserver(observerCallback, observerOptions);
   },
-  beforeUnmount() {
-    this.observer.disconnect();
-  },
   methods: {
     ...mapActions('chat', ['addChatMessage', 'joinChannel', 'getChannelMessages']),
     ...mapActions(['addMessage']),
@@ -167,6 +176,19 @@ export default {
       const y = amount === 'bottom' ? this.$refs.messagesList.scrollHeight : amount;
       this.$refs.messagesList.scrollTo(0, y);
       this.savedListHeight = this.$refs.messagesList.scrollHeight;
+    },
+    messageUpdated(message) {
+      if (this.messages.indexOf(message) === this.messages.length - 1) {
+        if (this.atBottom && this.pageVisible === 'visible') {
+          this.scrollMessageList('bottom');
+        }
+      }
+    },
+    joinChannelMaybe(e) {
+      if (e.target.hasAttribute('data-channel')) {
+        const channel = e.target.getAttribute('data-channel');
+        if (this.activeChannel.name !== channel) this.joinChannel(channel);
+      }
     },
   },
 };

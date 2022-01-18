@@ -51,6 +51,13 @@ const getMessages = async ({ channelId, skip, perPage, password }) => {
             _id
             message
             createdAt
+            meta {
+              type
+              url
+              title
+              description
+              image
+            }
             user {
               username
               photo
@@ -121,6 +128,13 @@ const joinChannel = async ({ name, token, password = '' }, dataCallback, subscri
             _id
             message
             createdAt
+            meta {
+              type
+              url
+              title
+              description
+              image
+            }
             user {
               username
               photo

@@ -3,11 +3,11 @@
   p.form__error(v-if="error") {{ error }}
   vee-form.form__form(:validation-schema="schema" :initial-values="userData" @submit="submit" ref="form" v-slot="{ meta }")
     .form__row
-      base-input(name="name" label="Name" placeholder="Enter your name...")
+      base-input(name="name" autocomplete="off" label="Name" placeholder="Enter your name...")
     .form__row
       base-input(name="bio" label="Bio" tag="textarea" placeholder="Enter your bio")
     .form__row
-      base-input(name="phone" label="Phone" placeholder="Enter your phone...")
+      base-input(name="phone" type="tel" autocomplete="off" label="Phone" placeholder="Enter your phone...")
     .form__row.form__row--submit
       base-button(type="submit" color="primary" :disabled="submitting || !meta.dirty") Save
 </template>

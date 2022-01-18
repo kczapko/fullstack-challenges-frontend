@@ -7,6 +7,7 @@
         base-input(
           :value="name"
           name="listName"
+          autocomplete="off"
           placeholder="Enter a name")
       .form__row.form__row--submit
         base-button(type="submit" color="primary" :disabled="submitting || empty || !changed") {{ saved ? 'Update' : 'Save' }}

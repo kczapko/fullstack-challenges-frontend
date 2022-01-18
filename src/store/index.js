@@ -85,7 +85,7 @@ wsClient.on('closed', () => {
     store.dispatch('chat/setClientConntionStatus', 'closed');
     store.dispatch('addMessage', new Message('Chat Connection lost.', 'error'));
     store.dispatch('setLoading', false);
-    wsClient.dispose();
+    // wsClient.dispose();
   }
 });
 

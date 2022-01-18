@@ -7,20 +7,16 @@ export default () => {
   const loggedIn = computed(() => store.state.loggedIn);
   const pageVisible = computed(() => store.state.pageVisible);
 
-  watch(
-    pageVisible,
-    (val) => {
-      if (store.hasModule('chat')) {
-        if (val === 'hidden') {
-          store.dispatch('account/changeMyOnlineStatus', 'away');
-        }
-        if (val === 'visible') {
-          store.dispatch('account/changeMyOnlineStatus', 'online');
-        }
+  watch(pageVisible, (val) => {
+    if (store.hasModule('chat')) {
+      if (val === 'hidden') {
+        store.dispatch('account/changeMyOnlineStatus', 'away');
       }
-    },
-    { immediate: true },
-  );
+      if (val === 'visible') {
+        store.dispatch('account/changeMyOnlineStatus', 'online');
+      }
+    }
+  });
 
   window.addEventListener('beforeunload', () => {
     if (loggedIn.value) {

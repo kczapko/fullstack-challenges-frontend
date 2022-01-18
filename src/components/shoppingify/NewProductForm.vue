@@ -4,13 +4,13 @@ section.new-product(:class="{ 'new-product--open' : isOpen }")
     h2.form__header Add new product
     vee-form.form__form(:validation-schema="schema" @submit="submit" ref="form")
       .form__row
-        base-input(name="name" label="Name" placeholder="Enter a name")
+        base-input(name="name" autocomplete="off" label="Name" placeholder="Enter a name")
       .form__row
         base-input(name="note" tag="textarea" label="Note (optional)" placeholder="Enter a note")
       .form__row
-        base-input(name="imageUrl" label="Image (optional)" placeholder="Enter a url")
+        base-input(name="imageUrl" type="url" autocomplete="off" label="Image (optional)" placeholder="Enter a url")
       .form__row.form__row--category
-        base-input(name="category" label="Category" placeholder="Enter a category")
+        base-input(name="category" autocomplete="off" label="Category" placeholder="Enter a category")
         base-button(
           icon="close"
           circle

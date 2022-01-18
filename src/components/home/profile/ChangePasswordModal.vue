@@ -4,11 +4,11 @@ base-modal.base-modal--change-password(modal-title="Change password" ref="modal"
     p.form__error(v-if="error") {{ error }}
     vee-form.form__form(:validation-schema="schema" @submit="submit" ref="form")
       .form__row
-        base-input(name="currentPassword" type="password" icon="lock" label="Current Password" placeholder="Enter your current password...")
+        base-input(name="currentPassword" type="password" autocomplete="off" icon="lock" label="Current Password" placeholder="Enter your current password...")
       .form__row
-        base-input(name="password" type="password" icon="lock" label="New Password" placeholder="Enter new password...")
+        base-input(name="password" type="password" autocomplete="off" icon="lock" label="New Password" placeholder="Enter new password...")
       .form__row
-        base-input(name="passwordConfirm" type="password" icon="lock" label="Confirm New Password" placeholder="Confirm new password...")
+        base-input(name="passwordConfirm" type="password" autocomplete="off" icon="lock" label="Confirm New Password" placeholder="Confirm new password...")
       .form__row.form__row--submit
         base-button(type="submit" color="primary" :disabled="submitting") Change password
 </template>

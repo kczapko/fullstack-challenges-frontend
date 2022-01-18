@@ -8,7 +8,7 @@ base-modal.base-modal--change-photo(:modal-title="`${photo ? 'Change' : 'Add'} m
       p.form__error(v-if="error") {{ error }}
       vee-form.form__form(:validation-schema="schema" @submit="submit" ref="form")
         .form__row
-          base-input(name="imageUrl" type="url" icon="link" label="Or paste url to your photo" placeholder="Link to your photo")
+          base-input(name="imageUrl" type="url" autocomplete="off" icon="link" label="Or paste url to your photo" placeholder="Link to your photo")
         .form__row.form__row--submit
           base-button(type="submit" color="primary" :disabled="submitting") {{ photo ? 'Change' : 'Add' }} photo
 </template>

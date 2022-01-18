@@ -4,7 +4,7 @@
   p.form__error(v-if="error") {{ error }}
   vee-form.form__form(:validation-schema="schema" :initial-values="initialVaues" @submit="submit")
     .form__row
-      base-input(name="token" icon="tag" placeholder="Token")
+      base-input(name="token" autocomplete="off" icon="tag" placeholder="Token")
     .form__row
       base-input(name="password" type="password" icon="lock" placeholder="Password")
     .form__row

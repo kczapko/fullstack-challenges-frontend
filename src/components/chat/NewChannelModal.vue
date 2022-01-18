@@ -4,7 +4,7 @@ base-modal.new-channel-modal.base-modal--new-channel(modal-title="New Channel" r
     p.form__error(v-if="error") {{ error }}
     vee-form.form__form(:validation-schema="schema" :initial-values="initialValues" @submit="submit" ref="form" v-slot="{ values }")
       .form__row
-        base-input(name="name" placeholder="Channel name")
+        base-input(name="name" autocomplete="off" placeholder="Channel name")
       .form__row
         base-input(tag="textarea" name="description" placeholder="Channel description")
       .form__row.form__row--checkbox
@@ -17,7 +17,7 @@ base-modal.new-channel-modal.base-modal--new-channel(modal-title="New Channel" r
           :value="true")
         label(for="isPrivate") Private
       .form__row(v-show="values.isPrivate")
-        base-input(name="password" type="password" placeholder="Password" icon="lock")
+        base-input(name="password" type="password" autocomplete="off" placeholder="Password" icon="lock")
       .form__row.form__row--submit
         base-button(type="submit" color="primary" :disabled="submitting") Save
 </template>

@@ -81,69 +81,10 @@
     }
   }
 
-  &__message-head {
-    display: flex;
-    align-items: flex-start;
-    gap: 1.5rem;
-    margin-bottom: 0.25rem;
-  }
-
-  &__message-userimage {
-    width: 4.2rem;
-    flex: 0 0 auto;
-  }
-
-  &__message-username {
-    letter-spacing: -0.035em;
-    margin: 0.3rem 0 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 50%;
-    height: 3.6rem;
-  }
-
-  &__message-time {
-    letter-spacing: -0.035em;
-    font-size: 1.4rem;
-    margin-top: 0.6rem;
-    margin-left: auto;
-    flex: 0 0 auto;
-  }
-
-  &__message-body {
-    margin-left: 5.7rem;
-    line-height: normal;
-  }
-
-  &__message-day {
-    display: block;
-    font-size: 1.2rem;
-    text-align: center;
-    line-height: normal;
-    position: relative;
-    overflow: hidden;
-
-    &::after {
-      content: '';
-      border-bottom: 1px solid var(--color-gray);
-      position: absolute;
-      top: 0.8rem;
-      left: 0;
-      right: 0;
-    }
-
-    span {
-      position: relative;
-      z-index: 2;
-      background-color: var(--color-white);
-      padding: 0 2rem;
-    }
-  }
-
   &__messages-observer {
     position: relative;
-    padding: 0 0 40vh;
-    margin-top: -40vh;
+    padding: 0 0 60vh;
+    margin-top: -60vh;
     pointer-events: none;
   }
 
@@ -212,12 +153,6 @@
     }
   }
 
-  &__message-day {
-    span {
-      background-color: var(--color-dark-gray);
-    }
-  }
-
   &__form {
     background-color: var(--color-dark-gray);
 
@@ -227,14 +162,6 @@
       }
       background-color: var(--color-dark-gray2);
       color: var(--color-light-gray);
-    }
-  }
-}
-
-@media screen and (min-width: $breakpoint-medium) {
-  .chat-window {
-    &__message-time {
-      margin-left: 0;
     }
   }
 }
