@@ -8,7 +8,7 @@ const instance = axios.create(options);
 
 instance.interceptors.request.use(
   (config) => {
-    nProgress.start();
+    if (!config.dontShowLoading) nProgress.start();
     return config;
   },
   (error) => {

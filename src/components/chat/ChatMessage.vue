@@ -1,5 +1,5 @@
 <template lang="pug">
-li.chat-message.chat-message--day(v-if="message.type && message.type === 'DAY_SEPARATOR'")
+li.chat-message.chat-message--day(v-if="message.type === 'DAY_SEPARATOR'")
   time.chat-message__day.text-gray(:datetime="message.datetime")
     span {{ message.message }}
 li.chat-message(v-else)
@@ -9,20 +9,19 @@ li.chat-message(v-else)
     time.chat-message__time.text-gray(:datetime="formattedDateTime") {{ forrmatedDate }}
   .chat-message__body
     .chat-message__message
-      span(
-        v-for="message in parsedMessage"
-        :data-channel="message.type === 'channel' ? message.content.slice(1) : null"
-      ) {{ message.content }}
+      template(v-for="chunk in parsedMessage")
+        span(v-if="message.type === 'message'" :data-channel="chunk.type === 'channel' ? chunk.content.slice(1) : null") {{ chunk.content }}
+        img(v-if="message.type === 'image' && !imageLoadError" :src="chunk.content" alt="" @load="imageLoaded" @error="imageLoadError = true")
     template(v-if="message.meta")
       .chat-message__meta.chat-message__meta--image(v-if="message.meta.type === 'image' && !imageLoadError")
         .chat-message__image
-          img.chat-message__image-img(:src="message.meta.url" @load="imageLoaded" @error="imageLoadError = true")
+          img.chat-message__image-img(:src="message.meta.url" alt="" @load="imageLoaded" @error="imageLoadError = true")
       .chat-message__meta.chat-message__meta--page(v-if="message.meta.type === 'page'")
         .chat-message__page(:class="{ 'chat-message__page--with-image' : message.meta.image && !imageLoadError }")
           .chat-message__page-image(v-if="message.meta.image && !imageLoadError")
-            img.chat-message__page-img(:src="message.meta.image" @error="imageLoadError = true")
-          h3.chat-message__page-title
-            a.chat-message__page-url(:href="message.meta.url" target="_blank") {{ message.meta.title }}
+            img.chat-message__page-img(:src="message.meta.image" alt="" @load="imageLoaded" @error="imageLoadError = true")
+          h2.chat-message__page-title
+            a.chat-message__page-url(:href="message.meta.url" rel="noopener" target="_blank") {{ message.meta.title }}
           .chat-message__page-description(v-if="message.meta.description") {{ message.meta.description }}
 </template>
 
@@ -115,7 +114,10 @@ export default {
     },
   },
   methods: {
-    imageLoaded() {
+    imageLoaded(e) {
+      const img = e.target;
+      img.setAttribute('height', img.naturalHeight);
+      img.setAttribute('width', img.naturalWidth);
       this.$emit('updated', this.message);
     },
   },

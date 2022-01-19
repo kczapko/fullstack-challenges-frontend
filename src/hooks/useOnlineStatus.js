@@ -21,9 +21,8 @@ export default () => {
   window.addEventListener('beforeunload', () => {
     if (loggedIn.value) {
       // prettier-ignore
-      const url = process.env.NODE_ENV === 'development' ? 'https://localhost:3443/account/set-status' : '/account/set-status';
+      const url = process.env.NODE_ENV === 'development' ? 'https://localhost:3443/account/set-offline' : '/account/set-offline';
       const formData = new FormData();
-      formData.append('status', 'offline');
       formData.append('token', store.getters.token);
       navigator.sendBeacon(url, formData);
     }

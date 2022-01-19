@@ -152,17 +152,15 @@ export default {
         dispatch('addMessage', new Message(err.message, 'error'), { root: true });
       }
     },
-    async addChatMessage({ commit, state }, payload) {
+    async addChatMessage({ state }, payload) {
       if (!state.activeChannel) throw new Error('You must select channel to send a message.');
       if (state.clientConntionStatus !== 'connected') throw new Error('You are not connected.');
 
-      const res = await api.chat.addMessage({
+      await api.chat.addMessage({
         msg: payload.message,
         // eslint-disable-next-line no-underscore-dangle
         channelId: state.activeChannel._id,
       });
-
-      commit('addChatMessage', res.data.data.addMessage);
     },
     // eslint-disable-next-line object-curly-newline
     async joinChannel({ commit, rootGetters, state, dispatch }, payload) {
@@ -186,6 +184,7 @@ export default {
           },
           async (data) => {
             if (data.errors) throw data.errors;
+            dispatch('setLoading', false, { root: true });
             // prettier-ignore
             const {
               type,
@@ -197,7 +196,6 @@ export default {
 
             switch (type) {
               case ACTION_CHAT_ERROR:
-                dispatch('setLoading', false, { root: true });
                 dispatch('addMessage', new Message(error, 'error'), { root: true });
                 dispatch('unsubscribeChannel', params.name);
                 if (error === 'Channel not found!') {
@@ -296,8 +294,12 @@ export default {
     },
     sendNewMessageNotification({ rootGetters, dispatch }, payload) {
       if (rootGetters.pageVisible === 'hidden') {
-        const title = `${payload.user.username} wrote:`;
-        const options = { body: payload.message };
+        const title = `${payload.user.username} ${
+          payload.type === 'image' ? 'add image.' : 'wrote:'
+        }`;
+        const options = {};
+        if (payload.type === 'message') options.body = payload.message;
+        if (payload.type === 'image') options.image = payload.message;
         if (payload.user.photo) options.icon = payload.user.photo;
         dispatch(
           'sendNotification',

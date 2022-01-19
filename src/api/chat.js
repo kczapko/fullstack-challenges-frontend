@@ -51,6 +51,7 @@ const getMessages = async ({ channelId, skip, perPage, password }) => {
             _id
             message
             createdAt
+            type
             meta {
               type
               url
@@ -81,15 +82,7 @@ const addMessage = async ({ msg, channelId }) => {
   const graphqlQuery = {
     query: `
       mutation addMessage($msg: String!, $channelId: ID!) {
-        addMessage(msg: $msg, channelId: $channelId) {
-          _id
-          message
-          createdAt
-          user {
-            username
-            photo
-          }
-        }
+        addMessage(msg: $msg, channelId: $channelId)
       }
     `,
     variables: {
@@ -98,7 +91,7 @@ const addMessage = async ({ msg, channelId }) => {
     },
   };
 
-  return axios.post('/graphql', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery, { dontShowLoading: true });
 };
 
 const joinChannel = async ({ name, token, password = '' }, dataCallback, subscribeCallback) => {
@@ -128,6 +121,7 @@ const joinChannel = async ({ name, token, password = '' }, dataCallback, subscri
             _id
             message
             createdAt
+            type
             meta {
               type
               url

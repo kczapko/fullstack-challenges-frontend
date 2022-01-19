@@ -32,7 +32,8 @@
   &__body {
     margin-left: 5.7rem;
     line-height: normal;
-    word-break: break-all;
+    word-break: break-word;
+    hyphens: auto;
   }
 
   &__day {
@@ -70,6 +71,12 @@
         text-decoration: underline;
       }
     }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
   }
 
   &__meta {
@@ -89,27 +96,28 @@
 
   &__page-img {
     display: block;
-    max-width: 100%;
+    width: 100%;
+    height: auto;
   }
 
   &__page-title {
     font-size: 1.6rem;
     margin: 0 0 1rem;
-    word-break: break-all;
+    word-break: break-word;
+    hyphens: auto;
   }
 
   &__page-description {
     font-size: 1.4rem;
     margin: 0 0 0.5rem;
-    word-break: break-all;
-  }
-
-  &__image {
+    word-break: break-word;
+    hyphens: auto;
   }
 
   &__image-img {
     display: block;
     max-width: 100%;
+    height: auto;
   }
 }
 
@@ -138,33 +146,12 @@
 
     &__page {
       &--with-image {
-        display: grid;
-        grid-template-areas:
-          'image title'
-          'image description';
-        gap: 1rem;
+        overflow: hidden;
 
         .chat-message__page-image {
-          grid-area: image;
-          margin: 0;
-          width: min(25rem, 30vw);
-          position: relative;
-        }
-
-        .chat-message__page-img {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        .chat-message__page-title {
-          grid-area: title;
-          margin: 0;
-        }
-
-        .chat-message__page-description {
-          grid-area: description;
+          max-width: min(25rem, 30vw);
+          float: left;
+          margin: 0 1rem 0 0;
         }
       }
     }

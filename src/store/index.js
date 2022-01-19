@@ -40,7 +40,7 @@ const store = createStore({
 /* axios loading interceptors */
 axios.interceptors.request.use(
   (config) => {
-    store.dispatch('setLoading', true);
+    if (!config.dontShowLoading) store.dispatch('setLoading', true);
     return config;
   },
   (error) => {

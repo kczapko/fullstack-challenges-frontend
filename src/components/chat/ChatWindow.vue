@@ -11,7 +11,7 @@
       base-button(color="primary" @click="openNewChannelModal") Create a one
     ul.chat-window__messages(v-if="parsedMessages.length" ref="messagesList")
         li.chat-window__load-more(v-if="messages.length < total")
-          base-button(color="primary" size="small" @click="getChannelMessages") Load previous messages
+          base-button(color="primary" size="small" @click="loadMoreMessages") Load previous messages
         chat-message.chat-window__message(
           v-for="message in parsedMessages"
           :key="message._id"
@@ -25,7 +25,10 @@
         .form__row
           base-input(name="message" autocomplete="off" placeholder="Type a message here" :validateOnBlur="false" :validateOnChange="false")
         .form__row.form__row--submit
-          base-button(type="submit" color="primary" :disabled="!activeChannel" icon="send")
+          base-button(type="submit" color="primary" :disabled="!activeChannel" icon="send" title="Send Message")
+        .form__row.form__row--image
+          base-button(type="button" color="secondary" @click="openModal" :disabled="!activeChannel" icon="image" title="Upload Image")
+          add-chat-image-modal.chat__modal.chat-window__modal(v-if="activeChannel" ref="modal")
 </template>
 
 <script>
@@ -34,6 +37,7 @@ import { DateTime } from 'luxon';
 
 import ChatMessage from '@/components/chat/ChatMessage.vue';
 import WsClientConnectionStatus from '@/components/chat/WsClientConnectionStatus.vue';
+import AddChatImageModal from '@/components/chat/AddChatImageModal.vue';
 
 import Message from '@/utils/Message';
 
@@ -42,6 +46,7 @@ export default {
   components: {
     ChatMessage,
     WsClientConnectionStatus,
+    AddChatImageModal,
   },
   inject: ['openSidebar', 'openNewChannelModal'],
   setup() {
@@ -57,10 +62,12 @@ export default {
       submitting: false,
       atBottom: false,
       savedListHeight: 0,
+      loadingMore: false,
+      initialLoad: false,
     };
   },
   computed: {
-    ...mapState('chat', ['channels', 'activeChannel', 'messages', 'total']),
+    ...mapState('chat', ['channels', 'activeChannel', 'messages', 'total', 'clientConntionStatus']),
     ...mapState(['pageVisible']),
     parsedMessages() {
       const messages = [];
@@ -116,16 +123,18 @@ export default {
       handler(val, oldVal) {
         if (oldVal === 0) {
           // initial messages load, first message
+          this.initialLoad = true;
           this.observer.observe(this.$refs.messagesObserver);
           this.scrollMessageList('bottom');
         } else if (val > oldVal) {
-          if (val - oldVal === 1) {
-            if (this.atBottom && this.pageVisible === 'visible') {
-              // new message
-              this.scrollMessageList('bottom');
-            }
-          } else {
+          this.initialLoad = false;
+          if (this.atBottom && this.pageVisible === 'visible' && !this.loadingMore) {
+            // new message
+            this.scrollMessageList('bottom');
+          }
+          if (this.loadingMore) {
             // loading more messages
+            this.loadingMore = false;
             this.scrollMessageList(this.$refs.messagesList.scrollHeight - this.savedListHeight);
           }
         }
@@ -175,9 +184,16 @@ export default {
     scrollMessageList(amount) {
       const y = amount === 'bottom' ? this.$refs.messagesList.scrollHeight : amount;
       this.$refs.messagesList.scrollTo(0, y);
+      this.saveListHeight();
+    },
+    saveListHeight() {
       this.savedListHeight = this.$refs.messagesList.scrollHeight;
     },
     messageUpdated(message) {
+      if (this.initialLoad === true) {
+        this.scrollMessageList('bottom');
+        return;
+      }
       if (this.messages.indexOf(message) === this.messages.length - 1) {
         if (this.atBottom && this.pageVisible === 'visible') {
           this.scrollMessageList('bottom');
@@ -189,6 +205,18 @@ export default {
         const channel = e.target.getAttribute('data-channel');
         if (this.activeChannel.name !== channel) this.joinChannel(channel);
       }
+    },
+    loadMoreMessages() {
+      this.saveListHeight();
+      this.loadingMore = true;
+      this.getChannelMessages();
+    },
+    openModal() {
+      if (this.clientConntionStatus !== 'connected') {
+        this.addMessage(new Message('You are not connected.', 'error'));
+        return;
+      }
+      this.$refs.modal.open();
     },
   },
 };

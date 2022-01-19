@@ -183,7 +183,7 @@ const changeMyOnlineStatus = async (status) => {
     },
   };
 
-  return axios.post('/graphql', graphqlQuery);
+  return axios.post('/graphql', graphqlQuery, { dontShowLoading: true });
 };
 
 export {
