@@ -62,7 +62,7 @@ axios.interceptors.response.use(
 /* wsclient status */
 wsClient.on('connecting', () => {
   if (store.hasModule('chat')) {
-    store.dispatch('chat/setClientConntionStatus', 'connecting');
+    store.dispatch('chat/setClientConnectionStatus', 'connecting');
   }
 });
 
@@ -71,7 +71,7 @@ wsClient.on('connected', () => {
     store.dispatch('account/changeMyOnlineStatus', 'online');
   }
   if (store.hasModule('chat')) {
-    store.dispatch('chat/setClientConntionStatus', 'connected');
+    store.dispatch('chat/setClientConnectionStatus', 'connected');
   }
 });
 
@@ -82,7 +82,7 @@ wsClient.on('closed', () => {
   if (store.hasModule('chat')) {
     store.dispatch('chat/unsubscribeAllChannels');
     store.dispatch('chat/setWasClosed', true);
-    store.dispatch('chat/setClientConntionStatus', 'closed');
+    store.dispatch('chat/setClientConnectionStatus', 'closed');
     store.dispatch('addMessage', new Message('Chat Connection lost.', 'error'));
     store.dispatch('setLoading', false);
     // wsClient.dispose();

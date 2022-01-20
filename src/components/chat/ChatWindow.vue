@@ -67,54 +67,56 @@ export default {
     };
   },
   computed: {
-    ...mapState('chat', ['channels', 'activeChannel', 'messages', 'total', 'clientConntionStatus']),
+    ...mapState('chat', [
+      'channels',
+      'activeChannel',
+      'messages',
+      'total',
+      'clientConnectionStatus',
+    ]),
     ...mapState(['pageVisible']),
     parsedMessages() {
       const messages = [];
 
-      if (this.messages.length) {
-        for (let i = 0; i < this.messages.length; i += 1) {
-          const message = this.messages[i];
-          const nextMessage = this.messages[i + 1];
-          const messageDate = DateTime.fromMillis(Number(message.createdAt));
+      for (let i = 0; i < this.messages.length; i += 1) {
+        const message = this.messages[i];
+        const nextMessage = this.messages[i + 1];
+        const messageDate = DateTime.fromMillis(Number(message.createdAt));
 
-          if (i === 0) {
+        if (i === 0) {
+          messages.push({
+            _id: messageDate.toLocaleString(DateTime.DATE_SHORT),
+            message: messageDate.toFormat('dd LLLL, yyyy'),
+            datetime: messageDate.toISODate(),
+            type: 'DAY_SEPARATOR',
+          });
+        }
+
+        messages.push(message);
+
+        if (nextMessage) {
+          const nextMessageDate = DateTime.fromMillis(Number(nextMessage.createdAt));
+
+          // prettier-ignore
+          if (
+            messageDate.toLocaleString(DateTime.DATE_SHORT)
+            !== nextMessageDate.toLocaleString(DateTime.DATE_SHORT)
+          ) {
             messages.push({
-              _id: messageDate.toLocaleString(DateTime.DATE_SHORT),
-              message: messageDate.toFormat('dd LLLL, yyyy'),
-              datetime: messageDate.toISODate(),
+              _id: nextMessageDate.toLocaleString(DateTime.DATE_SHORT),
+              message: nextMessageDate.toFormat('dd LLLL, yyyy'),
+              datetime: nextMessageDate.toISODate(),
               type: 'DAY_SEPARATOR',
             });
           }
-
-          messages.push(message);
-
-          if (nextMessage) {
-            const nextMessageDate = DateTime.fromMillis(Number(nextMessage.createdAt));
-
-            // prettier-ignore
-            if (
-              messageDate.toLocaleString(DateTime.DATE_SHORT)
-              !== nextMessageDate.toLocaleString(DateTime.DATE_SHORT)
-            ) {
-              messages.push({
-                _id: nextMessageDate.toLocaleString(DateTime.DATE_SHORT),
-                message: nextMessageDate.toFormat('dd LLLL, yyyy'),
-                datetime: nextMessageDate.toISODate(),
-                meta: {},
-                type: 'DAY_SEPARATOR',
-              });
-            }
-          }
         }
-        return messages;
       }
-
-      return this.messages;
+      return messages;
     },
     search() {
       return this.channels
         .map((c) => c.name)
+        .sort((a, b) => b.split(' ').length - a.split(' ').length)
         .reduce((prev, current, i) => `${i === 1 ? '#' : ''}${prev}|#${current}`);
     },
   },
@@ -212,7 +214,7 @@ export default {
       this.getChannelMessages();
     },
     openModal() {
-      if (this.clientConntionStatus !== 'connected') {
+      if (this.clientConnectionStatus !== 'connected') {
         this.addMessage(new Message('You are not connected.', 'error'));
         return;
       }

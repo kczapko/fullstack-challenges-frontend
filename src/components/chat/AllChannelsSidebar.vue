@@ -42,7 +42,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('chat', ['channels', 'activeChannel', 'clientConntionStatus']),
+    ...mapState('chat', ['channels', 'activeChannel', 'clientConnectionStatus']),
     filteredChannels() {
       const channels = [];
 
@@ -69,7 +69,7 @@ export default {
     search() {},
     changeChannel(channel) {
       if (channel.name === this.activeChannel?.name) {
-        if (this.clientConntionStatus === 'closed') {
+        if (this.clientConnectionStatus === 'closed') {
           // eslint-disable-next-line no-unused-expressions
           channel.isPrivate
             ? this.openChannelPasswordModal(channel)

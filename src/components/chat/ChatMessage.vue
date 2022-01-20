@@ -60,37 +60,30 @@ export default {
     },
     parsedMessage() {
       let chunks = [];
+      let lastIndex = 0;
 
       const regExp = new RegExp(`${this.search}`, 'g');
       const channels = [...this.message.message.matchAll(regExp)];
 
-      if (channels.length) {
-        let found = false;
-        let lastIndex = 0;
-
-        for (let i = 0; i < channels.length; i += 1) {
-          chunks.push({
-            type: 'text',
-            content: channels[i].input.slice(lastIndex, channels[i].index),
-          });
-          chunks.push({
-            type: 'channel',
-            content: channels[i].input.slice(
-              channels[i].index,
-              channels[i].index + channels[i][0].length,
-            ),
-          });
-          found = true;
-          lastIndex = channels[i].index + channels[i][0].length;
-        }
-
-        if (found) {
-          chunks.push({
-            type: 'text',
-            content: this.message.message.slice(lastIndex, this.message.message.length),
-          });
-        }
+      for (let i = 0; i < channels.length; i += 1) {
+        chunks.push({
+          type: 'text',
+          content: channels[i].input.slice(lastIndex, channels[i].index),
+        });
+        chunks.push({
+          type: 'channel',
+          content: channels[i].input.slice(
+            channels[i].index,
+            channels[i].index + channels[i][0].length,
+          ),
+        });
+        lastIndex = channels[i].index + channels[i][0].length;
       }
+
+      chunks.push({
+        type: 'text',
+        content: this.message.message.slice(lastIndex, this.message.message.length),
+      });
 
       if (chunks.length) {
         chunks = chunks.filter((c) => !(c.type === 'text' && !c.content));

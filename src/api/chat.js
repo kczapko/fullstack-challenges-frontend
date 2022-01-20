@@ -22,11 +22,7 @@ const addChannel = async ({ name, description, isPrivate, password }) => {
   const graphqlQuery = {
     query: `
       mutation addChannel($name: String!, $description: String!, $isPrivate: Boolean, $password: String) {
-        addChannel(name: $name, description: $description, isPrivate: $isPrivate, password: $password) {
-          _id
-          name
-          isPrivate
-        }
+        addChannel(name: $name, description: $description, isPrivate: $isPrivate, password: $password)
       }
     `,
     variables: {

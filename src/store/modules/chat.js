@@ -21,7 +21,7 @@ export default {
       messages: [],
       unsubscribe: [],
       messageAudio: null,
-      clientConntionStatus: '',
+      clientConnectionStatus: '',
       wasClosed: false,
       skip: 0,
       perPage: PER_PAGE,
@@ -93,8 +93,8 @@ export default {
     setMessageAudio(state, payload) {
       state.messageAudio = payload;
     },
-    setClientConntionStatus(state, payload) {
-      state.clientConntionStatus = payload;
+    setClientConnectionStatus(state, payload) {
+      state.clientConnectionStatus = payload;
     },
     setWasClosed(state, payload) {
       state.wasClosed = payload;
@@ -115,10 +115,8 @@ export default {
 
       commit('setChannels', res.data.data.getChannels);
     },
-    async addChannel({ commit }, payload) {
-      const res = await api.chat.addChannel(payload);
-
-      commit('addChannel', res.data.data.addChannel);
+    async addChannel(_, payload) {
+      await api.chat.addChannel(payload);
     },
     removeChannel({ commit }, payload) {
       commit('removeChannel', payload);
@@ -154,7 +152,7 @@ export default {
     },
     async addChatMessage({ state }, payload) {
       if (!state.activeChannel) throw new Error('You must select channel to send a message.');
-      if (state.clientConntionStatus !== 'connected') throw new Error('You are not connected.');
+      if (state.clientConnectionStatus !== 'connected') throw new Error('You are not connected.');
 
       await api.chat.addMessage({
         msg: payload.message,
@@ -289,8 +287,8 @@ export default {
         state.messageAudio.play();
       }
     },
-    setClientConntionStatus({ commit }, payload) {
-      commit('setClientConntionStatus', payload);
+    setClientConnectionStatus({ commit }, payload) {
+      commit('setClientConnectionStatus', payload);
     },
     sendNewMessageNotification({ rootGetters, dispatch }, payload) {
       if (rootGetters.pageVisible === 'hidden') {
