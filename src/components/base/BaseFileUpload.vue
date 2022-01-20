@@ -39,6 +39,12 @@ export default {
       type: Number,
       default: 1024 * 1024,
     },
+    additionalData: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
     onError: Function,
     onUploadError: Function,
     onUploadSuccess: Function,
@@ -102,6 +108,7 @@ export default {
 
       const formData = new FormData();
       files.forEach((file) => formData.append('files', file));
+      this.additionalData.forEach((d) => formData.append(d.name, d.value));
 
       try {
         const res = await axios.post(this.url, formData, {

@@ -67,6 +67,22 @@
       }
     }
   }
+
+  &.base-modal--add-chat-image {
+    .form {
+      &__head {
+        text-align: center;
+      }
+
+      &__text {
+        margin: 0 0 2rem;
+      }
+
+      .file-upload {
+        margin: 0;
+      }
+    }
+  }
 }
 
 .dark .chat__modal {

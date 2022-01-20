@@ -109,7 +109,6 @@
 
   &__page-description {
     font-size: 1.4rem;
-    margin: 0 0 0.5rem;
     word-break: break-word;
     hyphens: auto;
   }
@@ -146,12 +145,26 @@
 
     &__page {
       &--with-image {
-        overflow: hidden;
+        display: grid;
+        grid-template-areas:
+          'image title'
+          'image description';
+        grid-template-columns: min(25rem, 30vw) 1fr;
+        grid-template-rows: min-content 1fr;
+        gap: 1rem;
 
         .chat-message__page-image {
-          max-width: min(25rem, 30vw);
-          float: left;
-          margin: 0 1rem 0 0;
+          margin: 0;
+          grid-area: image;
+        }
+
+        .chat-message__page-title {
+          margin: 0;
+          grid-area: title;
+        }
+
+        .chat-message__page-description {
+          grid-area: description;
         }
       }
     }
